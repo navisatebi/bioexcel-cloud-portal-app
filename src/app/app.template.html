@@ -1,0 +1,28 @@
+<nav>
+      <span>
+        <a [routerLink]=" ['./'] ">
+          Index
+        </a>
+      </span>
+      |
+      <span>
+        <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./profile'] ">
+          Profile
+        </a>
+      </span>
+      |
+      <span *ngIf="!credentialService.getUsername()">
+        <a router-active [routerLink]=" ['./login'] ">
+          Login
+        </a>
+      </span>
+      <span *ngIf="credentialService.getUsername()">
+        <a router-active (click)="logOut()">
+          Logout
+        </a>
+      </span>
+    </nav>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>

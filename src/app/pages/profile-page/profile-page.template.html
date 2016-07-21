@@ -1,0 +1,9 @@
+<cp-profile-component #profileComponent>
+  <div *ngIf="profileComponent.account">
+    <img width="10%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/AWS_Simple_Icons_Non-Service_Specific_User.svg/2000px-AWS_Simple_Icons_Non-Service_Specific_User.svg.png"/>
+    <h2>{{ profileComponent.account.userName }}</h2>
+    <h3>{{ profileComponent.account.email }}</h3>
+    <a href="http://my.homepage.me">http://my.homepage.me</a>
+    <p>{{ profileComponent.account.organisation }}</p>
+  </div>
+</cp-profile-component>
