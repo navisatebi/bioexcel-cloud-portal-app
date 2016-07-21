@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class App {
     bioexcelLogo = 'assets/img/Bioexcell_logo_1080px_transp-extra-space.png';
-    name = 'BioExcel Cloud Portal';
+    name = 'Cloud Portal';
     bioExcelUrl = 'http://bioexcel.eu//';
     tsiGithubUrl = 'https://github.com/EMBL-EBI-TSI';
 
