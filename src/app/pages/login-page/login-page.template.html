@@ -3,9 +3,10 @@
     <h2>Login</h2>
 
     <form>
-      <input type="text" #username placeholder="Username">
-      <input type="password" #password placeholder="Password">
+      <input type="text" class="form-control" #username placeholder="Username">
+      <input type="password" class="form-control" #password placeholder="Password">
     </form>
-    <button (click)="loginComponent.login(username.value, password.value)">Submit</button>
+    <button type="button" class="btn btn-primary"
+      (click)="loginComponent.login(username.value, password.value)">Submit</button>
   </div>
 </cp-login-component>

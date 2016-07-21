@@ -16,10 +16,9 @@ import { Router } from '@angular/router';
     template: require('./app.template.html')
 })
 export class App {
-    ebiLogoBlack = 'assets/img/EMBL_EBI_Logo_black.png';
-    ebiLogoWhite = 'assets/img/EMBL_EBI_Logo_white.png';
+    bioexcelLogo = 'assets/img/Bioexcell_logo_1080px_transp-extra-space.png';
     name = 'BioExcel Cloud Portal';
-    ebiUrl = 'http://www.ebi.ac.uk/';
+    bioExcelUrl = 'http://bioexcel.eu//';
     tsiGithubUrl = 'https://github.com/EMBL-EBI-TSI';
 
     constructor(public credentialService: CredentialService,
