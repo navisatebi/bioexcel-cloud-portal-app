@@ -1,42 +1,67 @@
 <cp-volumes-component #volumesComponent>
-	<!--Add setup button-->
-  <button class="add-app-button btn btn-primary btn-sm" (click)="volumesComponent.addVolumeSetupFormShowing=!addVolumeSetupFormShowing">
-    <span class="glyphicon glyphicon-plus"></span>
-  </button>
-
-	
-  <div *ngIf="volumesComponent.addVolumeSetupFormShowing">
-    <form [formGroup]="volumesComponent.volumeSetupForm" autocomplete="off">
-      <h2>Add volume setup</h2>
-      <label for="inputUri" class="sr-only">URI</label>
-      <input class="form-control" id="inputUri" 
-        type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
-      <div *ngIf="!volumesComponent.volumeSetupForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
-      <div *ngIf="volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
-      <button type="button" class="btn btn-lg btn-primary btn-block"
-      (click)="volumesComponent.addVolumeSetup(volumesComponent.volumeSetupForm.value); volumesComponent.addVolumeSetupFormShowing = false">Add</button>
-    </form>
-  </div>
-				
-  <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeployers">
-				<!--List setups-->
-    <div *ngIf="volumesComponent.volumeDeployers.length==0">
-      No volume setups registered yet
-    </div>
-
-    <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
-		  <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
-      <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
-      <br/>
-      <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
-        <button type="button" class="btn btn-primary btn-sm"
-        (click)="volumesComponent.deployVolume(volumeDeployer)">
-            Deploy
+  <tabset>
+    <tab heading="Deployments">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-hdd"></i>
+      </template>
+      <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeploymentInstances">
+        <div *ngIf="volumesComponent.volumeDeploymentInstances.length==0">
+          No volume deployments for user {{ volumesComponent.credentialService.getUsername() }} yet
+        </div>
+        <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.name }}">
+          <p>{{ volumeDeploymentInstance.reference }}</p>
+          <h5>ID</h5>
+          <p>{{ volumeDeploymentInstance.providerId }}</p>
+          <span *ngIf="volumeDeploymentInstance.destroying">Working...</span>
+          <button *ngIf="!volumeDeploymentInstance.destroying" type="button" class="btn btn-primary btn-sm"
+            (click)="volumesComponent.destroyVolume(volumeDeploymentInstance)">
+            Destroy
           </button>
-        <button type="button" class="btn btn-primary btn-sm"
-        (click)="volumesComponent.removeVolumeSetup(volumeDeployer)">Remove</button>
+        </accordion-group>
+      </accordion>
+    </tab>
+    <tab heading="Setups">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-wrench"></i>
+      </template>
+      <!--Add setup button-->
+      <button class="add-app-button btn btn-primary btn-sm" (click)="volumesComponent.addVolumeSetupFormShowing=!volumesComponent.addVolumeSetupFormShowing">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+      
+      <div *ngIf="volumesComponent.addVolumeSetupFormShowing">
+        <form [formGroup]="volumesComponent.volumeSetupForm" autocomplete="off">
+          <h2>Add volume setup</h2>
+          <label for="inputUri" class="sr-only">URI</label>
+          <input class="form-control" id="inputUri" 
+            type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
+          <div *ngIf="!volumesComponent.volumeSetupForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
+          <div *ngIf="volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
+          <button type="button" class="btn btn-lg btn-primary btn-block"
+          (click)="volumesComponent.addVolumeSetup(volumesComponent.volumeSetupForm.value); volumesComponent.addVolumeSetupFormShowing = false">Add</button>
+        </form>
       </div>
-    </accordion-group>
-  </accordion>
+            
+      <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeployers">
+            <!--List setups-->
+        <div *ngIf="volumesComponent.volumeDeployers.length==0">
+          No volume setups registered yet
+        </div>
 
+        <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
+          <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
+          <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
+          <br/>
+          <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
+            <button type="button" class="btn btn-primary btn-sm"
+            (click)="volumesComponent.deployVolume(volumeDeployer)">
+                Deploy
+              </button>
+            <button type="button" class="btn btn-primary btn-sm"
+            (click)="volumesComponent.removeVolumeSetup(volumeDeployer)">Remove</button>
+          </div>
+        </accordion-group>
+      </accordion>
+    </tab>
+  </tabset>
 </cp-volumes-component>

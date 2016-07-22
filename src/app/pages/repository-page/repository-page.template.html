@@ -1,18 +1,18 @@
 <cp-repository-component #repo>
-  <button class="add-app-button btn btn-primary btn-sm" (click)="addApplicationFormShowing=!addApplicationFormShowing">
+  <button class="add-app-button btn btn-primary btn-sm" (click)="repo.addApplicationFormShowing=!repo.addApplicationFormShowing">
     <span class="glyphicon glyphicon-plus"></span>
   </button>
 
-  <div *ngIf="addApplicationFormShowing">
-    <form [formGroup]="applicationForm" autocomplete="off">
+  <div *ngIf="repo.addApplicationFormShowing">
+    <form [formGroup]="repo.applicationForm" autocomplete="off">
       <h2>Add application</h2>
       <label for="inputUri" class="sr-only">URI</label>
       <input class="form-control" id="inputUri" 
-        type="url" placeholder="Repository URI" [formControl]="applicationForm.controls['repoUri']" autofocus>
-      <div *ngIf="!applicationForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
-      <div *ngIf="applicationForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
+        type="url" placeholder="Repository URI" [formControl]="repo.applicationForm.controls['repoUri']" autofocus>
+      <div *ngIf="!repo.applicationForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
+      <div *ngIf="repo.applicationForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
       <button type="button" class="btn btn-lg btn-primary btn-block"
-      (click)="addApplication(applicationForm.value); addApplicationFormShowing = false">Add</button>
+      (click)="repo.addApplication(applicationForm.value); repo.addApplicationFormShowing = false">Add</button>
     </form>
   </div>
 

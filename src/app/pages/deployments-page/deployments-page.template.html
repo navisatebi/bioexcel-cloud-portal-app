@@ -1,0 +1,30 @@
+<cp-deployments-component #deploymentsComponent>
+  <div class="container">
+    <alert type="info" *ngIf="deploymentsComponent.deploymentInstances.length==0">
+      No application deployments for user {{ deploymentsComponent.credentialService.getUsername() }} yet
+    </alert>
+
+    <accordion [closeOthers]="oneAtATime" *ngIf="deploymentsComponent.deploymentInstances">
+      <accordion-group *ngFor="let deploymentInstance of deploymentsComponent.deploymentInstances" heading="{{ deploymentInstance.applicationName }}">
+        <p>{{ deploymentInstance.reference }}</p>
+
+        <h5>Provider ID</h5>
+        <p>{{ deploymentInstance.providerId }}</p>
+
+        <h5>Access IP</h5>
+        <p>{{ deploymentInstance.accessIp }}</p>
+
+        <h5>Volumes</h5>
+        <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
+          <h5>{{ attachedVolume.name }}</h5>
+          <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
+        </div>
+        <span *ngIf="deploymentInstance.destroying">Working...</span>
+        <button *ngIf="!deploymentInstance.destroying" type="button" class="btn btn-primary btn-sm"
+          (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
+          Destroy
+        </button>
+      </accordion-group>
+    </accordion>
+  </div>
+</cp-deployments-component>
