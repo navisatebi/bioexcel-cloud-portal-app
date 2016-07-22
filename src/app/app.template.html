@@ -9,11 +9,21 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">
-        <img class="nav-logo"[src]="bioexcelLogo">
+        <img class="nav-logo" alt="BioExcel" [src]="bioexcelLogo">
       </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./repository'] ">
+          Repository
+        </a>
+        </li>
+        <li>
+          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./volumes'] ">
+          Volumes
+        </a>
+        </li>
         <li>
           <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./profile'] ">
           Profile

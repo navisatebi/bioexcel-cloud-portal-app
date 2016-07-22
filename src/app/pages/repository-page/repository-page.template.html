@@ -1,0 +1,56 @@
+<cp-repository-component #repo>
+  <button class="add-app-button btn btn-primary btn-sm" (click)="addApplicationFormShowing=!addApplicationFormShowing">
+    <span class="glyphicon glyphicon-plus"></span>
+  </button>
+
+  <div *ngIf="addApplicationFormShowing">
+    <form [formGroup]="applicationForm" autocomplete="off">
+      <h2>Add application</h2>
+      <label for="inputUri" class="sr-only">URI</label>
+      <input class="form-control" id="inputUri" 
+        type="url" placeholder="Repository URI" [formControl]="applicationForm.controls['repoUri']" autofocus>
+      <div *ngIf="!applicationForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
+      <div *ngIf="applicationForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
+      <button type="button" class="btn btn-lg btn-primary btn-block"
+      (click)="addApplication(applicationForm.value); addApplicationFormShowing = false">Add</button>
+    </form>
+  </div>
+
+  <accordion [closeOthers]="oneAtATime" *ngIf="repo.applicationDeployers">
+
+    <div *ngIf="repo.applicationDeployers.length==0">
+      No applications registered yet
+    </div>
+
+    <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers" heading="{{ applicationDeployer.name }}">
+      <p><a href="{{ applicationDeployer.repoUri }}">{{ applicationDeployer.repoUri }}</a></p>
+      <h4>Volumes</h4>
+      <div *ngFor="let aVolume of applicationDeployer.volumes">
+        {{ aVolume }}
+        <span dropdown keyboardNav="true">
+          <button class="btn btn-default dropdown-toggle" 
+          type="button" id="volumeDropdownMenu" dropdownToggle>
+          {{ applicationDeployer.attachedVolumes[aVolume] || 'Select a volume '}} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="volumeDropdownMenu">
+            <li role="menuitem" *ngFor="let volumeInstance of repo.volumeInstances" 
+              (click)="repo.attachVolume(applicationDeployer, aVolume, volumeInstance.reference)">
+              <a class="dropdown-item" >{{ volumeInstance.reference }}</a></li>
+          </ul>
+        </span>
+      </div>
+
+      <span *ngIf="applicationDeployer.deploying || applicationDeployer.destroying" mode="indeterminate">Working...</span>
+      <br/>
+      <div *ngIf="!applicationDeployer.deploying && !applicationDeployer.destroying">
+        <button type="button" class="btn btn-primary btn-sm"
+        (click)="repo.deployApplication(applicationDeployer)">
+            Deploy
+          </button>
+        <button type="button" class="btn btn-primary btn-sm"
+        (click)="repo.removeApplication(applicationDeployer)">Remove</button>
+      </div>
+    </accordion-group>
+  </accordion>
+
+</cp-repository-component>
