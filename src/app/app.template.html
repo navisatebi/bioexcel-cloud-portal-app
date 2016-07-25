@@ -13,7 +13,7 @@
       </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav">
         <li>
           <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./deployments'] ">
           Deployments
@@ -29,11 +29,19 @@
           Volumes
         </a>
         </li>
+      </ul>
+      <ul  class="nav navbar-nav navbar-right">
         <li>
-          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./profile'] ">
+        <a router-active [routerLink]=" ['./about'] ">
+          About
+        </a>
+        </li>
+        <li>
+        <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./profile'] ">
           Profile
         </a>
         </li>
+
         <li *ngIf="!credentialService.getUsername()">
           <a router-active [routerLink]=" ['./login'] ">
           Login

@@ -1,1 +1,11 @@
-<alert type="info">Welcome to the BioExcel Cloud Portal</alert>
+<div class="row">
+  <div class="col-md-8">
+    <about-page></about-page>
+  </div>
+  <div class="col-md-4">
+    <login-page *ngIf="!credentialService.getUsername()"></login-page>
+  </div>
+  <div class="col-md-4">
+    <profile-page *ngIf="credentialService.getUsername()"></profile-page>
+  </div>
+</div>

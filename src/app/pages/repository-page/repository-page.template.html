@@ -27,17 +27,12 @@
       <h4>Volumes</h4>
       <div *ngFor="let aVolume of applicationDeployer.volumes">
         {{ aVolume }}
-        <span dropdown keyboardNav="true">
-          <button class="btn btn-default dropdown-toggle" 
-          type="button" id="volumeDropdownMenu" dropdownToggle>
-          {{ applicationDeployer.attachedVolumes[aVolume] || 'Select a volume '}} <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="volumeDropdownMenu">
-            <li role="menuitem" *ngFor="let volumeInstance of repo.volumeInstances" 
-              (click)="repo.attachVolume(applicationDeployer, aVolume, volumeInstance.reference)">
-              <a class="dropdown-item" >{{ volumeInstance.reference }}</a></li>
-          </ul>
-        </span>
+        <select class="form-control" 
+          (change)="repo.attachVolume(applicationDeployer, aVolume, $event.target.value)">
+          <option value="null">None</option>
+          <option *ngFor="let volumeInstance of repo.volumeInstances">
+            {{ volumeInstance.reference }}</option>
+        </select>
       </div>
 
       <span *ngIf="applicationDeployer.deploying || applicationDeployer.destroying" mode="indeterminate">Working...</span>

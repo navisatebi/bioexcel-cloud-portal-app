@@ -6,6 +6,7 @@ import { WelcomePage } from './pages/welcome-page';
 import { RepositoryPage } from './pages/repository-page';
 import { DeploymentsPage } from './pages/deployments-page';
 import { VolumesPage } from './pages/volumes-page';
+import { AboutPage } from './pages/about-page';
 
 export const routes: RouterConfig = [
     { path: '', component: WelcomePage },
@@ -15,5 +16,7 @@ export const routes: RouterConfig = [
     { path: 'repository', component: RepositoryPage },
     { path: 'deployments', component: DeploymentsPage },
     { path: 'volumes', component: VolumesPage },
-    { path: '**', component: ProfilePage },
+    { path: 'about', component: AboutPage },
+    { path: 'welcome', component: WelcomePage },
+    { path: '**', component: WelcomePage },
 ];
