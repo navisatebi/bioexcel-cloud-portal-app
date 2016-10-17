@@ -15,17 +15,17 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./deployments'] ">
+          <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./deployments'] ">
           Deployments
         </a>
         </li>
         <li>
-          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./repository'] ">
+          <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./repository'] ">
           Repository
         </a>
         </li>
         <li>
-          <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./volumes'] ">
+          <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./volumes'] ">
           Volumes
         </a>
         </li>
@@ -37,17 +37,17 @@
         </a>
         </li>
         <li>
-        <a *ngIf="credentialService.getUsername()" router-active [routerLink]=" ['./profile'] ">
+        <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./profile'] ">
           Profile
         </a>
         </li>
 
-        <li *ngIf="!credentialService.getUsername()">
+        <li *ngIf="!tokenService.getToken()">
           <a router-active [routerLink]=" ['./login'] ">
           Login
         </a>
         </li>
-        <li *ngIf="credentialService.getUsername()">
+        <li *ngIf="tokenService.getToken()">
           <a router-active (click)="logOut()">
           Logout
         </a>

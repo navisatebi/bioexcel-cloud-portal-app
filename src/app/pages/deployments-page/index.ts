@@ -1,1 +1,1 @@
-export * from './deployments-page.component.ts';
+export * from './deployments-page.component';

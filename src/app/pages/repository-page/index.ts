@@ -1,1 +1,1 @@
-export * from './repository-page.component.ts';
+export * from './repository-page.component';

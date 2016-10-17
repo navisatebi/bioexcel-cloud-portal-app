@@ -1,1 +1,1 @@
-export * from './volumes-page.component.ts';
+export * from './volumes-page.component';
