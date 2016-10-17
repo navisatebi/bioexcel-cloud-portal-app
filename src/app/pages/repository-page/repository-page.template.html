@@ -12,7 +12,7 @@
       <div *ngIf="!repo.applicationForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
       <div *ngIf="repo.applicationForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
       <button type="button" class="btn btn-lg btn-primary btn-block"
-      (click)="repo.addApplication(applicationForm.value); repo.addApplicationFormShowing = false">Add</button>
+      (click)="repo.addApplication(repo.applicationForm.value); repo.addApplicationFormShowing = false">Add</button>
     </form>
   </div>
 

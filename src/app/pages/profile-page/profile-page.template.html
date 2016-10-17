@@ -6,4 +6,52 @@
     <a href="http://my.homepage.me">http://my.homepage.me</a>
     <p>{{ profileComponent.account.organisation }}</p>
   </div>
+
+  <button class="add-app-button btn btn-primary btn-sm" (click)="profileComponent.addCloudCredentialsFormShowing=!profileComponent.addCloudCredentialsFormShowing">
+    <span class="glyphicon glyphicon-plus"></span>
+  </button>
+
+  <div *ngIf="profileComponent.addCloudCredentialsFormShowing">
+    <form [formGroup]="profileComponent.cloudCredentialsForm" autocomplete="off">
+      <h2>Add cloud credentials</h2>
+      <label for="inputUri" class="sr-only">URI</label>
+      <!--Name-->
+      <input class="form-control" id="name" 
+        type="text" placeholder="Credentials name" [formControl]="profileComponent.cloudCredentialsForm.controls['name']" autofocus>
+      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['name'].valid" class="ui error message">Name is invalid</div>
+      <div *ngIf="profileComponent.cloudCredentialsForm.controls['name'].hasError('required')" class="ui error message">Name is required</div>
+      <!--Provider-->
+      <input class="form-control" id="cloudProvider" 
+        type="text" placeholder="Cloud provider" [formControl]="profileComponent.cloudCredentialsForm.controls['cloudProvider']" autofocus>
+      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['cloudProvider'].valid" class="ui error message">Provider is invalid</div>
+      <div *ngIf="profileComponent.cloudCredentialsForm.controls['cloudProvider'].hasError('required')" class="ui error message">Provider is required</div>
+      <!--Fields-->
+      <input class="form-control" id="fields" 
+        type="text" placeholder="Credentials fields" [formControl]="profileComponent.cloudCredentialsForm.controls['fields']" autofocus>
+      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['fields'].valid" class="ui error message">Fields are invalid</div>
+      <div *ngIf="profileComponent.cloudCredentialsForm.controls['fields'].hasError('required')" class="ui error message">Fields are required</div>
+      <button type="button" class="btn btn-lg btn-primary btn-block"
+      (click)="profileComponent.addCloudCredentials(profileComponent.cloudCredentialsForm.value); profileComponent.addCloudCredentialsFormShowing = false">Add</button>
+    </form>
+  </div>
+
+  <accordion [closeOthers]="oneAtATime" *ngIf="profileComponent.cloudCredentialsPresenters">
+    <div *ngIf="profileComponent.cloudCredentialsPresenters.length==0">
+      No credentials registered yet
+    </div>
+
+    <accordion-group *ngFor="let cloudCredentials of profileComponent.cloudCredentialsPresenters" heading="{{ cloudCredentials.name }}">
+      <div>
+        <h4>Provider</h4>
+        <p>{{ cloudCredentials.cloudProvider }}</p>
+        <h4>Fields</h4>
+        <div *ngFor="let credentialField of cloudCredentials.fields">
+          <h5>{{ credentialField.key }}</h5>
+          <p>{{ credentialField.value }}</p>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm"
+        (click)="profileComponent.removeCloudCredentials(cloudCredentials)">Remove</button>
+      </div>
+    </accordion-group>
+  </accordion>
 </cp-profile-component>
