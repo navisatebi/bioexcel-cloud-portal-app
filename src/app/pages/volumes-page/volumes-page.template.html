@@ -8,10 +8,11 @@
         <div *ngIf="volumesComponent.volumeDeploymentInstances.length==0">
           No volume deployments for user {{ volumesComponent.credentialService.getUsername() }} yet
         </div>
-        <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.name }}">
+        <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.setupName }}">
+          <h5>Reference</h5>
           <p>{{ volumeDeploymentInstance.reference }}</p>
-          <h5>ID</h5>
-          <p>{{ volumeDeploymentInstance.providerId }}</p>
+          <!--<h5>ID</h5>
+          <p>{{ volumeDeploymentInstance.providerId }}</p>-->
           <span *ngIf="volumeDeploymentInstance.destroying">Working...</span>
           <button *ngIf="!volumeDeploymentInstance.destroying" type="button" class="btn btn-primary btn-sm"
             (click)="volumesComponent.destroyVolume(volumeDeploymentInstance)">
@@ -51,6 +52,13 @@
         <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
           <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
           <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
+          <h4>Deploy using</h4>
+          <div>
+            <select class="form-control" [(ngModel)]="volumeDeployer.selectedCloudProvider">
+              <option *ngFor="let provider of volumeDeployer.cloudProviders" value="{{provider}}">
+                {{ provider }}</option>
+            </select>
+          </div>
           <br/>
           <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
             <button type="button" class="btn btn-primary btn-sm"
