@@ -34,7 +34,13 @@
             {{ volumeInstance.reference }}</option>
         </select>
       </div>
-
+      <h4>Deploy using</h4>
+      <div>
+        <select class="form-control" [(ngModel)]="applicationDeployer.selectedCloudProvider">
+          <option *ngFor="let cloudProvider of applicationDeployer.cloudProviders" value="{{cloudProvider.cloudProvider}}">
+            {{ cloudProvider.cloudProvider }}</option>
+        </select>
+      </div>
       <span *ngIf="applicationDeployer.deploying || applicationDeployer.destroying" mode="indeterminate">Working...</span>
       <br/>
       <div *ngIf="!applicationDeployer.deploying && !applicationDeployer.destroying">

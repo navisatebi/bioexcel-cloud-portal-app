@@ -11,10 +11,9 @@
         <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.setupName }}">
           <h5>Reference</h5>
           <p>{{ volumeDeploymentInstance.reference }}</p>
-          <!--<h5>ID</h5>
-          <p>{{ volumeDeploymentInstance.providerId }}</p>-->
-          <span *ngIf="volumeDeploymentInstance.destroying">Working...</span>
-          <button *ngIf="!volumeDeploymentInstance.destroying" type="button" class="btn btn-primary btn-sm"
+          <span *ngIf="volumeDeploymentInstance.destroying">Destroying...</span>
+          <span *ngIf="volumeDeploymentInstance.status == 'STARTING'">Deploying...</span>
+          <button *ngIf="!volumeDeploymentInstance.destroying && volumeDeploymentInstance.status != 'STARTING'" type="button" class="btn btn-primary btn-sm"
             (click)="volumesComponent.destroyVolume(volumeDeploymentInstance)">
             Destroy
           </button>

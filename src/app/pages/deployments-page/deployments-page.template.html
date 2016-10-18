@@ -6,21 +6,24 @@
 
     <accordion [closeOthers]="oneAtATime" *ngIf="deploymentsComponent.deploymentInstances">
       <accordion-group *ngFor="let deploymentInstance of deploymentsComponent.deploymentInstances" heading="{{ deploymentInstance.applicationName }}">
+        <h5>Reference</h5>
         <p>{{ deploymentInstance.reference }}</p>
 
-        <h5>Provider ID</h5>
-        <p>{{ deploymentInstance.providerId }}</p>
-
-        <h5>Access IP</h5>
-        <p>{{ deploymentInstance.accessIp }}</p>
-
-        <h5>Volumes</h5>
-        <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
-          <h5>{{ attachedVolume.name }}</h5>
-          <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
+        <div *ngIf="deploymentInstance.accessIp">
+          <h5>Access IP</h5>
+          <p>{{ deploymentInstance.accessIp }}</p>
         </div>
-        <span *ngIf="deploymentInstance.destroying">Working...</span>
-        <button *ngIf="!deploymentInstance.destroying" type="button" class="btn btn-primary btn-sm"
+        <div *ngIf="deploymentInstance.attachedVolumes.length!=0">
+          <h5>Volumes</h5>
+          <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
+            <h5>{{ attachedVolume.name }}</h5>
+            <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
+          </div>
+        </div>
+        <span *ngIf="deploymentInstance.destroying">Destroying...</span>
+        <span *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</span>
+        <span *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</span>
+        <button *ngIf="!deploymentInstance.destroying && deploymentInstance.status != 'STARTING'" type="button" class="btn btn-primary btn-sm"
           (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
           Destroy
         </button>
