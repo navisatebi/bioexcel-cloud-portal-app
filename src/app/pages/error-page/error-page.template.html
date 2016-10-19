@@ -1,0 +1,16 @@
+<cp-error-component #errorComponent>
+<div>
+  <h2>
+    Sorry, there is a problem...
+  </h2>
+  <h4 *ngIf="errorComponent.errorService.getCurrentError()[0]">
+    Cause: {{ errorComponent.errorService.getCurrentError()[0].message }}
+  </h4>
+  <h4 *ngIf="!errorComponent.errorService.getCurrentError()[0] && errorComponent.errorService.getCurrentError()">
+    Cause: {{ errorComponent.errorService.getCurrentError().message }}
+  </h4>
+  <h4 *ngIf="!errorComponent.errorService.getCurrentError()[0] && !errorComponent.errorService.getCurrentError()">
+    The exact error cannot be determined
+  </h4>
+</div>
+</cp-error-component>
