@@ -25,6 +25,11 @@
         </a>
         </li>
         <li>
+          <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./biotools'] ">
+          bio.tools
+        </a>
+        </li>
+        <li>
           <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./volumes'] ">
           Volumes
         </a>

@@ -1,0 +1,18 @@
+<h2>Elixir Tools and Data Services</h2>
+
+<accordion [closeOthers]="oneAtATime" *ngIf="applications">
+  <accordion-group *ngFor="let application of applications" heading="{{ application.id }}">
+    <h4>Name</h4>
+    <p>{{ application.name }}</p>
+    <h4>Homepage</h4>
+    <a href="{{application.homepage}}">{{ application.homepage }}</a>
+    <h4>Version</h4>
+    <p>{{ application.versionId }}</p>
+    <h4>Topics</h4>
+    <p *ngFor="let topic of application.topic">{{ topic.term }} </p>
+    <h4>Resource type</h4>
+    <p *ngFor="let resourceType of application.resourceType">{{ resourceType }} </p>
+    <h4>Description</h4>
+    <p>{{ application.description }}</p>
+  </accordion-group>
+</accordion>
