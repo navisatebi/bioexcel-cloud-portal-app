@@ -35,22 +35,36 @@
     </form>
   </div>
 
-  <accordion [closeOthers]="oneAtATime" *ngIf="profileComponent.cloudCredentialsPresenters">
-    <div *ngIf="profileComponent.cloudCredentialsPresenters.length==0">
+  <accordion [closeOthers]="oneAtATime" *ngIf="profileComponent.cloudProviderParametersPresenters">
+    <div *ngIf="profileComponent.cloudProviderParametersPresenters.length==0">
       No credentials registered yet
     </div>
-
-    <accordion-group *ngFor="let cloudCredentials of profileComponent.cloudCredentialsPresenters" heading="{{ cloudCredentials.name }}">
+      <h3>Your own Cloud Providers</h3>
+    <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }}">
       <div>
         <h4>Provider</h4>
-        <p>{{ cloudCredentials.cloudProvider }}</p>
+        <p>{{ cloudProviderParameters.cloudProvider }}</p>
         <h4>Fields</h4>
-        <div *ngFor="let credentialField of cloudCredentials.fields">
-          <h5>{{ credentialField.key }}</h5>
-          <p>{{ credentialField.value }}</p>
+        <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
+          <h5>{{ cloudProviderParametersField.key }}</h5>
+          <p>{{ cloudProviderParametersField.value }}</p>
         </div>
         <button type="button" class="btn btn-primary btn-sm"
-        (click)="profileComponent.removeCloudCredentials(cloudCredentials)">Remove</button>
+        (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
+      </div>
+    </accordion-group>
+    <h3>Shared with your</h3>
+    <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }} SHARED">
+      <div>
+        <h4>Provider</h4>
+        <p>{{ cloudProviderParameters.cloudProvider }}</p>
+        <h4>Fields</h4>
+        <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
+          <h5>{{ cloudProviderParametersField.key }}</h5>
+          <p>{{ cloudProviderParametersField.value }}</p>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm"
+        (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
       </div>
     </accordion-group>
   </accordion>
