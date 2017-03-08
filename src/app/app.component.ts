@@ -4,7 +4,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CredentialService } from 'ng2-cloud-portal-service-lib';
 import { Router } from '@angular/router';
-import { TokenService } from 'ng2-cloud-portal-service-lib';
+import { TokenService, AccountService, Account } from 'ng2-cloud-portal-service-lib';
 
 /*
  * App Component
@@ -21,17 +21,28 @@ export class App {
     name = 'Cloud Portal';
     bioExcelUrl = 'http://bioexcel.eu//';
     tsiGithubUrl = 'https://github.com/EMBL-EBI-TSI';
+    loggedInAccount: Account;
 
     constructor( public tokenService: TokenService,
         public credentialService: CredentialService,
+        public accountService: AccountService,
         public router: Router) {
-
+        if (tokenService.getToken()) {
+            this.accountService.getAccount(
+                this.credentialService.getUsername(),
+                this.tokenService.getToken()
+            ).subscribe(
+                (account) => {
+                    this.loggedInAccount = account;
+                }
+            );
+        }
     }
 
     logOut() {
         this.credentialService.clearCredentials();
         this.tokenService.clearToken();
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/welcome');
     }
 
     ngOnInit() {

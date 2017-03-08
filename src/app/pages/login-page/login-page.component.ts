@@ -31,12 +31,16 @@ export class LoginPage {
     });
   }
 
+  ssoLink() {
+    return this._authService.ssoLink();
+  }
+
   private saveToken(jwt: string) {
     console.log('[LoginPage] Obtained token from saml %O', jwt);
     let theToken: JwtToken = <JwtToken>{ token: jwt };
     this.tokenService.setToken(theToken);
     let tokenClaims = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(jwt.split(".")[1]));
-    this.credentialService.setCredentials(tokenClaims.sub, null);
+    this.credentialService.setCredentials(tokenClaims.name, null);
   }
 
   ngOnDestroy() {

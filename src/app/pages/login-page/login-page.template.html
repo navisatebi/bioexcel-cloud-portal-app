@@ -1,10 +1,10 @@
 <cp-login-component #loginComponent>
 
-  <div *ngIf="loginComponent._tokenService.getToken()">
-      <h2>You are logged in!</h2>
+  <div *ngIf="tokenService.getToken()">
+      <h2>You are logged in as {{ credentialService.getUsername() }}</h2>
   </div>
 
-  <div *ngIf="!loginComponent._tokenService.getToken()">
+  <div *ngIf="!tokenService.getToken()">
     <form class="form-signin">
       <h2 class="form-signin-heading">Please log in</h2>
       <label for="inputUsername" class="sr-only">Username</label>
@@ -14,7 +14,7 @@
       <button type="button" class="btn btn-lg btn-primary btn-block"
         (click)="loginComponent.authenticate(username.value, password.value)">Log in</button>
         or
-      <a type="button" href="{{ loginComponent.ssoLink() }}" target="_blank">SSO</a>
+      <a type="button" href="{{ ssoLink() }}" target="_blank">SSO</a>
     </form>
   </div>
 </cp-login-component>
