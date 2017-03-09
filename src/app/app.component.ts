@@ -4,7 +4,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CredentialService } from 'ng2-cloud-portal-service-lib';
 import { Router } from '@angular/router';
-import { TokenService, AccountService, Account } from 'ng2-cloud-portal-service-lib';
+import { TokenService, AccountService, Account, CloudProviderParametersService } from 'ng2-cloud-portal-service-lib';
+import {  ProfileComponent } from 'ng2-cloud-portal-presentation-lib';
+import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+
 
 /*
  * App Component
@@ -13,6 +16,7 @@ import { TokenService, AccountService, Account } from 'ng2-cloud-portal-service-
 @Component({
     selector: 'app',
     encapsulation: ViewEncapsulation.None,
+    directives: [  ProfileComponent, DROPDOWN_DIRECTIVES ],
     styleUrls: [ './app.style.css' ],
     template: require('./app.template.html')
 })
@@ -22,10 +26,13 @@ export class App {
     bioExcelUrl = 'http://bioexcel.eu//';
     tsiGithubUrl = 'https://github.com/EMBL-EBI-TSI';
     loggedInAccount: Account;
+    public items:string[] = ['The first choice!',
+        'And another choice for you.', 'but wait! A third!'];
 
     constructor( public tokenService: TokenService,
         public credentialService: CredentialService,
         public accountService: AccountService,
+        public cloudProviderParametersService: CloudProviderParametersService,
         public router: Router) {
         if (tokenService.getToken()) {
             this.accountService.getAccount(
@@ -49,4 +56,9 @@ export class App {
         console.log('Hello app');
     }
 
+
+ 
+    public toggled(open:boolean):void {
+        console.log('Dropdown is now: ', open);
+    }
 }
