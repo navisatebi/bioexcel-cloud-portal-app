@@ -1,13 +1,24 @@
 <cp-deployments-component #deploymentsComponent>
-  <div class="container">
     <alert type="info" *ngIf="deploymentsComponent.deploymentInstances.length==0">
       No application deployments for user {{ deploymentsComponent.credentialService.getUsername() }} yet
     </alert>
 
     <accordion [closeOthers]="oneAtATime" *ngIf="deploymentsComponent.deploymentInstances">
-      <accordion-group *ngFor="let deploymentInstance of deploymentsComponent.deploymentInstances" heading="{{ deploymentInstance.applicationName }}">
+      <accordion-group *ngFor="let deploymentInstance of deploymentsComponent.deploymentInstances">
+        <div accordion-heading>
+          <span *ngIf="deploymentInstance.status == 'STARTING'" class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+          <span *ngIf="deploymentInstance.status == 'DESTROYING'" class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+          <span *ngIf="deploymentInstance.status == 'RUNNING'" class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+          <span *ngIf="deploymentInstance.status == 'DESTROYED'" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+          <span *ngIf="deploymentInstance.status == 'STARTING_FAILED' || deploymentInstance.status == 'DESTROYING_FAILED'" 
+            class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          {{ deploymentInstance.applicationName }}
+        </div>
         <h5>Reference</h5>
         <p>{{ deploymentInstance.reference }}</p>
+
+        <h5>Status</h5>
+        <p>{{ deploymentInstance.status }}</p>
 
         <div *ngIf="deploymentInstance.accessIp">
           <h5>Access IP</h5>
@@ -20,14 +31,17 @@
             <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
           </div>
         </div>
-        <span *ngIf="deploymentInstance.destroying">Destroying...</span>
-        <span *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</span>
-        <span *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</span>
-        <button *ngIf="!deploymentInstance.destroying && deploymentInstance.status != 'STARTING'" type="button" class="btn btn-primary btn-sm"
+        <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
+        <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
+        <alert type="error" *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</alert>
+        <button *ngIf="deploymentInstance.status == 'RUNNING'" type="button" class="btn btn-primary btn-sm"
           (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
           Destroy
         </button>
+        <button *ngIf="deploymentInstance.status == 'DESTROYED'" type="button" class="btn btn-primary btn-sm"
+          (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
+          Remove
+        </button>
       </accordion-group>
     </accordion>
-  </div>
 </cp-deployments-component>

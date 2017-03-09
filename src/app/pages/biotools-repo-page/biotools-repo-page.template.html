@@ -1,6 +1,6 @@
 <h2>Elixir Tools and Data Services</h2>
 
-<accordion [closeOthers]="oneAtATime" *ngIf="applications">
+<accordion [closeOthers]="true" *ngIf="applications">
   <accordion-group *ngFor="let application of applications" heading="{{ application.id }}">
     <h4>Name</h4>
     <p>{{ application.name }}</p>
