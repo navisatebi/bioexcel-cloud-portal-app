@@ -1,3 +1,4 @@
+<cp-profile-component #profileComponent>
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -45,6 +46,16 @@
           </a>
         </li>
 
+      </ul>
+      <ul  class="nav navbar-nav navbar-right">
+
+        <li *ngIf="!tokenService.getToken()">
+          <a router-active [routerLink]=" ['./login'] ">
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            Login
+          </a>
+        </li>
+
         <li *ngIf="tokenService.getToken()" dropdown (onToggle)="toggled($event)">
           <a href id="applications-dropdown" dropdownToggle>
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
@@ -56,24 +67,15 @@
             </span>  
           </a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
-            <cp-profile-component #profileComponent>
+
             <li *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters">
               <a (click)="profileComponent.setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
                 {{ cloudProviderParameters.name }}
               </a>
             </li>
-            </cp-profile-component>
+
           </ul>
-        </li>
 
-      </ul>
-      <ul  class="nav navbar-nav navbar-right">
-
-        <li *ngIf="!tokenService.getToken()">
-          <a router-active [routerLink]=" ['./login'] ">
-          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            Login
-          </a>
         </li>
 
         <li *ngIf="tokenService.getToken()" dropdown (onToggle)="toggled($event)">
@@ -112,9 +114,11 @@
     </div>
   </div>
 </nav>
+</cp-profile-component>
 
 <div class="container-fluid">
     <div class="main">
       <router-outlet></router-outlet>
     </div>
 </div>
+
