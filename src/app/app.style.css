@@ -1,7 +1,15 @@
 .container-fluid .main {
-  padding-top: 60px;
+  padding-top: 110px;
 }
 img.nav-logo {
   height: 50px;
   margin-top: -12px;
+}
+.logs-text-area {
+  width: 100%;
+  min-height: 20em; 
+  border: none; 
+  resize: none;
+  background: var(--dark-color);
+  font-family: Courier New, Courier, monospace; 
 }

@@ -28,6 +28,12 @@
       <p><a href="{{ applicationDeployer.repoUri }}">{{ applicationDeployer.repoUri }}</a></p>
       <h5>Version</h5>
       <p>{{ applicationDeployer.version }}</p>
+      <h5>Contact</h5>
+      <p>{{ applicationDeployer.contact }}</p>
+      <h5>Available for</h5>
+      <p class="param-value" *ngFor="let cloudProvider of applicationDeployer.cloudProviders">
+        {{ cloudProvider.cloudProvider }}
+      </p>
       <h5>Volumes</h5>
       <p *ngIf="applicationDeployer.volumes.length==0">This application requires no data volumes</p>
       <div *ngFor="let aVolume of applicationDeployer.volumes">

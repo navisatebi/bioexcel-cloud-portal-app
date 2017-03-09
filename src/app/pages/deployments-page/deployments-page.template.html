@@ -20,17 +20,41 @@
         <h5>Status</h5>
         <p>{{ deploymentInstance.status }}</p>
 
-        <div *ngIf="deploymentInstance.accessIp">
+        <!--<div *ngIf="deploymentInstance.accessIp">
           <h5>Access IP</h5>
           <p>{{ deploymentInstance.accessIp }}</p>
+        </div>-->
+        <!--List attached volumes-->
+        <h4>Volumes</h4>
+        <p *ngIf="deploymentInstance.attachedVolumes.length==0">There are no attached volumes for this deployment</p>
+        <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
+          <h5>{{ attachedVolume.name }}</h5>
+          <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
         </div>
-        <div *ngIf="deploymentInstance.attachedVolumes.length!=0">
-          <h5>Volumes</h5>
-          <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
-            <h5>{{ attachedVolume.name }}</h5>
-            <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
-          </div>
+        <!--List assigned inputs-->
+        <h4>Inputs</h4>
+        <p *ngIf="deploymentInstance.assignedInputs.length==0">There are no assigned inputs for this deployment</p>
+        <div *ngFor="let assignedInput of deploymentInstance.assignedInputs">
+          <h5>{{ assignedInput.inputName }}</h5>
+          <p>{{ assignedInput.assignedValue }}</p>
         </div>
+        <!--List generated outputs-->
+        <h4>Outputs</h4>
+        <p *ngIf="deploymentInstance.generatedOutputs.length==0">There are no generated outputs for this deployment</p>
+        <div *ngFor="let generatedOutput of deploymentInstance.generatedOutputs">
+          <h5>{{ generatedOutput.outputName }}</h5>
+          <p>{{ generatedOutput.generatedValue }}</p>
+        </div>
+        <!--Logs-->
+        <!--<h4>Deployment logs
+          <button type="button" class="btn btn-default" (click)="logsShowing=!logsShowing">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+          </button>
+        </h4>
+        <textarea class="logs-text-area" readonly *ngIf="logsShowing">
+          {{ deploymentInstance.logs }}
+        </textarea>-->
+          
         <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
         <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
         <alert type="error" *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</alert>
