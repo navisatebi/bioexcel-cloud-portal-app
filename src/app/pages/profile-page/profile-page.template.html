@@ -1,70 +1,129 @@
 <cp-profile-component #profileComponent>
   <div *ngIf="profileComponent.account">
     <h2>{{ profileComponent.account.userName }}</h2>
-    <h3>{{ profileComponent.account.email }}</h3>
-    <a href="http://my.homepage.me">http://my.homepage.me</a>
-    <p>{{ profileComponent.account.organisation }}</p>
+    <h4>{{ profileComponent.account.email }}</h4>
   </div>
+  <tabset>
+    <tab heading="Cloud Providers">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-cloud"></i>
+      </template>
+      <button class="add-app-button btn btn-primary btn-sm" 
+        (click)="profileComponent.addCloudProviderParametersFormShowing=!profileComponent.addCloudProviderParametersFormShowing">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
 
-  <button class="add-app-button btn btn-primary btn-sm" (click)="profileComponent.addCloudCredentialsFormShowing=!profileComponent.addCloudCredentialsFormShowing">
-    <span class="glyphicon glyphicon-plus"></span>
-  </button>
+      <div *ngIf="profileComponent.addCloudProviderParametersFormShowing">
+        <h3>Add cloud provider</h3>
+        <form [formGroup]="profileComponent.cloudProviderParametersForm" autocomplete="off">
+          <!--Name-->
+          <div class="form-group">
+            <label for="name" class="sr-only">Name</label>
+            <input class="form-control" id="name" 
+              type="text" placeholder="Credentials name" [formControl]="profileComponent.cloudProviderParametersForm.controls['name']" autofocus>
+          </div>
+          <!--Provider-->
+          <div class="form-group">
+            <label for="cloudProvider" class="sr-only">Cloud Provider</label>
+            <input class="form-control" id="cloudProvider" 
+              type="text" placeholder="Cloud provider" [formControl]="profileComponent.cloudProviderParametersForm.controls['cloudProvider']" autofocus>
+          </div>
 
-  <div *ngIf="profileComponent.addCloudCredentialsFormShowing">
-    <form [formGroup]="profileComponent.cloudCredentialsForm" autocomplete="off">
-      <h3>Add cloud credentials</h3>
-      <label for="inputUri" class="sr-only">URI</label>
-      <!--Name-->
-      <input class="form-control" id="name" 
-        type="text" placeholder="Credentials name" [formControl]="profileComponent.cloudCredentialsForm.controls['name']" autofocus>
-      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['name'].valid" class="ui error message">Name is invalid</div>
-      <div *ngIf="profileComponent.cloudCredentialsForm.controls['name'].hasError('required')" class="ui error message">Name is required</div>
-      <!--Provider-->
-      <input class="form-control" id="cloudProvider" 
-        type="text" placeholder="Cloud provider" [formControl]="profileComponent.cloudCredentialsForm.controls['cloudProvider']" autofocus>
-      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['cloudProvider'].valid" class="ui error message">Provider is invalid</div>
-      <div *ngIf="profileComponent.cloudCredentialsForm.controls['cloudProvider'].hasError('required')" class="ui error message">Provider is required</div>
-      <!--Fields-->
-      <input class="form-control" id="fields" 
-        type="text" placeholder="Credentials fields" [formControl]="profileComponent.cloudCredentialsForm.controls['fields']" autofocus>
-      <div *ngIf="!profileComponent.cloudCredentialsForm.controls['fields'].valid" class="ui error message">Fields are invalid</div>
-      <div *ngIf="profileComponent.cloudCredentialsForm.controls['fields'].hasError('required')" class="ui error message">Fields are required</div>
-      <button type="button" class="btn btn-lg btn-primary btn-block"
-      (click)="profileComponent.addCloudCredentials(profileComponent.cloudCredentialsForm.value); profileComponent.addCloudCredentialsFormShowing = false">Add</button>
-    </form>
-  </div>
-
-  <accordion [closeOthers]="oneAtATime" *ngIf="profileComponent.cloudProviderParametersPresenters">
-    <div *ngIf="profileComponent.cloudProviderParametersPresenters.length==0">
-      No credentials registered yet
-    </div>
-      <h3>Your own Cloud Providers</h3>
-    <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }}">
-      <div>
-        <h4>Provider</h4>
-        <p>{{ cloudProviderParameters.cloudProvider }}</p>
-        <h4>Fields</h4>
-        <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
-          <h5>{{ cloudProviderParametersField.key }}</h5>
-          <p>{{ cloudProviderParametersField.value }}</p>
-        </div>
-        <button type="button" class="btn btn-primary btn-sm"
-        (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
+          <button type="submit" class="btn btn-default"
+            [disabled]="profileComponent.cloudProviderParametersForm.controls['name'].hasError('required') || profileComponent.cloudProviderParametersForm.controls['cloudProvider'].hasError('required')"
+            (click)="profileComponent.addCloudProviderParameters(profileComponent.cloudProviderParametersForm.value); profileComponent.addCloudProviderParametersFormShowing = false">Add</button>
+        </form>
+        <br/>
       </div>
-    </accordion-group>
-    <h3>Shared with your</h3>
-    <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }} SHARED">
-      <div>
-        <h4>Provider</h4>
-        <p>{{ cloudProviderParameters.cloudProvider }}</p>
-        <h4>Fields</h4>
-        <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
-          <h5>{{ cloudProviderParametersField.key }}</h5>
-          <p>{{ cloudProviderParametersField.value }}</p>
+
+      <accordion [closeOthers]="true" *ngIf="profileComponent.cloudProviderParametersPresenters">
+        <div *ngIf="profileComponent.cloudProviderParametersPresenters.length==0 && profileComponent.sharedCloudProviderParametersPresenters.length==0">
+          No cloud providers available yet
         </div>
-        <button type="button" class="btn btn-primary btn-sm"
-        (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
+        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }}">
+          <div>
+            <h4>Provider</h4>
+            <p>{{ cloudProviderParameters.cloudProvider }}</p>
+            <h4>Fields</h4>
+            <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
+              <h5>{{ cloudProviderParametersField.key }}</h5>
+              <p>{{ cloudProviderParametersField.value }}</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm"
+            (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
+          </div>
+        </accordion-group>
+        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }} SHARED">
+          <div>
+            <h4>Provider</h4>
+            <p>{{ cloudProviderParameters.cloudProvider }}</p>
+            <h4>Fields</h4>
+            <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
+              <h5>{{ cloudProviderParametersField.key }}</h5>
+              <p>{{ cloudProviderParametersField.value }}</p>
+            </div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </tab>
+    <tab heading="Teams">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-user"></i>
+      </template>
+
+      <button class="add-app-button btn btn-primary btn-sm" (click)="profileComponent.addTeamFormShowing=!profileComponent.addTeamFormShowing">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+
+      <div *ngIf="profileComponent.addTeamFormShowing">
+        <form [formGroup]="profileComponent.teamForm" autocomplete="off">
+          <h3>Create new team</h3>
+          <!--Name-->
+          <div class="form-group">
+            <label for="name" class="sr-only">Name</label>
+            <input class="form-control" id="name" 
+              type="text" placeholder="Team name" [formControl]="profileComponent.teamForm.controls['name']" autofocus>
+          </div>
+          <button type="submit" class="btn btn-default"
+          [disabled]="profileComponent.teamForm.controls['name'].hasError('required')"
+          (click)="profileComponent.addTeam(profileComponent.teamForm.value); profileComponent.addTeamFormShowing = false">Add</button>
+        </form>
+        <alert type="warning" *ngIf="profileComponent.teamForm.controls['name'].length>0 && !profileComponent.teamForm.controls['name'].valid">Name is invalid</alert>
+        <br/>
       </div>
-    </accordion-group>
-  </accordion>
+
+      <accordion [closeOthers]="true" *ngIf="profileComponent.teamPresenters">
+        <div *ngIf="profileComponent.teamPresenters.length==0">
+          No teams available yet
+        </div>
+        <accordion-group *ngFor="let teamPresenter of profileComponent.teamPresenters" heading="{{ teamPresenter.name }}">
+          <span accordion-heading>
+            <span *ngIf="teamPresenter.isOwner"> OWNER</span>
+          </span>
+          <div>
+            <h5>Owner</h5>
+            <p>{{ teamPresenter.ownerAccountEmail }}</p>
+            <h5>Members</h5>
+            <p *ngFor="let memberAccountEmail of teamPresenter.memberAccountEmals">{{ memberAccountEmail }}</p>
+            <form #addTeamMemberForm class="form-inline">
+              <div class="form-group">
+                <label for="email" class="sr-only">Name</label>
+                <input class="form-control" name="memberAccountEmail" [(ngModel)]="memberAccountEmail" 
+                  type="email" placeholder="Member email" autofocus>
+              </div>
+              <button type="submit" class="btn btn-default btn-sm"
+              [disabled]="!memberAccountEmail"
+               (click)="profileComponent.addMemberToTeam(teamPresenter, memberAccountEmail)">Add</button>
+            </form>
+            <br/>
+            <button type="button" class="btn btn-warning"
+             *ngIf="teamPresenter.isOwner"
+            (click)="profileComponent.removeTeam(teamPresenter)">Delete team</button>
+          </div>
+        </accordion-group>
+        
+      </accordion>
+
+    </tab>
+  </tabset>
 </cp-profile-component>

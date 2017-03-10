@@ -3,7 +3,7 @@
       No application deployments for user {{ deploymentsComponent.credentialService.getUsername() }} yet
     </alert>
 
-    <accordion [closeOthers]="oneAtATime" *ngIf="deploymentsComponent.deploymentInstances">
+    <accordion [closeOthers]="true" *ngIf="deploymentsComponent.deploymentInstances">
       <accordion-group *ngFor="let deploymentInstance of deploymentsComponent.deploymentInstances">
         <div accordion-heading>
           <span *ngIf="deploymentInstance.status == 'STARTING'" class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
