@@ -53,12 +53,10 @@ export class App {
     }
 
     ngOnInit() {
-        console.log('Hello app');
+        
     }
-
-
  
     public toggled(open:boolean):void {
-        console.log('Dropdown is now: ', open);
+        
     }
 }

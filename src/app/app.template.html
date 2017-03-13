@@ -114,7 +114,6 @@
             </span>  
           </a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
-
             <li *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters">
               <a (click)="profileComponent.setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
                 {{ cloudProviderParameters.name }}

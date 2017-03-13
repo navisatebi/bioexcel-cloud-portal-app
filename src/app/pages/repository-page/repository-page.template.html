@@ -24,7 +24,8 @@
       No applications registered yet
     </div>
 
-    <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers" heading="{{ applicationDeployer.name }} v{{ applicationDeployer.version }}">
+    <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers | applicationCloudProvider:cloudProviderFilters" 
+      heading="{{ applicationDeployer.name }} v{{ applicationDeployer.version }}">
       <div class="row">
         <div class="col-md-12">
           <p class="lead">{{ applicationDeployer.about }}</p>
