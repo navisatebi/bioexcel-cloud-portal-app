@@ -24,12 +24,12 @@
           </a>
         </li>
 
-        <li *ngIf="tokenService.getToken()" dropdown (onToggle)="toggled($event)">
+        <li *ngIf="tokenService.getToken()" dropdown>
           <a href id="applications-dropdown" dropdownToggle>
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            {{ credentialService.getUsername() }}
+            {{ credentialService.getUsername() }} <span class="caret"></span>
           </a>
-          <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
+          <ul class="dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
             <li>
               <a router-active [routerLink]=" ['./profile'] ">
                 Profile
@@ -59,13 +59,12 @@
       </ul>
     </div>
 
-    <cp-profile-component *ngIf="tokenService.getToken()" #profileComponent>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 
-        <li dropdown (onToggle)="toggled($event)">
+        <li dropdown>
           <a href id="applications-dropdown" dropdownToggle>
-            Applications
+            Applications <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
             <li>
@@ -103,19 +102,25 @@
           </a>
         </li>
 
-        <li *ngIf="tokenService.getToken()" dropdown (onToggle)="toggled($event)">
+        <li *ngIf="tokenService.getToken()" dropdown (onToggle)="updateCloudProviders($event)">
           <a href id="applications-dropdown" dropdownToggle>
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
             <span *ngIf="cloudProviderParametersService.currentlySelectedCloudProviderParameters">
-              {{ cloudProviderParametersService.currentlySelectedCloudProviderParameters.name }}
+              {{ cloudProviderParametersService.currentlySelectedCloudProviderParameters.name }} <span class="caret"></span>
             </span>
             <span *ngIf="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
-              SELECT PROVIDER
+              SELECT PROVIDER <span class="caret"></span>
             </span>  
           </a>
-          <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
-            <li *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters">
-              <a (click)="profileComponent.setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
+          <ul class="dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
+            <li *ngFor="let cloudProviderParameters of cloudProviderParameters">
+              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
+                {{ cloudProviderParameters.name }}
+              </a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li *ngFor="let cloudProviderParameters of sharedCloudProviderParameters">
+              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
                 {{ cloudProviderParameters.name }}
               </a>
             </li>
@@ -124,7 +129,6 @@
 
       </ul>
     </div>
-    </cp-profile-component>
   </div>
 </nav>
 

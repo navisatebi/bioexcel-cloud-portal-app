@@ -4,8 +4,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CredentialService } from 'ng2-cloud-portal-service-lib';
 import { Router } from '@angular/router';
-import { TokenService, AccountService, Account, CloudProviderParametersService } from 'ng2-cloud-portal-service-lib';
-import {  ProfileComponent } from 'ng2-cloud-portal-presentation-lib';
+import { TokenService, AccountService, Account,
+    CloudProviderParametersService, CloudProviderParameters,
+    ErrorService } from 'ng2-cloud-portal-service-lib';
 import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 
@@ -16,7 +17,7 @@ import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 @Component({
     selector: 'app',
     encapsulation: ViewEncapsulation.None,
-    directives: [  ProfileComponent, DROPDOWN_DIRECTIVES ],
+    directives: [ DROPDOWN_DIRECTIVES ],
     styleUrls: [ './app.style.css' ],
     template: require('./app.template.html')
 })
@@ -26,6 +27,9 @@ export class App {
     bioExcelUrl = 'http://bioexcel.eu//';
     tsiGithubUrl = 'https://github.com/EMBL-EBI-TSI';
     loggedInAccount: Account;
+    cloudProviderParameters: CloudProviderParameters[];
+    sharedCloudProviderParameters: CloudProviderParameters[];
+
     public items:string[] = ['The first choice!',
         'And another choice for you.', 'but wait! A third!'];
 
@@ -33,6 +37,7 @@ export class App {
         public credentialService: CredentialService,
         public accountService: AccountService,
         public cloudProviderParametersService: CloudProviderParametersService,
+        public errorService: ErrorService,
         public router: Router) {
         if (tokenService.getToken()) {
             this.accountService.getAccount(
@@ -43,6 +48,7 @@ export class App {
                     this.loggedInAccount = account;
                 }
             );
+            this.updateCloudProviders(true);
         }
     }
 
@@ -56,7 +62,53 @@ export class App {
         
     }
  
-    public toggled(open:boolean):void {
-        
+    public setCurrentlySelectedCloudProviderParameters(cloudProviderParameters: CloudProviderParameters) {
+        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters = cloudProviderParameters;
+    }
+
+    public updateCloudProviders(open:boolean):void {
+        if (open) {
+            this.cloudProviderParametersService.getAll(
+                this.credentialService.getUsername(),
+                this.tokenService.getToken())
+            .subscribe(
+                cloudProviderParameters => {
+                    console.log('[App] cloud provider parameters data is %O', cloudProviderParameters);
+                    this.cloudProviderParameters = cloudProviderParameters
+                },
+                error => {
+                    console.log('[App] error %O', error);
+                    if (error[0]) {
+                        error = error[0];
+                    }
+                    this.errorService.setCurrentError(error);
+                    this.router.navigateByUrl('/error');
+                },
+                () => {
+                    console.log('[App] Cloud provider parameters data retrieval complete');
+                }
+            );
+
+            this.cloudProviderParametersService.getAllShared(
+                this.credentialService.getUsername(),
+                this.tokenService.getToken())
+            .subscribe(
+                cloudProviderParameters => {
+                    console.log('[App] shared cloud provider parameters data is %O', cloudProviderParameters);
+                    this.sharedCloudProviderParameters = cloudProviderParameters
+                },
+                error => {
+                    console.log('[App] error %O', error);
+                    if (error[0]) {
+                        error = error[0];
+                    }
+                    this.errorService.setCurrentError(error);
+                    this.router.navigateByUrl('/error');
+                },
+                () => {
+                    console.log('[App] shared Cloud provider parameters data retrieval complete');
+                }
+            );
+        }
     }
 }
