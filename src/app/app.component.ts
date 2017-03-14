@@ -9,7 +9,6 @@ import { TokenService, AccountService, Account,
     ErrorService } from 'ng2-cloud-portal-service-lib';
 import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
-
 /*
  * App Component
  * Top Level Component
