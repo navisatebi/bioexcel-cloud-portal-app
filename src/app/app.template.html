@@ -1,105 +1,63 @@
-
-<nav class="navbar navbar-default navbar-fixed-top">
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+      <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
         aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
+      </button>-->
       <a class="navbar-brand" href="#">
         <img class="nav-logo" alt="BioExcel" [src]="bioexcelLogo">
       </a>
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
 
-      <ul  class="nav navbar-nav navbar-right">
-
-        <li *ngIf="!tokenService.getToken()">
-          <a router-active [routerLink]=" ['./login'] ">
-          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            Login
-          </a>
-        </li>
-
-        <li *ngIf="tokenService.getToken()" dropdown>
-          <a href id="applications-dropdown" dropdownToggle>
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            {{ credentialService.getUsername() }} <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
-            <li>
-              <a router-active [routerLink]=" ['./profile'] ">
-                Profile
-              </a>
-            </li>
-            <li *ngIf="tokenService.getToken()">
-              <a router-active (click)="logOut()">
-              Logout
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li dropdown (onToggle)="toggled($event)">
-          <a href id="applications-dropdown" dropdownToggle>
-            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-          </a>
-          <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
-            <li>
-              <a router-active [routerLink]=" ['./about'] ">
-                About
-              </a>
-            </li>
-          </ul>
-        </li>
-
-      </ul>
-    </div>
-
-    <div id="navbar" class="navbar-collapse collapse">
+    <div id="navbar" class="">
+      <!--Left bar-->
       <ul class="nav navbar-nav">
-
-        <li dropdown>
+        <!--Applications menu-->
+        <li  *ngIf="tokenService.getToken()" dropdown>
           <a href [routerLinkActive]="['active']" id="applications-dropdown" dropdownToggle>
             Applications <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
             <li>
-              <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./repository'] ">
+              <a [routerLinkActive]="['active']" [routerLink]=" ['./repository'] ">
               Repository
               </a>
             </li>
             <li>
-              <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./biotools'] ">
+              <a [routerLinkActive]="['active']" [routerLink]=" ['./biotools'] ">
               bio.tools
               </a>
             </li>
           </ul>
         </li>
-        <li>
-          <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./deployments'] ">
+        <!--Deployments menu-->
+        <li *ngIf="tokenService.getToken()">
+          <a [routerLinkActive]="['active']" [routerLink]=" ['./deployments'] ">
           Deployments
           </a>
         </li>
-        <li>
-          <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./volumes'] ">
+        <!--Volumes menu-->
+        <li *ngIf="tokenService.getToken()">
+          <a [routerLinkActive]="['active']" [routerLink]=" ['./volumes'] ">
           Data Volumes
           </a>
         </li>
-
       </ul>
-      <ul  class="nav navbar-nav navbar-right">
-
+      <!--Right bar-->
+      <ul class="nav navbar-nav navbar-right">
+        <!--Login menu-->
         <li *ngIf="!tokenService.getToken()">
           <a router-active [routerLink]=" ['./login'] ">
           <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             Login
           </a>
         </li>
-
+        <!--Select provider menu-->
         <li *ngIf="tokenService.getToken()" dropdown (onToggle)="updateCloudProviders($event)">
           <a href id="applications-dropdown" dropdownToggle>
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
@@ -120,6 +78,39 @@
             <li *ngFor="let cloudProviderParameters of sharedCloudProviderParameters">
               <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
                 {{ cloudProviderParameters.name }}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!--Profile menu-->
+        <li *ngIf="tokenService.getToken()" dropdown>
+          <a href id="applications-dropdown" dropdownToggle>
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            {{ credentialService.getUsername() }} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
+            <li>
+              <a router-active [routerLink]=" ['./profile'] ">
+                Profile
+              </a>
+            </li>
+            <li *ngIf="tokenService.getToken()">
+              <a router-active (click)="logOut()">
+              Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!--Help menu-->
+        <li dropdown>
+          <a href id="applications-dropdown" dropdownToggle>
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+          </a>
+          <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
+            <li>
+              <a router-active [routerLink]=" ['./about'] ">
+                About
               </a>
             </li>
           </ul>

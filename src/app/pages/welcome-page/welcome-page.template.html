@@ -1,9 +1,10 @@
-  <div class="col-md-8">
-    <about-page *ngIf="!credentialService.getUsername()"></about-page>
+<div class="row" *ngIf="!credentialService.getUsername()">
+  <div class="col-md-12">
+    <about-page ></about-page>
   </div>
-  <div class="col-md-4">
-    <login-page *ngIf="!credentialService.getUsername()"></login-page>
-  </div>
-  <div>
+</div>
+<div class="row" *ngIf="credentialService.getUsername()">
+  <div class="col-md-12">
     <repository-page *ngIf="credentialService.getUsername()"></repository-page>
   </div>
+</div>

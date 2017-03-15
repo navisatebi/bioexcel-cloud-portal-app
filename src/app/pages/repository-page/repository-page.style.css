@@ -1,7 +1,6 @@
 .add-app-button {
   position: absolute;
   right: 30px;
-  top: 100px;
   z-index: 3;
   background: rgb(151,151,151);
   color: black;
