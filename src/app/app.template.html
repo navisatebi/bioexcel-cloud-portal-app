@@ -63,31 +63,29 @@
       <ul class="nav navbar-nav">
 
         <li dropdown>
-          <a href id="applications-dropdown" dropdownToggle>
+          <a href [routerLinkActive]="['active']" id="applications-dropdown" dropdownToggle>
             Applications <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
             <li>
-              <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./deployments'] ">
-              My Deployments
-              </a>
-            </li>
-            <li class="divider dropdown-divider"></li>
-            <li>
-              <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./repository'] ">
+              <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./repository'] ">
               Repository
               </a>
             </li>
             <li>
-              <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./biotools'] ">
+              <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./biotools'] ">
               bio.tools
               </a>
             </li>
           </ul>
         </li>
-
         <li>
-          <a *ngIf="tokenService.getToken()" router-active [routerLink]=" ['./volumes'] ">
+          <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./deployments'] ">
+          Deployments
+          </a>
+        </li>
+        <li>
+          <a *ngIf="tokenService.getToken()" [routerLinkActive]="['active']" [routerLink]=" ['./volumes'] ">
           Data Volumes
           </a>
         </li>

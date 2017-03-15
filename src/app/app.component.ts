@@ -1,9 +1,9 @@
 /*
  * Angular 2 decorators and services
  */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation  } from '@angular/core';
 import { CredentialService } from 'ng2-cloud-portal-service-lib';
-import { Router } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { TokenService, AccountService, Account,
     CloudProviderParametersService, CloudProviderParameters,
     ErrorService } from 'ng2-cloud-portal-service-lib';
@@ -16,7 +16,7 @@ import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 @Component({
     selector: 'app',
     encapsulation: ViewEncapsulation.None,
-    directives: [ DROPDOWN_DIRECTIVES ],
+    directives: [ DROPDOWN_DIRECTIVES, ROUTER_DIRECTIVES ],
     styleUrls: [ './app.style.css' ],
     template: require('./app.template.html')
 })
@@ -28,9 +28,6 @@ export class App {
     loggedInAccount: Account;
     cloudProviderParameters: CloudProviderParameters[];
     sharedCloudProviderParameters: CloudProviderParameters[];
-
-    public items:string[] = ['The first choice!',
-        'And another choice for you.', 'but wait! A third!'];
 
     constructor( public tokenService: TokenService,
         public credentialService: CredentialService,

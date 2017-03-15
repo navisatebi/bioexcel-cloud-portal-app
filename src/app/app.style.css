@@ -10,6 +10,10 @@ img.nav-logo {
   min-height: 20em; 
   border: none; 
   resize: none;
-  background: var(--dark-color);
+  background: rgb(130,130,130);
   font-family: Courier New, Courier, monospace; 
+}
+a.active {
+  background: rgb(240,240,240);
+  color: white;
 }
