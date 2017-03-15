@@ -58,16 +58,18 @@
         <br/>
       </div>
 
+      <!--Credentials-->
       <accordion [closeOthers]="true" *ngIf="profileComponent.cloudProviderParametersPresenters">
         <div *ngIf="profileComponent.cloudProviderParametersPresenters.length==0 && profileComponent.sharedCloudProviderParametersPresenters.length==0">
           No cloud providers available yet
         </div>
+        <!--Owned credentials-->
         <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" 
           [isOpen]="openOne==cloudProviderParameters.name"
           (click)="openOne=cloudProviderParameters.name"
           heading="{{ cloudProviderParameters.name }}">
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <h4>Provider</h4>
                 <p>{{ cloudProviderParameters.cloudProvider }}</p>
                 <h4>Fields</h4>
@@ -76,7 +78,7 @@
                   <p>{{ cloudProviderParametersField.value }}</p>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <h5>Shared with <button
                     class="btn btn-default btn-xs"
                     (click)="shareCloudProviderParametersDialogShowing=!shareCloudProviderParametersDialogShowing">
@@ -90,7 +92,7 @@
                     <button 
                     type="submit" class="btn btn-default btn-sm"
                     [disabled]="!shareWith || shareWith.length==0"
-                    >
+                    (click)="profileComponent.shareCloudProviderParameters(cloudProviderParameters, shareWith); shareCloudProviderParametersDialogShowing = false">
                     Share</button>
                   </form>
                 </span>
@@ -98,7 +100,7 @@
                   <p *ngFor="let accountEmail of cloudProviderParameters.sharedWithAccountEmails">
                     <button
                     class="btn btn-default btn-xs"
-                    >
+                    (click)="profileComponent.unshareCloudProviderParameters(cloudProviderParameters, accountEmail)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </button> {{ accountEmail }}</p>
                 </span>
@@ -107,7 +109,7 @@
                   <p *ngFor="let teamName of cloudProviderParameters.sharedWithTeamNames">
                     <button *ngIf="!cloudProviderParameters.isShared"
                     class="btn btn-default btn-xs"
-                    >
+                    (click)="profileComponent.unshareCloudProviderParameters(cloudProviderParameters, teamName)">
                       <span class="glyphicon glyphicon-remove"></span> 
                     </button> {{ teamName }}
                   </p>
@@ -125,17 +127,34 @@
 
         </accordion-group>
 
-        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" heading="{{ cloudProviderParameters.name }} SHARED">
-          <div>
-            <h4>Provider</h4>
-            <p>{{ cloudProviderParameters.cloudProvider }}</p>
-            <h4>Fields</h4>
-            <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
-              <h5>{{ cloudProviderParametersField.key }}</h5>
-              <p>{{ cloudProviderParametersField.value }}</p>
+        <!--Shared credentials-->
+        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" 
+          [isOpen]="openOne==cloudProviderParameters.name+'-shared'"
+          (click)="openOne=cloudProviderParameters.name+'-shared'"
+          heading="{{ cloudProviderParameters.name }} SHARED">
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Provider</h4>
+              <p>{{ cloudProviderParameters.cloudProvider }}</p>
+              <h4>Fields</h4>
+              <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
+                <h5>{{ cloudProviderParametersField.key }}</h5>
+                <p>{{ cloudProviderParametersField.value }}</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h5>Owned by</h5>
+              <p>{{ cloudProviderParameters.accountEmail }}</p>
+              <span *ngIf="cloudProviderParameters.sharedWithTeamNames && cloudProviderParameters.sharedWithTeamNames.length>0">
+                <h5>Included in teams</h5>
+                <p *ngFor="let teamName of cloudProviderParameters.sharedWithTeamNames">
+                  {{ teamName }}
+                </p>
+              </span>
             </div>
           </div>
         </accordion-group>
+
       </accordion>
     </tab>
     <tab heading="Teams">

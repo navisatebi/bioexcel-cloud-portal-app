@@ -23,7 +23,7 @@
     <div *ngIf="repo.applicationDeployers.length==0">
       No applications registered yet
     </div>
-
+    <!--Owned applications-->
     <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers | applicationCloudProvider:cloudProviderFilters" 
       [isOpen]="openOne==applicationDeployer.name"
       (click)="openOne=applicationDeployer.name"
@@ -135,6 +135,93 @@
       </div>
       </div>
     </accordion-group>
+
+    <!--Shared applications-->
+    <accordion-group *ngFor="let applicationDeployer of repo.sharedApplicationDeployers | applicationCloudProvider:cloudProviderFilters" 
+      [isOpen]="openOne==applicationDeployer.name+'-shared'"
+      (click)="openOne=applicationDeployer.name+'-shared'"
+      heading="{{ applicationDeployer.name }} v{{ applicationDeployer.version }} SHARED">
+      <div class="row">
+        <div class="col-md-12">
+          <p class="lead">{{ applicationDeployer.about }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <h5>Source</h5>
+          <p><a href="{{ applicationDeployer.repoUri }}">{{ applicationDeployer.repoUri }}</a></p>
+          <h5>Version</h5>
+          <p>{{ applicationDeployer.version }}</p>
+          <h5>Contact</h5>
+          <p>{{ applicationDeployer.contact }}</p>       
+        </div>
+        <div class="col-md-4">
+          <h5>Available for</h5>
+          <p class="param-value" *ngFor="let cloudProvider of applicationDeployer.cloudProviders">
+            {{ cloudProvider.cloudProvider }}
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h5>Owned by</h5>
+          <p>{{ applicationDeployer.accountEmail }}</p>
+          <span *ngIf="applicationDeployer.sharedWithTeamNames && applicationDeployer.sharedWithTeamNames.length>0">
+            <h5>Included in teams</h5>
+            <p *ngFor="let teamName of applicationDeployer.sharedWithTeamNames">
+              {{ teamName }}
+            </p>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <h5>Volumes</h5>
+          <p *ngIf="applicationDeployer.volumes.length==0">This application requires no data volumes</p>
+          <div *ngFor="let aVolume of applicationDeployer.volumes">
+            {{ aVolume }}
+            <select class="form-control" 
+              (change)="repo.attachVolume(applicationDeployer, aVolume, $event.target.value)">
+              <option value="null">None</option>
+              <option *ngFor="let volumeInstance of repo.volumeInstances">
+                {{ volumeInstance.reference }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h5>Inputs</h5>
+          <p *ngIf="applicationDeployer.inputs.length==0">This application defines no inputs</p>
+          <div *ngFor="let anInput of applicationDeployer.inputs">
+            <input class="form-control" 
+              placeholder="{{anInput}}"
+              (keyup.enter)="repo.assignInput(applicationDeployer, anInput, $event.target.value)"
+              (blur)="repo.assignInput(applicationDeployer, anInput, $event.target.value)">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h5>Outputs</h5>
+          <p *ngIf="applicationDeployer.outputs.length==0">This application defines no outputs</p>
+          <div *ngFor="let anOutput of applicationDeployer.outputs">
+            <p>{{anOutput}}</p>
+          </div>
+        </div> 
+      </div>
+      <br/>
+      <div class="row">
+      <div class="col-md-12">
+        <div *ngIf="!applicationDeployer.deploying && !applicationDeployer.destroying">
+          <alert type="warning" *ngIf="!repo.cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+            A valid Cloud Provider needs to be selected in order to deploy this application
+          </alert>
+          <button type="button" class="btn btn-primary btn-sm" 
+            [disabled]="!repo.cloudProviderParametersService.currentlySelectedCloudProviderParameters"
+            (click)="repo.deployApplication(applicationDeployer)">
+              DEPLOY
+          </button>
+        </div>
+      </div>
+      </div>
+    </accordion-group>
+
   </accordion>
 
 </cp-repository-component>
