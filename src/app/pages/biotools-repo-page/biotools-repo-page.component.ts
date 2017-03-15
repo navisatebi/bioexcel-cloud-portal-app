@@ -19,7 +19,7 @@ export class BiotoolsRepoPage {
 
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
-              private _router: Router,) {
+              private _router: Router) {
     this._updateRepository();
   }
 
