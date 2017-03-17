@@ -6,7 +6,7 @@
       </template>
       <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeploymentInstances">
         <alert type="info" *ngIf="volumesComponent.volumeDeploymentInstances.length==0">
-          No volume deployments for user {{ volumesComponent.credentialService.getUsername() }} yet
+          No volume deployments for user {{ volumesComponent.credentialService.getGivenName() }} yet
         </alert>
         <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.setupName }}">
           <h5>Reference</h5>

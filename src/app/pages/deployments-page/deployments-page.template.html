@@ -1,6 +1,6 @@
 <cp-deployments-component #deploymentsComponent>
     <alert type="info" *ngIf="deploymentsComponent.deploymentInstances.length==0">
-      No application deployments for user {{ deploymentsComponent.credentialService.getUsername() }} yet
+      No application deployments for user {{ deploymentsComponent.credentialService.getGivenName() }} yet
     </alert>
 
     <accordion [closeOthers]="true" *ngIf="deploymentsComponent.deploymentInstances">

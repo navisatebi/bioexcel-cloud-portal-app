@@ -86,7 +86,7 @@
         <li *ngIf="tokenService.getToken()" dropdown>
           <a href id="applications-dropdown" dropdownToggle>
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            {{ credentialService.getUsername() }} <span class="caret"></span>
+            {{ credentialService.getGivenName() }} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
             <li>

@@ -1,7 +1,7 @@
 <cp-login-component #loginComponent>
 
   <div *ngIf="tokenService.getToken()">
-      <h2>You are logged in as {{ credentialService.getUsername() }}</h2>
+      <h2>You are logged in as {{ credentialService.getGivenName() }}</h2>
   </div>
 
   <div *ngIf="!tokenService.getToken()">
