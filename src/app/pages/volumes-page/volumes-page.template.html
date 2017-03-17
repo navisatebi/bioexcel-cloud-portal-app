@@ -5,9 +5,9 @@
         <i class="glyphicon glyphicon-hdd"></i>
       </template>
       <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeploymentInstances">
-        <div *ngIf="volumesComponent.volumeDeploymentInstances.length==0">
+        <alert type="info" *ngIf="volumesComponent.volumeDeploymentInstances.length==0">
           No volume deployments for user {{ volumesComponent.credentialService.getUsername() }} yet
-        </div>
+        </alert>
         <accordion-group *ngFor="let volumeDeploymentInstance of volumesComponent.volumeDeploymentInstances" heading="{{ volumeDeploymentInstance.setupName }}">
           <h5>Reference</h5>
           <p>{{ volumeDeploymentInstance.reference }}</p>
@@ -31,22 +31,24 @@
       
       <div *ngIf="volumesComponent.addVolumeSetupFormShowing">
         <form [formGroup]="volumesComponent.volumeSetupForm" autocomplete="off">
-          <h2>Add volume setup</h2>
-          <label for="inputUri" class="sr-only">URI</label>
-          <input class="form-control" id="inputUri" 
-            type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
-          <div *ngIf="!volumesComponent.volumeSetupForm.controls['repoUri'].valid" class="ui error message">URI is invalid</div>
-          <div *ngIf="volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')" class="ui error message">URI is required</div>
-          <button type="button" class="btn btn-lg btn-primary btn-block"
+          <h3>Add volume setup</h3>
+          <div class="form-group">
+            <label for="inputUri" class="sr-only">URI</label>
+            <input class="form-control" id="inputUri" 
+              type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
+          </div>
+          <button type="button" class="btn btn-default"
+          [disabled]="!volumesComponent.volumeSetupForm.controls['repoUri'].valid || volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')"
           (click)="volumesComponent.addVolumeSetup(volumesComponent.volumeSetupForm.value); volumesComponent.addVolumeSetupFormShowing = false">Add</button>
         </form>
+        <br/>
       </div>
             
       <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeployers">
             <!--List setups-->
-        <div *ngIf="volumesComponent.volumeDeployers.length==0">
+        <alert type="info" *ngIf="volumesComponent.volumeDeployers.length==0">
           No volume setups registered yet
-        </div>
+        </alert>
 
         <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
           <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>

@@ -59,11 +59,14 @@
       </div>
 
       <!--Credentials-->
-      <accordion [closeOthers]="true" *ngIf="profileComponent.cloudProviderParametersPresenters">
-        <div *ngIf="profileComponent.cloudProviderParametersPresenters.length==0 && profileComponent.sharedCloudProviderParametersPresenters.length==0">
+      <alert type="info" 
+        *ngIf="profileComponent.cloudProviderParametersPresenters && profileComponent.cloudProviderParametersPresenters.length==0 
+              && profileComponent.sharedCloudProviderParametersPresenters && profileComponent.sharedCloudProviderParametersPresenters.length==0">
           No cloud providers available yet
-        </div>
+      </alert>
+      <accordion [closeOthers]="true">
         <!--Owned credentials-->
+        <span *ngIf="profileComponent.cloudProviderParametersPresenters">
         <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" 
           [isOpen]="openOne==cloudProviderParameters.name"
           (click)="openOne=cloudProviderParameters.name"
@@ -96,7 +99,7 @@
                     Share</button>
                   </form>
                 </span>
-                <span *ngIf="!cloudProviderParameters.isShared && cloudProviderParameters.sharedWithAccountEmails.length>0">
+                <span *ngIf="!cloudProviderParameters.isShared && cloudProviderParameters.sharedWithAccountEmails && cloudProviderParameters.sharedWithAccountEmails.length>0">
                   <p *ngFor="let accountEmail of cloudProviderParameters.sharedWithAccountEmails">
                     <button
                     class="btn btn-default btn-xs"
@@ -126,8 +129,10 @@
             </div>
 
         </accordion-group>
+        </span>
 
         <!--Shared credentials-->
+        <span *ngIf="profileComponent.sharedCloudProviderParametersPresenters">
         <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" 
           [isOpen]="openOne==cloudProviderParameters.name+'-shared'"
           (click)="openOne=cloudProviderParameters.name+'-shared'"
@@ -154,7 +159,7 @@
             </div>
           </div>
         </accordion-group>
-
+        </span>
       </accordion>
     </tab>
     <tab heading="Teams">
@@ -184,9 +189,9 @@
       </div>
 
       <accordion [closeOthers]="true" *ngIf="profileComponent.teamPresenters">
-        <div *ngIf="profileComponent.teamPresenters.length==0">
+        <alert type="info" *ngIf="profileComponent.teamPresenters.length==0">
           No teams available yet
-        </div>
+        </alert>
         <accordion-group *ngFor="let teamPresenter of profileComponent.teamPresenters" heading="{{ teamPresenter.name }}">
           <span accordion-heading>
             <span *ngIf="teamPresenter.isOwner"> OWNER</span>
@@ -195,7 +200,7 @@
             <h5>Owner</h5>
             <p>{{ teamPresenter.ownerAccountEmail }}</p>
             <h5>Members</h5>
-            <p *ngFor="let memberAccountEmail of teamPresenter.memberAccountEmals">{{ memberAccountEmail }}</p>
+            <p *ngFor="let memberAccountEmail of teamPresenter.memberAccountEmails">{{ memberAccountEmail }}</p>
             <form #addTeamMemberForm class="form-inline">
               <div class="form-group">
                 <label for="email" class="sr-only">Name</label>

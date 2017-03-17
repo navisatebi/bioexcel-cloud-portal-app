@@ -20,9 +20,9 @@
 
   <accordion [closeOthers]="true" *ngIf="repo.applicationDeployers">
 
-    <div *ngIf="repo.applicationDeployers.length==0">
+    <alert type="info" *ngIf="repo.applicationDeployers.length==0">
       No applications registered yet
-    </div>
+    </alert>
     <!--Owned applications-->
     <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers | applicationCloudProvider:cloudProviderFilters" 
       [isOpen]="openOne==applicationDeployer.name"
