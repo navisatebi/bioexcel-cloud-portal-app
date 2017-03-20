@@ -14,10 +14,10 @@ export class BiotoolsApplicationService {
 
     let headers = new Headers();
     headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
+    // headers.append('Content-Type', 'application/json');
 
     return this._http.get(
-      "https://dev.bio.tools/api/tool/" + "?page=1&format=json&collection=BioExcel",
+      "https://bio.tools/api/tool/" + "?page=1&format=json&collection=BioExcel",
       {
         headers: headers
       }

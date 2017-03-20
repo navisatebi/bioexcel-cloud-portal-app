@@ -53,13 +53,13 @@
         <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
           <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
           <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
-          <h4>Deploy using</h4>
+          <!--<h4>Deploy using</h4>
           <div>
             <select class="form-control" [(ngModel)]="volumeDeployer.selectedCloudProvider">
               <option *ngFor="let provider of volumeDeployer.cloudProviders" value="{{provider}}">
                 {{ provider }}</option>
             </select>
-          </div>
+          </div>-->
           <br/>
           <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
             <button type="button" class="btn btn-primary btn-sm"
