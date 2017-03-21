@@ -3,6 +3,12 @@ export interface BiotoolsApplicationTopic {
   term: string;
 }
 
+export interface BiotoolsApplicationDownload {
+  url: string;
+  comment: string;
+  type: string;
+}
+
 export interface BiotoolsApplication {
   id: string;
   name: string;
@@ -11,5 +17,6 @@ export interface BiotoolsApplication {
   description: string;
   topic: BiotoolsApplicationTopic[];
   resourceType: string[];
+  download: BiotoolsApplicationDownload[];
 }
 

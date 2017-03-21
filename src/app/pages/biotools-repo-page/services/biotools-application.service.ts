@@ -17,7 +17,7 @@ export class BiotoolsApplicationService {
     // headers.append('Content-Type', 'application/json');
 
     return this._http.get(
-      "https://bio.tools/api/tool/" + "?page=1&format=json&collection=BioExcel",
+      "https://bio.tools/api/tool/" + "?page=1&format=json&collectionID=BioExcel",
       {
         headers: headers
       }

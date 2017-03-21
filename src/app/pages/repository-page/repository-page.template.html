@@ -103,12 +103,24 @@
         </div>
         <div class="col-md-4">
           <h5>Inputs</h5>
-          <p *ngIf="applicationDeployer.inputs.length==0">This application defines no inputs</p>
           <div *ngFor="let anInput of applicationDeployer.inputs">
-            <input class="form-control" 
+            <input #{{anInput}}
+              class="form-control" 
               placeholder="{{anInput}}"
               (keyup.enter)="repo.assignInput(applicationDeployer, anInput, $event.target.value)"
               (blur)="repo.assignInput(applicationDeployer, anInput, $event.target.value)">
+          </div>
+          <div *ngFor="let aCloudProvider of applicationDeployer.cloudProviders">
+            <span *ngIf="repo.cloudProviderParametersService.currentlySelectedCloudProviderParameters 
+                && aCloudProvider.cloudProvider==repo.cloudProviderParametersService.currentlySelectedCloudProviderParameters.cloudProvider">
+              <div *ngFor="let anInput of aCloudProvider.inputs">
+                <input #{{anInput}}
+                  class="form-control"
+                  placeholder="{{ anInput }}" 
+                  (keyup.enter)="repo.assignInput(applicationDeployer, anInput, $event.target.value)"
+                  (blur)="repo.assignInput(applicationDeployer, anInput, $event.target.value)">
+              </div>
+            </span>
           </div>
         </div>
         <div class="col-md-4">

@@ -11,5 +11,16 @@
     <p *ngFor="let resourceType of application.resourceType">{{ resourceType }} </p>
     <h5>Description</h5>
     <p>{{ application.description }}</p>
+    <!--Deploy button-->
+    <span *ngIf="application.download && application.download.length>0">
+      <span *ngFor="let aDownload of application.download">
+      <button *ngIf="aDownload.type==='VM image' && aDownload.comment==='BioExcel_Embassy_VM'"
+        type="button" 
+        class="btn btn-primary btn-sm"
+        [disabled]="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+        Deploy
+      </button>
+      </span>
+    </span>
   </accordion-group>
 </accordion>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
-import { ErrorService } from 'ng2-cloud-portal-service-lib';
+import { ErrorService, CloudProviderParametersService } from 'ng2-cloud-portal-service-lib';
 import { ACCORDION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -19,7 +19,8 @@ export class BiotoolsRepoPage {
 
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
-              private _router: Router) {
+              private _router: Router,
+              public cloudProviderParametersService: CloudProviderParametersService) {
     this._updateRepository();
   }
 
