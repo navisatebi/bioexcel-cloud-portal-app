@@ -14,9 +14,19 @@
             class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
           {{ deploymentInstance.applicationName }}
         </div>
-        <h5>Reference</h5>
-        <p>{{ deploymentInstance.reference }}</p>
-
+        <div class="row">
+          <div class="col-md-8">
+            <h5>Reference</h5>
+            <p>{{ deploymentInstance.reference }}</p>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-warning btn-sm pull-right" 
+              [disabled]="deploymentInstance.status != 'DESTROYED' && deploymentInstance.status != 'DESTROYING_FAILED'"
+              (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </div>
+        </div>
         <h5>Status</h5>
         <p>{{ deploymentInstance.status }}</p>
 
@@ -58,13 +68,10 @@
         <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
         <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
         <alert type="error" *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</alert>
-        <button *ngIf="deploymentInstance.status == 'RUNNING'" type="button" class="btn btn-primary btn-sm"
+        <button type="button" class="btn btn-primary btn-sm"
+        [disabled]="deploymentInstance.status != 'RUNNING' && deploymentInstance.status != 'STARTING_FAILED'"
           (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
           Destroy
-        </button>
-        <button *ngIf="deploymentInstance.status == 'DESTROYED'" type="button" class="btn btn-primary btn-sm"
-          (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
-          Remove
         </button>
       </accordion-group>
     </accordion>
