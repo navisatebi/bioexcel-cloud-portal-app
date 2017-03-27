@@ -26,11 +26,19 @@
     <!--Owned applications-->
     <accordion-group *ngFor="let applicationDeployer of repo.applicationDeployers | applicationCloudProvider:cloudProviderFilters" 
       [isOpen]="openOne==applicationDeployer.name"
-      (click)="openOne=applicationDeployer.name"
-      heading="{{ applicationDeployer.name }} v{{ applicationDeployer.version }}">
+      (click)="openOne=applicationDeployer.name">
+      <div accordion-heading>
+        {{ applicationDeployer.name }} v{{ applicationDeployer.version }}
+      </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <p class="lead">{{ applicationDeployer.about }}</p>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-warning btn-sm pull-right" 
+            (click)="repo.removeApplication(applicationDeployer)">
+              <span class="glyphicon glyphicon-trash"></span>
+          </button>
         </div>
       </div>
       <div class="row">
