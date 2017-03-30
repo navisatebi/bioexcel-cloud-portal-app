@@ -16,7 +16,7 @@ export interface BiotoolsApplication {
   homepage: string;
   description: string;
   topic: BiotoolsApplicationTopic[];
-  resourceType: string[];
+  toolType: string[];
   download: BiotoolsApplicationDownload[];
 }
 

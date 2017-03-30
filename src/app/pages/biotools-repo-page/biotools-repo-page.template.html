@@ -1,16 +1,47 @@
 <h3>Elixir Tools and Data Services</h3>
 <accordion [closeOthers]="true" *ngIf="applications">
-  <accordion-group *ngFor="let application of applications" heading="{{ application.name }}">
+  <accordion-group *ngFor="let application of applications">
+    <div accordion-heading>
+      <div class="row">
+        <div class="col-md-12">
+          {{ application.name }}
+          <span class="pull-right">
+            <span
+              *ngIf="application.download.length>0 
+              && application.download[0].type==='VM image' 
+              && application.download[0].comment==='BioExcel_Embassy_VM'"
+            class="glyphicon glyphicon-cloud"></span>
+            <span
+              *ngIf="application.toolType.length>0 && 
+              (application.toolType.indexOf('Web application')>=0
+              || application.toolType.indexOf('Web service')>=0
+              || application.toolType.indexOf('Web API')>=0)"
+            class="glyphicon glyphicon-globe"></span>
+            <span
+              *ngIf="application.toolType.length>0 && 
+              (application.toolType.indexOf('Library')>=0 
+              || application.toolType.indexOf('Command-line tool')>=0 
+              || application.toolType.indexOf('Workbench')>=0 
+              || application.toolType.indexOf('Suite')>=0
+              || application.toolType.indexOf('Desktop application')>=0)"
+            class="glyphicon glyphicon-modal-window"></span>
+          </span>
+       </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">{{ application.description }}</p>
+      </div>
+    </div>
     <h5>Homepage</h5>
     <a href="{{application.homepage}}">{{ application.homepage }}</a>
     <h5>Version</h5>
     <p>{{ application.versionId }}</p>
+    <h5>Tool type</h5>
+    <p *ngFor="let toolType of application.toolType">{{ toolType }} </p>
     <h5>Topics</h5>
     <p *ngFor="let topic of application.topic">{{ topic.term }} </p>
-    <h5>Resource type</h5>
-    <p *ngFor="let resourceType of application.resourceType">{{ resourceType }} </p>
-    <h5>Description</h5>
-    <p>{{ application.description }}</p>
     <!--Deploy button-->
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
