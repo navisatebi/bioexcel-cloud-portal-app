@@ -13,6 +13,8 @@ import { BUTTON_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 export class LoginPage {
 
   removeMessageListener: Function;
+  elixirLogo = 'assets/img/elixir_logo.png';
+  bioExcelLogo = 'assets/img/Bioexcell_logo_1080px_transp-extra-space.png';
 
   constructor(
     private _authService: AuthService,

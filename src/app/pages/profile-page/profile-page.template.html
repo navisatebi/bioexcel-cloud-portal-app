@@ -72,16 +72,27 @@
           (click)="openOne=cloudProviderParameters.name"
           heading="{{ cloudProviderParameters.name }}">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-8">
                 <h4>Provider</h4>
                 <p>{{ cloudProviderParameters.cloudProvider }}</p>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-warning btn-sm pull-right"
+                  (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-8">
                 <h4>Fields</h4>
                 <div *ngFor="let cloudProviderParametersField of cloudProviderParameters.fields">
                   <h5>{{ cloudProviderParametersField.key }}</h5>
                   <p>{{ cloudProviderParametersField.value }}</p>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <h5>Shared with <button
                     class="btn btn-default btn-xs"
                     (click)="shareCloudProviderParametersDialogShowing=!shareCloudProviderParametersDialogShowing">
@@ -119,13 +130,6 @@
                 </span>
               </div>
 
-            </div>
-
-            <div class="row">
-              <div class="col-md-12">
-                <button type="button" class="btn btn-warning btn-sm"
-                (click)="profileComponent.removeCloudProviderParameters(cloudProviderParameters)">Remove</button>
-              </div>
             </div>
 
         </accordion-group>

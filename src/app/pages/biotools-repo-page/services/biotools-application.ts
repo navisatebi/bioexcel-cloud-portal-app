@@ -20,3 +20,9 @@ export interface BiotoolsApplication {
   download: BiotoolsApplicationDownload[];
 }
 
+export interface BiotoolsApplicationPage {
+  count: number;
+  previous: string;
+  next: string;
+  list: BiotoolsApplication[];
+}

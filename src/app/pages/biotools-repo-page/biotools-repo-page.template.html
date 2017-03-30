@@ -1,4 +1,22 @@
-<h3>Elixir Tools and Data Services</h3>
+
+<div class="row">
+    <div class="col-md-9">
+      <h3>Elixir Tools and Data Services</h3>
+    </div>
+    <div class="col-md-3">
+      <pagination [boundaryLinks]="true" 
+                  [totalItems]="totalItems" 
+                  itemsPerPage=25
+                  [(ngModel)]="currentPage" 
+                  class="pagination-sm"
+                  previousText="&lsaquo;" 
+                  nextText="&rsaquo;" 
+                  firstText="&laquo;" 
+                  lastText="&raquo;"
+                  (pageChanged)="pageChanged($event)">
+      </pagination>
+    </div>
+</div>
 <accordion [closeOthers]="true" *ngIf="applications">
   <accordion-group *ngFor="let application of applications">
     <div accordion-heading>
@@ -55,3 +73,21 @@
     </span>
   </accordion-group>
 </accordion>
+<div class="row">
+    <div class="col-md-9">
+      
+    </div>
+    <div class="col-md-3">
+      <pagination [boundaryLinks]="true" 
+                  [totalItems]="totalItems" 
+                  itemsPerPage=25
+                  [(ngModel)]="currentPage" 
+                  class="pagination-sm"
+                  previousText="&lsaquo;" 
+                  nextText="&rsaquo;" 
+                  firstText="&laquo;" 
+                  lastText="&raquo;"
+                  (pageChanged)="pageChanged($event)">
+      </pagination>
+    </div>
+</div>
