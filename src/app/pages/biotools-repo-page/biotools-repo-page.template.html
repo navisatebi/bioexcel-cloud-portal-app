@@ -66,6 +66,7 @@
       <button *ngIf="aDownload.type==='VM image' && aDownload.comment==='BioExcel_Embassy_VM'"
         type="button" 
         class="btn btn-primary btn-sm"
+        (click)="deployBiotoolsApplication(application)"
         [disabled]="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
         Deploy
       </button>

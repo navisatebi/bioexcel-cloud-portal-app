@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
-import { ErrorService, CloudProviderParametersService } from 'ng2-cloud-portal-service-lib';
+import { ErrorService, CloudProviderParametersService,
+    DeploymentService, Application, ApplicationService,
+    CredentialService, TokenService } from 'ng2-cloud-portal-service-lib';
 import { ACCORDION_DIRECTIVES, DROPDOWN_DIRECTIVES,
   PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -23,6 +25,10 @@ export class BiotoolsRepoPage {
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
               private _router: Router,
+              public credentialService: CredentialService,
+              public tokenService: TokenService,
+              public deploymentService: DeploymentService,
+              public applicationService: ApplicationService,
               public cloudProviderParametersService: CloudProviderParametersService) {
     this._updateRepository();
   }
@@ -54,6 +60,46 @@ export class BiotoolsRepoPage {
       },
       () => {
           console.log('[BiotoolsRepoPage] Applications data retrieval complete');
+      }
+    );
+  }
+
+  public deployBiotoolsApplication(application: BiotoolsApplication) {
+
+    console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
+        + application.name + ' from ' + application.download[0].url + ' into %O', 
+        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters);
+
+    this.deploymentService.add(
+        this.credentialService.getUsername(),
+        this.tokenService.getToken(),
+        <Application>{ 
+          name: 'BioExcel launcher',
+          accountEmail: 'jdianes@ebi.ac.uk',
+          repoUri:'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
+        },
+        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters,
+        {},
+        {
+          application_name: application.name,
+          image_source_url: application.download[0].url,
+          network_name: "test_network",
+          floatingip_pool: "net_external"
+        },
+        {},
+        []
+    ).subscribe(
+      deployment  => {
+        console.log('[ApplicationComponent] deployed %O', deployment);
+        this._router.navigateByUrl('/deployments');
+      },
+      error => {
+        console.log('[ApplicationComponent] error %O', error);
+        if (error[0]) {
+          error = error[0];
+        }
+        this._errorService.setCurrentError(error);
+        this._router.navigateByUrl('/error');
       }
     );
   }
