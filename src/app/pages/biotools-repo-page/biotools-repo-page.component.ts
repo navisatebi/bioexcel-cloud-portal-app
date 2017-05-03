@@ -82,6 +82,7 @@ export class BiotoolsRepoPage {
         {},
         {
           application_name: application.name,
+          disk_image: application.name,
           image_source_url: application.download[0].url,
           network_name: "test_network",
           floatingip_pool: "net_external"

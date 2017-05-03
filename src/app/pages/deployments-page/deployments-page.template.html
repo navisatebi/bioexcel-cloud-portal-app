@@ -12,67 +12,82 @@
           <span *ngIf="deploymentInstance.status == 'DESTROYED'" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
           <span *ngIf="deploymentInstance.status == 'STARTING_FAILED' || deploymentInstance.status == 'DESTROYING_FAILED'" 
             class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          {{ deploymentInstance.applicationName }}
+          {{ deploymentInstance.assignedInputs[0].assignedValue }} for BioExcel <small>{{ deploymentInstance.reference }}</small>
         </div>
         <div class="row">
-          <div class="col-md-8">
-            <h5>Reference</h5>
-            <p>{{ deploymentInstance.reference }}</p>
-          </div>
-          <div class="col-md-4">
-            <button type="button" class="btn btn-warning btn-sm pull-right" 
-              [disabled]="deploymentInstance.status != 'DESTROYED' && deploymentInstance.status != 'DESTROYING_FAILED'"
-              (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
+          <div class="col-md-12">
+            <dl class="dl-horizontal">
+              <dt>Reference</dt>
+              <dd>{{ deploymentInstance.reference }}</dd>
+              <dt>Provider</dt>
+              <dd>{{ deploymentInstance.cloudProviderParameters.name }} ({{ deploymentInstance.cloudProviderParameters.cloudProvider }})</dd>
+              <dt>Status</dt>
+              <dd><span class="badge">{{ deploymentInstance.status }}</span></dd>
+            </dl>
           </div>
         </div>
-        <h5>Status</h5>
-        <p>{{ deploymentInstance.status }}</p>
-
         <!--<div *ngIf="deploymentInstance.accessIp">
           <h5>Access IP</h5>
           <p>{{ deploymentInstance.accessIp }}</p>
         </div>-->
         <!--List attached volumes-->
-        <h4>Volumes</h4>
-        <p *ngIf="deploymentInstance.attachedVolumes.length==0">There are no attached volumes for this deployment</p>
-        <div *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
-          <h5>{{ attachedVolume.name }}</h5>
-          <p>attached to {{ attachedVolume.volumeInstanceReference }}</p>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">Volumes</h4>
+          </div>
+          <div class="list-group">
+            <p class="list-group-item" *ngIf="deploymentInstance.attachedVolumes.length==0">No attached data volumes for this deployment</p>
+            <div class="list-group-item" *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
+              <h5>{{ attachedVolume.name }}</h5>
+              <code>{{ attachedVolume.volumeInstanceReference }}</code>
+            </div>
+          </div>
         </div>
+
         <!--List assigned inputs-->
-        <h4>Inputs</h4>
-        <p *ngIf="deploymentInstance.assignedInputs.length==0">There are no assigned inputs for this deployment</p>
-        <div *ngFor="let assignedInput of deploymentInstance.assignedInputs">
-          <h5>{{ assignedInput.inputName }}</h5>
-          <p>{{ assignedInput.assignedValue }}</p>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">Inputs</h4>
+          </div>
+          <div class="list-group">
+            <p class="list-group-item" *ngIf="deploymentInstance.assignedInputs.length==0">No assigned inputs for this deployment</p>
+            <div class="list-group-item" *ngFor="let assignedInput of deploymentInstance.assignedInputs">
+              <h5>{{ assignedInput.inputName }}</h5>
+              <code>{{ assignedInput.assignedValue }}</code>
+            </div>
+          </div>
         </div>
         <!--List generated outputs-->
-        <h4>Outputs</h4>
-        <p *ngIf="deploymentInstance.generatedOutputs.length==0">There are no generated outputs for this deployment</p>
-        <div *ngFor="let generatedOutput of deploymentInstance.generatedOutputs">
-          <h5>{{ generatedOutput.outputName }}</h5>
-          <p>{{ generatedOutput.generatedValue }}</p>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">Outputs</h4>
+          </div>
+          <div class="list-group">
+            <p class="list-group-item" *ngIf="deploymentInstance.generatedOutputs.length==0">No generated outputs for this deployment</p>
+            <div class="list-group-item" *ngFor="let generatedOutput of deploymentInstance.generatedOutputs">
+              <h5>{{ generatedOutput.outputName }}</h5>
+              <code>{{ generatedOutput.generatedValue }}</code>
+            </div>
+          </div>
         </div>
-        <!--Logs-->
-        <!--<h4>Deployment logs
-          <button type="button" class="btn btn-default" (click)="logsShowing=!logsShowing">
-            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-          </button>
-        </h4>
-        <textarea class="logs-text-area" readonly *ngIf="logsShowing">
-          {{ deploymentInstance.logs }}
-        </textarea>-->
-          
-        <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
-        <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
-        <alert type="error" *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</alert>
-        <button type="button" class="btn btn-primary btn-sm"
-        [disabled]="deploymentInstance.status != 'RUNNING' && deploymentInstance.status != 'STARTING_FAILED'"
-          (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
-          Destroy
-        </button>
+        <br/>
+        <div class="row">  
+          <div class="col-md-12">
+            <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
+            <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
+            <!--<alert type="error" *ngIf="deploymentInstance.status == 'STARTING_FAILED'">This deployment failed and there is nor provider data</alert>-->
+            <button type="button" class="btn btn-primary btn-sm"
+            [disabled]="deploymentInstance.status != 'RUNNING' && deploymentInstance.status != 'STARTING_FAILED'"
+              (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
+              Destroy
+            </button>
+            <button type="button" class="btn btn-warning btn-sm pull-right" 
+                  [disabled]="deploymentInstance.status != 'DESTROYED' && deploymentInstance.status != 'DESTROYING_FAILED'"
+                  (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
+                    <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </div>
+        </div>
       </accordion-group>
     </accordion>
 </cp-deployments-component>

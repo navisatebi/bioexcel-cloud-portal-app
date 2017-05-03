@@ -18,7 +18,12 @@
       <!--Left bar-->
       <ul class="nav navbar-nav">
         <!--Applications menu-->
-        <li  *ngIf="tokenService.getToken()" dropdown>
+        <li>
+          <a [routerLinkActive]="['active']" [routerLink]=" ['./biotools'] ">
+          Tools
+          </a>
+        </li>
+        <!--<li  *ngIf="tokenService.getToken()" dropdown>
           <a href [routerLinkActive]="['active']" id="applications-dropdown" dropdownToggle>
             Applications <span class="caret"></span>
           </a>
@@ -34,7 +39,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li>-->
         <!--Deployments menu-->
         <li *ngIf="tokenService.getToken()">
           <a [routerLinkActive]="['active']" [routerLink]=" ['./deployments'] ">
