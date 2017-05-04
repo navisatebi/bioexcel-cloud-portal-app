@@ -12,7 +12,11 @@
           <span *ngIf="deploymentInstance.status == 'DESTROYED'" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
           <span *ngIf="deploymentInstance.status == 'STARTING_FAILED' || deploymentInstance.status == 'DESTROYING_FAILED'" 
             class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          {{ deploymentInstance.assignedInputs[0].assignedValue }} for BioExcel <small>{{ deploymentInstance.reference }}</small>
+            {{ deploymentInstance.applicationName }}
+            <span *ngIf="deploymentInstance.applicationName=='BioExcel launcher'">
+              for {{ deploymentInstance.assignedInputs[0].assignedValue }}
+            </span>
+            <small>{{ deploymentInstance.reference }}</small>
         </div>
         <div class="row">
           <div class="col-md-12">
