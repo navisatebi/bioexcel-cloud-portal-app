@@ -1,0 +1,1 @@
+export * from './about-embassy-page.component';
