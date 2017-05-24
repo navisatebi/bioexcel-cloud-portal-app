@@ -8,6 +8,7 @@ import { DeploymentsPage } from './pages/deployments-page';
 import { VolumesPage } from './pages/volumes-page';
 import { AboutPage } from './pages/about-page';
 import { AboutEmbassyPage } from './pages/about-embassy-page';
+import { AboutAppDBPage } from './pages/about-appdb-page';
 import { BiotoolsRepoPage } from './pages/biotools-repo-page';
 
 export const routes: RouterConfig = [
@@ -20,6 +21,7 @@ export const routes: RouterConfig = [
     { path: 'volumes', component: VolumesPage },
     { path: 'about', component: AboutPage },
     { path: 'embassy', component: AboutEmbassyPage },
+    { path: 'appdb', component: AboutAppDBPage },
     { path: 'biotools', component: BiotoolsRepoPage },
     { path: 'welcome', component: WelcomePage },
     { path: '**', component: WelcomePage },

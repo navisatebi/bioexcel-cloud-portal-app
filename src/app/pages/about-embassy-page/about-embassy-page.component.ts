@@ -10,5 +10,5 @@ export class AboutEmbassyPage {
   ebiLogoBlack = 'assets/img/EMBL_EBI_Logo_black.png';
   ebiLogoLarge = 'assets/img/embl-logo.png';
   ebiLogoOnly = 'assets/img/embl_logo_only.png';
-  embassyLogo = 'assets/img/EmbassyCloud_logo.png';
+  embassyLogo = 'assets/img/EMBASSYCloud_logo.png';
 }
