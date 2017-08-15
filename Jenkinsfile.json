@@ -23,7 +23,7 @@ node {
   }
 
   stage('Deploy') {
-    server = 'centos@192.168.2.137'
+    server = 'centos@192.168.3.23'
     webRoot = '/usr/share/nginx/bioexcel-app/'
     sshagent(credentials: ['ssh-deploy']) {
       sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
