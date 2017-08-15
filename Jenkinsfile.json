@@ -1,0 +1,51 @@
+#!/usr/bin/env groovy
+
+node {
+  stage('Checkout') {
+    checkout scm
+    gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
+  }
+  // Artifact name
+  String archiveName = 'bioexcel-app.tgz'
+
+  withNodeEnv {
+    stage('Build') {
+      sh 'npm install'
+      sh 'npm run build:prod'
+    }
+
+  }
+
+  stage('Archive') {
+    sh "touch dist/${archiveName}"
+    sh "tar -czf dist/${archiveName} --exclude=${archiveName} -C dist/ ."
+    archiveArtifacts artifacts: "**/dist/${archiveName}", fingerprint: true
+  }
+
+  stage('Deploy') {
+    server = 'centos@192.168.2.137'
+    webRoot = '/usr/share/nginx/bioexcel-app/'
+    sshagent(credentials: ['ssh-deploy']) {
+      sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
+      sh "scp dist/${archiveName} ${server}:~"
+      sh "ssh -tt ${server} 'sudo tar -xzf ${archiveName} -C ${webRoot}'"
+      sh "ssh -tt ${server} 'sudo chown root.root -R  ${webRoot}*'"
+    }
+  }
+
+  stage('Cleanup') {
+    sh 'rm -rf dist'
+  }
+}
+
+void withNodeEnv(Closure body) {
+  String nodeTool = tool name: 'ecp-portal-app', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+
+  // Create environment with NodeJS added to the PATH.
+  List nodeEnv = ["PATH+NODE=${nodeTool}/bin", "PATH+NODE_MODULES=./node_modules/.bin"]
+
+    // Invoke the body closure within in the environment with NodeJS added.
+  withEnv(nodeEnv) {
+    body.call()
+  }
+}
