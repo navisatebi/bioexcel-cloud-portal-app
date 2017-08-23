@@ -3,7 +3,6 @@
 node {
   stage('Checkout') {
     checkout scm
-    gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(6)
   }
   // Artifact name
   String archiveName = 'bioexcel-app.tgz'
@@ -13,7 +12,6 @@ node {
       sh 'npm install'
       sh 'npm run build:prod'
     }
-
   }
 
   stage('Archive') {
@@ -44,7 +42,7 @@ void withNodeEnv(Closure body) {
   // Create environment with NodeJS added to the PATH.
   List nodeEnv = ["PATH+NODE=${nodeTool}/bin", "PATH+NODE_MODULES=./node_modules/.bin"]
 
-    // Invoke the body closure within in the environment with NodeJS added.
+  // Invoke the body closure within in the environment with NodeJS added.
   withEnv(nodeEnv) {
     body.call()
   }
