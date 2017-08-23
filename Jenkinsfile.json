@@ -1,38 +1,50 @@
 #!/usr/bin/env groovy
 
 node {
-  stage('Checkout') {
-    checkout scm
-  }
-  // Artifact name
-  String archiveName = 'bioexcel-app.tgz'
 
-  withNodeEnv {
-    stage('Build') {
-      sh 'npm install'
-      sh 'npm run build:prod'
+  try {
+    notifyStarted()
+
+    stage('Checkout') {
+	  checkout scm
     }
-  }
+    // Artifact name
+    String archiveName = 'bioexcel-app.tgz'
 
-  stage('Archive') {
-    sh "touch dist/${archiveName}"
-    sh "tar -czf dist/${archiveName} --exclude=${archiveName} -C dist/ ."
-    archiveArtifacts artifacts: "**/dist/${archiveName}", fingerprint: true
-  }
-
-  stage('Deploy') {
-    server = 'centos@192.168.3.23'
-    webRoot = '/usr/share/nginx/bioexcel-app/'
-    sshagent(credentials: ['ssh-deploy']) {
-      sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
-      sh "scp dist/${archiveName} ${server}:~"
-      sh "ssh -tt ${server} 'sudo tar -xzf ${archiveName} -C ${webRoot}'"
-      sh "ssh -tt ${server} 'sudo chown root.root -R  ${webRoot}*'"
+    withNodeEnv {
+	  stage('Build') {
+	    sh 'npm install'
+	    sh 'npm run build:prod'
+	  }
     }
-  }
 
-  stage('Cleanup') {
-    sh 'rm -rf dist'
+    stage('Archive') {
+	  sh "touch dist/${archiveName}"
+	  sh "tar -czf dist/${archiveName} --exclude=${archiveName} -C dist/ ."
+	  archiveArtifacts artifacts: "**/dist/${archiveName}", fingerprint: true
+    }
+
+    stage('Deploy') {
+	  server = 'centos@192.168.3.23'
+	  webRoot = '/usr/share/nginx/bioexcel-app/'
+	  sshagent(credentials: ['ssh-deploy']) {
+	    sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
+	    sh "scp dist/${archiveName} ${server}:~"
+	    sh "ssh -tt ${server} 'sudo tar -xzf ${archiveName} -C ${webRoot}'"
+	    sh "ssh -tt ${server} 'sudo chown root.root -R  ${webRoot}*'"
+	  }
+    }
+
+    stage('Cleanup') {
+	  sh 'rm -rf dist'
+    }
+
+    notifySuccessful()
+
+  } catch (e) {
+    currentBuild.result = "FAILED"
+    notifyFailed()
+    throw e
   }
 }
 
@@ -46,4 +58,16 @@ void withNodeEnv(Closure body) {
   withEnv(nodeEnv) {
     body.call()
   }
+}
+
+def notifyStarted() {
+  slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+
+def notifySuccessful() {
+  slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+
+def notifyFailed() {
+  slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
