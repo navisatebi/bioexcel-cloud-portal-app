@@ -39,7 +39,7 @@ node {
 }
 
 void withNodeEnv(Closure body) {
-  String nodeTool = tool name: 'ecp-portal-app', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+  String nodeTool = tool name: 'ecp-cloud-portal-app', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
 
   // Create environment with NodeJS added to the PATH.
   List nodeEnv = ["PATH+NODE=${nodeTool}/bin", "PATH+NODE_MODULES=./node_modules/.bin"]
