@@ -2,10 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 import { JwtHelper } from 'angular2-jwt';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule, AccordionModule } from 'ngx-bootstrap';
 
 import { TokenService, AuthService, ConfigService,
   CredentialService, ErrorService, AccountService,
@@ -19,9 +20,12 @@ import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AboutAppDBPageComponent } from './pages/about-appdb-page/about-appdb-page.component';
 import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-embassy-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-repo-page.component';
+import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
 
 
 const appRoutes: Routes = [
+  { path: 'biotools', component: BiotoolsRepoPageComponent },
   { path: 'embassy', component: AboutEmbassyPageComponent },
   { path: 'appdb', component: AboutAppDBPageComponent },
   { path: 'about', component: AboutPageComponent },
@@ -40,13 +44,17 @@ export function provideConfig() {
     AboutAppDBPageComponent,
     AboutEmbassyPageComponent,
     LoginPageComponent,
-    LoginComponent
+    LoginComponent,
+    BiotoolsRepoPageComponent
   ],
   imports: [
+    AccordionModule.forRoot(),
+    PaginationModule.forRoot(),
     BsDropdownModule.forRoot(),
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    HttpModule    
+    HttpModule,
+    FormsModule 
   ],
   entryComponents: [
     
@@ -65,7 +73,9 @@ export function provideConfig() {
     ConfigurationService,
     TeamService,
     CloudProviderParametersService,
-    JwtHelper ],
+    JwtHelper,
+    BiotoolsApplicationService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
