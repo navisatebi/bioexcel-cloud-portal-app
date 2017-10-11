@@ -13,9 +13,10 @@ import { TokenService, AuthService, ConfigService,
   ConfigurationService, CloudProviderParametersService,
   ApplicationService, VolumeInstanceService, VolumeSetupService,
   TeamService, DeploymentService } from 'ng2-cloud-portal-service-lib';
-import { LoginComponent } from 'ng2-cloud-portal-presentation-lib';
+import { LoginComponent, ErrorComponent } from 'ng2-cloud-portal-presentation-lib';
 
 import { AppComponent } from './app.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AboutAppDBPageComponent } from './pages/about-appdb-page/about-appdb-page.component';
 import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-embassy-page.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'appdb', component: AboutAppDBPageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'error', component: ErrorPageComponent },
   { path: '**', component: AboutPageComponent },
 ];
 
@@ -40,6 +42,8 @@ export function provideConfig() {
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorPageComponent,
+    ErrorComponent,
     AboutPageComponent,
     AboutAppDBPageComponent,
     AboutEmbassyPageComponent,
