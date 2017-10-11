@@ -64,15 +64,44 @@
     <!--Deploy button-->
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
-      <button *ngIf="aDownload.type==='VM image' && aDownload.comment==='BioExcel_Embassy_VM'"
-        type="button" 
-        class="btn btn-primary btn-sm"
-        (click)="deployBiotoolsApplication(application)"
-        [disabled]="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
-        Deploy
-      </button>
+        <div class="btn-group" dropdown>
+          <button *ngIf="aDownload.type==='VM image' && aDownload.comment==='BioExcel_Embassy_VM'"
+            type="button" 
+            class="btn btn-primary btn-sm"
+            (click)="deployBiotoolsApplication(application)"
+            [disabled]="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+            Deploy to 
+            <span *ngIf="cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+                {{ cloudProviderParametersService.currentlySelectedCloudProviderParameters.name }} <span class="caret"></span>
+              </span>
+              <span *ngIf="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+                SELECT PROVIDER
+              </span>
+          </button>
+          <!--Select provider menu-->
+          <button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+            <span class="sr-only">Split button!</span>
+          </button>
+            <!-- <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> -->
+          <ul class="dropdown-menu" *dropdownMenu aria-labelledby="simple-dropdown">
+            <li *ngFor="let cloudProviderParameters of cloudProviderParameters">
+              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
+                {{ cloudProviderParameters.name }}
+              </a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li *ngFor="let cloudProviderParameters of sharedCloudProviderParameters">
+              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
+                {{ cloudProviderParameters.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </span>
     </span>
+    
+
   </accordion-group>
 </accordion>
 <div class="row">

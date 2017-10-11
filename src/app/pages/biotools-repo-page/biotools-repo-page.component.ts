@@ -4,7 +4,7 @@ import { BiotoolsApplicationService } from './services/biotools-application.serv
 import { BiotoolsApplication } from './services/biotools-application';
 import { ErrorService, CloudProviderParametersService,
     DeploymentService, Application, ApplicationService,
-    CredentialService, TokenService, Configuration } from 'ng2-cloud-portal-service-lib';
+    CredentialService, TokenService, Configuration, CloudProviderParameters } from 'ng2-cloud-portal-service-lib';
 
 @Component({
   selector: 'biotools-repo-page',
@@ -17,6 +17,8 @@ export class BiotoolsRepoPageComponent {
   public currentPage: number = 1;
 
   applications: BiotoolsApplication[];
+  cloudProviderParameters: CloudProviderParameters[];
+  sharedCloudProviderParameters: CloudProviderParameters[];
 
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
@@ -27,6 +29,7 @@ export class BiotoolsRepoPageComponent {
               public applicationService: ApplicationService,
               public cloudProviderParametersService: CloudProviderParametersService) {
     this._updateRepository();
+    this.updateCloudProviders(true);
   }
 
   public setPage(pageNo: number): void {
@@ -40,6 +43,56 @@ export class BiotoolsRepoPageComponent {
     console.log('Number items per page: ' + event.itemsPerPage);
     this._updateRepository();
   }
+
+  public setCurrentlySelectedCloudProviderParameters(cloudProviderParameters: CloudProviderParameters) {
+    this.cloudProviderParametersService.currentlySelectedCloudProviderParameters = cloudProviderParameters;
+  }
+
+  public updateCloudProviders(open:boolean):void {
+    if (open) {
+        this.cloudProviderParametersService.getAll(
+            this.credentialService.getUsername(),
+            this.tokenService.getToken())
+        .subscribe(
+            cloudProviderParameters => {
+                console.log('[BiotoolsRepoPage] cloud provider parameters data is %O', cloudProviderParameters);
+                this.cloudProviderParameters = cloudProviderParameters
+            },
+            error => {
+                console.log('[BiotoolsRepoPage] error %O', error);
+                if (error[0]) {
+                    error = error[0];
+                }
+                this._errorService.setCurrentError(error);
+                this._router.navigateByUrl('/error');
+            },
+            () => {
+                console.log('[BiotoolsRepoPage] Cloud provider parameters data retrieval complete');
+            }
+        );
+
+        this.cloudProviderParametersService.getAllShared(
+            this.credentialService.getUsername(),
+            this.tokenService.getToken())
+        .subscribe(
+            cloudProviderParameters => {
+                console.log('[BiotoolsRepoPage] shared cloud provider parameters data is %O', cloudProviderParameters);
+                this.sharedCloudProviderParameters = cloudProviderParameters
+            },
+            error => {
+                console.log('[BiotoolsRepoPage] error %O', error);
+                if (error[0]) {
+                    error = error[0];
+                }
+                this._errorService.setCurrentError(error);
+                this._router.navigateByUrl('/error');
+            },
+            () => {
+                console.log('[BiotoolsRepoPage] shared Cloud provider parameters data retrieval complete');
+            }
+        );
+    }
+}
 
   private _updateRepository() {
     this._biotoolsApplicationService.getAll(this.currentPage)
