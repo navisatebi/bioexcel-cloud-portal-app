@@ -75,11 +75,12 @@
                 {{ cloudProviderParametersService.currentlySelectedCloudProviderParameters.name }} <span class="caret"></span>
               </span>
               <span *ngIf="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
-                SELECT PROVIDER
+                SELECT CLOUD
               </span>
           </button>
           <!--Select provider menu-->
-          <button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
+          <button type="button" dropdownToggle (click)="false"
+            class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
             <span class="sr-only">Split button!</span>
           </button>
