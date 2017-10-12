@@ -6,14 +6,15 @@ import { FormsModule } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 import { JwtHelper } from 'angular2-jwt';
-import { BsDropdownModule, PaginationModule, AccordionModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule, AccordionModule,
+  AlertModule } from 'ngx-bootstrap';
 
 import { TokenService, AuthService, ConfigService,
   CredentialService, ErrorService, AccountService,
   ConfigurationService, CloudProviderParametersService,
   ApplicationService, VolumeInstanceService, VolumeSetupService,
   TeamService, DeploymentService } from 'ng2-cloud-portal-service-lib';
-import { LoginComponent, ErrorComponent } from 'ng2-cloud-portal-presentation-lib';
+import { LoginComponent, ErrorComponent, DeploymentsComponent } from 'ng2-cloud-portal-presentation-lib';
 
 import { AppComponent } from './app.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
@@ -23,9 +24,11 @@ import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-emba
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-repo-page.component';
 import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
+import { DeploymentsPageComponent } from './pages/deployments-page/deployments-page.component';
 
 
 const appRoutes: Routes = [
+  { path: 'deployments', component: DeploymentsPageComponent },
   { path: 'biotools', component: BiotoolsRepoPageComponent },
   { path: 'embassy', component: AboutEmbassyPageComponent },
   { path: 'appdb', component: AboutAppDBPageComponent },
@@ -49,7 +52,9 @@ export function provideConfig() {
     AboutEmbassyPageComponent,
     LoginPageComponent,
     LoginComponent,
-    BiotoolsRepoPageComponent
+    BiotoolsRepoPageComponent,
+    DeploymentsPageComponent,
+    DeploymentsComponent
   ],
   imports: [
     AccordionModule.forRoot(),
@@ -58,7 +63,8 @@ export function provideConfig() {
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
-    FormsModule 
+    FormsModule,
+    AlertModule.forRoot()
   ],
   entryComponents: [
     
