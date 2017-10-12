@@ -69,12 +69,12 @@
             type="button" 
             class="btn btn-primary btn-sm"
             (click)="deployBiotoolsApplication(application)"
-            [disabled]="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+            [disabled]="!currentlySelectedConfiguration">
             Deploy to 
-            <span *ngIf="cloudProviderParametersService.currentlySelectedCloudProviderParameters">
-                {{ cloudProviderParametersService.currentlySelectedCloudProviderParameters.name }}
+            <span *ngIf="currentlySelectedConfiguration">
+                {{ currentlySelectedConfiguration.name }}
               </span>
-              <span *ngIf="!cloudProviderParametersService.currentlySelectedCloudProviderParameters">
+              <span *ngIf="!currentlySelectedConfiguration">
                 SELECT CLOUD
               </span>
           </button>
@@ -86,15 +86,15 @@
           </button>
             <!-- <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> -->
           <ul class="dropdown-menu" *dropdownMenu aria-labelledby="simple-dropdown">
-            <li *ngFor="let cloudProviderParameters of cloudProviderParameters">
-              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
-                {{ cloudProviderParameters.name }}
+            <li *ngFor="let configuration of configurations">
+              <a (click)="setCurrentlySelectedConfiguration(configuration)">
+                {{ configuration.name }}
               </a>
             </li>
             <li class="divider dropdown-divider"></li>
-            <li *ngFor="let cloudProviderParameters of sharedCloudProviderParameters">
-              <a (click)="setCurrentlySelectedCloudProviderParameters(cloudProviderParameters)">
-                {{ cloudProviderParameters.name }}
+            <li *ngFor="let configuration of sharedConfigurations">
+              <a (click)="setCurrentlySelectedConfiguration(configuration)">
+                {{ configuration.name }}
               </a>
             </li>
           </ul>

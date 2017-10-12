@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
-import { ErrorService, CloudProviderParametersService,
-    DeploymentService, Application, ApplicationService,
-    CredentialService, TokenService, Configuration, CloudProviderParameters } from 'ng2-cloud-portal-service-lib';
+import { ErrorService, DeploymentService, Application, ApplicationService,
+    CredentialService, TokenService, Configuration, ConfigurationService
+  } from 'ng2-cloud-portal-service-lib';
 
 @Component({
   selector: 'biotools-repo-page',
@@ -17,8 +17,9 @@ export class BiotoolsRepoPageComponent {
   public currentPage: number = 1;
 
   applications: BiotoolsApplication[];
-  cloudProviderParameters: CloudProviderParameters[];
-  sharedCloudProviderParameters: CloudProviderParameters[];
+  configurations: ConfigurationService[];
+  sharedConfigurations: ConfigurationService[];
+  currentlySelectedConfiguration: Configuration;
 
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
@@ -27,9 +28,9 @@ export class BiotoolsRepoPageComponent {
               public tokenService: TokenService,
               public deploymentService: DeploymentService,
               public applicationService: ApplicationService,
-              public cloudProviderParametersService: CloudProviderParametersService) {
+              public configurationService: ConfigurationService) {
     this._updateRepository();
-    this.updateCloudProviders(true);
+    this.updateConfigurations(true);
   }
 
   public setPage(pageNo: number): void {
@@ -44,19 +45,19 @@ export class BiotoolsRepoPageComponent {
     this._updateRepository();
   }
 
-  public setCurrentlySelectedCloudProviderParameters(cloudProviderParameters: CloudProviderParameters) {
-    this.cloudProviderParametersService.currentlySelectedCloudProviderParameters = cloudProviderParameters;
+  public setCurrentlySelectedConfiguration(configuration: Configuration) {
+    this.currentlySelectedConfiguration = configuration;
   }
 
-  public updateCloudProviders(open:boolean):void {
+  public updateConfigurations(open:boolean):void {
     if (open) {
-        this.cloudProviderParametersService.getAll(
+        this.configurationService.getAll(
             this.credentialService.getUsername(),
             this.tokenService.getToken())
         .subscribe(
-            cloudProviderParameters => {
-                console.log('[BiotoolsRepoPage] cloud provider parameters data is %O', cloudProviderParameters);
-                this.cloudProviderParameters = cloudProviderParameters
+            configurations => {
+                console.log('[BiotoolsRepoPage] configurations data is %O', configurations);
+                this.configurations = configurations
             },
             error => {
                 console.log('[BiotoolsRepoPage] error %O', error);
@@ -67,17 +68,17 @@ export class BiotoolsRepoPageComponent {
                 this._router.navigateByUrl('/error');
             },
             () => {
-                console.log('[BiotoolsRepoPage] Cloud provider parameters data retrieval complete');
+                console.log('[BiotoolsRepoPage] configurations data retrieval complete');
             }
         );
 
-        this.cloudProviderParametersService.getAllShared(
+        this.configurationService.getAllSharedConfigurations(
             this.credentialService.getUsername(),
             this.tokenService.getToken())
         .subscribe(
-            cloudProviderParameters => {
-                console.log('[BiotoolsRepoPage] shared cloud provider parameters data is %O', cloudProviderParameters);
-                this.sharedCloudProviderParameters = cloudProviderParameters
+            sharedConfigurations => {
+                console.log('[BiotoolsRepoPage] shared configurations data is %O', sharedConfigurations);
+                this.sharedConfigurations = sharedConfigurations
             },
             error => {
                 console.log('[BiotoolsRepoPage] error %O', error);
@@ -88,7 +89,7 @@ export class BiotoolsRepoPageComponent {
                 this._router.navigateByUrl('/error');
             },
             () => {
-                console.log('[BiotoolsRepoPage] shared Cloud provider parameters data retrieval complete');
+                console.log('[BiotoolsRepoPage] shared configurations data retrieval complete');
             }
         );
     }
@@ -117,7 +118,7 @@ export class BiotoolsRepoPageComponent {
 
     console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
         + application.name + ' from ' + application.download[0].url + ' into %O', 
-        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters);
+        this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
         this.credentialService.getUsername(),
@@ -127,7 +128,7 @@ export class BiotoolsRepoPageComponent {
           accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
         },
-        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters,
+        null,
         {},
         {
           application_name: application.name,
@@ -135,7 +136,7 @@ export class BiotoolsRepoPageComponent {
           image_source_url: application.download[0].url
         },
         {},
-        <Configuration>{}
+        <Configuration>this.currentlySelectedConfiguration
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
