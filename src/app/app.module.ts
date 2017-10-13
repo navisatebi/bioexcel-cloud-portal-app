@@ -28,6 +28,7 @@ import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/
 import { DeploymentsPageComponent } from './pages/deployments-page/deployments-page.component';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { AddCloudProviderModalComponent } from './pages/profile-page/add-cloud-provider-modal.component';
 import { VolumesPageComponent } from './pages/volumes-page/volumes-page.component';
 
 
@@ -54,6 +55,7 @@ export function provideConfig() {
     WelcomePageComponent,
     ProfilePageComponent,
     ProfileComponent,
+    AddCloudProviderModalComponent,
     VolumesPageComponent,
     VolumesComponent,
     ErrorPageComponent,
@@ -81,7 +83,7 @@ export function provideConfig() {
     ReactiveFormsModule
   ],
   entryComponents: [
-    
+    AddCloudProviderModalComponent
   ],
   providers: [
     { provide: ConfigService, useFactory: provideConfig },

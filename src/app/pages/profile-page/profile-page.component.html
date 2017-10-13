@@ -8,10 +8,8 @@
       <template tabHeading>
         <i class="glyphicon glyphicon-cloud"></i>
       </template>
-      <button class="add-app-button btn btn-primary btn-sm" 
-        (click)="profileComponent.addCloudProviderParametersFormShowing=!profileComponent.addCloudProviderParametersFormShowing">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
+      <button type="button" class="add-app-button btn btn-primary btn-sm" 
+      (click)="openAddCloudProviderModal()"><span class="glyphicon glyphicon-plus"></span></button>
 
       <div *ngIf="profileComponent.addCloudProviderParametersFormShowing">
         <h3>Add cloud provider</h3>
