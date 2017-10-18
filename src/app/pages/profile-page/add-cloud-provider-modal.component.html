@@ -52,7 +52,7 @@
 <div *ngIf="profileComponent" class="modal-footer">
   <button type="submit" class="btn btn-primary"
   [disabled]="profileComponent.cloudProviderParametersForm.controls['name'].hasError('required') || profileComponent.cloudProviderParametersForm.controls['cloudProvider'].hasError('required')"
-  (click)="profileComponent.addCloudProviderParameters(profileComponent.cloudProviderParametersForm.value); bsModalRef.hide()">Add</button>
+  (click)="profileComponent.addCloudProviderParameters(profileComponent.cloudProviderParametersForm.value); bsModalRef.hide(); profileComponent.cloudProviderParametersForm.reset()">Add</button>
 
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); profileComponent.cloudProviderParametersForm.reset()">Close</button>
 </div>

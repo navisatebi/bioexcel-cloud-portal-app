@@ -11,51 +11,6 @@
       <button type="button" class="add-app-button btn btn-primary btn-sm" 
       (click)="openAddCloudProviderModal()"><span class="glyphicon glyphicon-plus"></span></button>
 
-      <div *ngIf="profileComponent.addCloudProviderParametersFormShowing">
-        <h3>Add cloud provider</h3>
-        <form [formGroup]="profileComponent.cloudProviderParametersForm" autocomplete="off">
-          <!--Name-->
-          <div class="form-group">
-            <label for="name" class="sr-only">Name</label>
-            <input class="form-control" id="name" 
-              type="text" placeholder="Credentials name" [formControl]="profileComponent.cloudProviderParametersForm.controls['name']" autofocus>
-          </div>
-          <!--Provider-->
-          <div class="form-group">
-            <label for="cloudProvider" class="sr-only">Cloud Provider</label>
-            <input class="form-control" id="cloudProvider" 
-              type="text" placeholder="Cloud provider" [formControl]="profileComponent.cloudProviderParametersForm.controls['cloudProvider']" autofocus>
-          </div>
-          <!--Fields-->
-          <h4>Parameters <button type="button" class="btn btn-default btn-sm" (click)="profileComponent.addNewCloudProviderParametersFormField()">
-              <span class="glyphicon glyphicon-plus"></span> 
-          </button></h4>
-          <div *ngFor="let fieldFormGroup of profileComponent.cloudProviderParametersForm.controls['fields'].controls">
-            <form class="form-inline" [formGroup]="fieldFormGroup">
-              <div class="form-group">
-                <input class="form-control"
-                  type="text" 
-                  placeholder="Enter parameter key" 
-                  [formControl]="fieldFormGroup.controls['key']" 
-                  autofocus>
-              </div>
-              <div class="form-group">
-                <input class="form-control" 
-                  type="text" 
-                  placeholder="Enter parameter value" 
-                  [formControl]="fieldFormGroup.controls['value']" 
-                  autofocus>
-              </div>
-            </form>
-            <br/>
-          </div>
-          <button type="submit" class="btn btn-default"
-            [disabled]="profileComponent.cloudProviderParametersForm.controls['name'].hasError('required') || profileComponent.cloudProviderParametersForm.controls['cloudProvider'].hasError('required')"
-            (click)="profileComponent.addCloudProviderParameters(profileComponent.cloudProviderParametersForm.value); profileComponent.addCloudProviderParametersFormShowing = false">Add</button>
-        </form>
-        <br/>
-      </div>
-
       <!--Credentials-->
       <alert type="info" 
         *ngIf="profileComponent.cloudProviderParametersPresenters && profileComponent.cloudProviderParametersPresenters.length==0 
@@ -169,26 +124,10 @@
         <i class="glyphicon glyphicon-user"></i>
       </template>
 
-      <button class="add-app-button btn btn-primary btn-sm" (click)="profileComponent.addTeamFormShowing=!profileComponent.addTeamFormShowing">
+      <button class="add-app-button btn btn-primary btn-sm" 
+        (click)="openAddTeamModal()">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
-
-      <div *ngIf="profileComponent.addTeamFormShowing">
-        <form [formGroup]="profileComponent.teamForm" autocomplete="off">
-          <h3>Create new team</h3>
-          <!--Name-->
-          <div class="form-group">
-            <label for="name" class="sr-only">Name</label>
-            <input class="form-control" id="name" 
-              type="text" placeholder="Team name" [formControl]="profileComponent.teamForm.controls['name']" autofocus>
-          </div>
-          <button type="submit" class="btn btn-default"
-          [disabled]="profileComponent.teamForm.controls['name'].hasError('required')"
-          (click)="profileComponent.addTeam(profileComponent.teamForm.value); profileComponent.addTeamFormShowing = false">Add</button>
-        </form>
-        <alert type="warning" *ngIf="profileComponent.teamForm.controls['name'].length>0 && !profileComponent.teamForm.controls['name'].valid">Name is invalid</alert>
-        <br/>
-      </div>
 
       <accordion [closeOthers]="true" *ngIf="profileComponent.teamPresenters">
         <alert type="info" *ngIf="profileComponent.teamPresenters.length==0">

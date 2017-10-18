@@ -29,6 +29,7 @@ import { DeploymentsPageComponent } from './pages/deployments-page/deployments-p
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { AddCloudProviderModalComponent } from './pages/profile-page/add-cloud-provider-modal.component';
+import { AddTeamModalComponent } from './pages/profile-page/add-team-modal.component';
 import { VolumesPageComponent } from './pages/volumes-page/volumes-page.component';
 
 
@@ -56,6 +57,7 @@ export function provideConfig() {
     ProfilePageComponent,
     ProfileComponent,
     AddCloudProviderModalComponent,
+    AddTeamModalComponent,
     VolumesPageComponent,
     VolumesComponent,
     ErrorPageComponent,
@@ -83,7 +85,8 @@ export function provideConfig() {
     ReactiveFormsModule
   ],
   entryComponents: [
-    AddCloudProviderModalComponent
+    AddCloudProviderModalComponent,
+    AddTeamModalComponent
   ],
   providers: [
     { provide: ConfigService, useFactory: provideConfig },
