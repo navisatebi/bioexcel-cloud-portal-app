@@ -30,7 +30,7 @@ export class BiotoolsRepoPageComponent {
               public applicationService: ApplicationService,
               public configurationService: ConfigurationService) {
     this._updateRepository();
-    this.updateConfigurations(true);
+    if (this.tokenService.getToken()) this.updateConfigurations(true);
   }
 
   public setPage(pageNo: number): void {
