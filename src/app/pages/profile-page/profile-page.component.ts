@@ -4,6 +4,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { AddCloudProviderModalComponent } from './add-cloud-provider-modal.component';
 import { AddTeamModalComponent } from './add-team-modal.component';
+import { AddConfigurationModalComponent } from './add-configuration-modal.component';
+import { AddDeploymentParametersModalComponent } from './add-deployment-parameters-modal.component';
 
 @Component({
   selector: 'profile-page',
@@ -25,9 +27,21 @@ export class ProfilePageComponent {
     this.bsModalRef.content.profileComponent = this.profileComponent;
   }
 
+  public openAddDeploymentParametersModal() {
+    this.bsModalRef = this.modalService.show(AddDeploymentParametersModalComponent);
+    this.bsModalRef.content.title = 'New Deployment Parameters';
+    this.bsModalRef.content.profileComponent = this.profileComponent;
+  }
+
   public openAddTeamModal() {
     this.bsModalRef = this.modalService.show(AddTeamModalComponent);
     this.bsModalRef.content.title = 'New Team';
+    this.bsModalRef.content.profileComponent = this.profileComponent;
+  }
+
+  public openAddConfigurationModal() {
+    this.bsModalRef = this.modalService.show(AddConfigurationModalComponent);
+    this.bsModalRef.content.title = 'New Configuration';
     this.bsModalRef.content.profileComponent = this.profileComponent;
   }
 

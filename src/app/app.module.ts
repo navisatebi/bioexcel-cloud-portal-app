@@ -29,7 +29,9 @@ import { DeploymentsPageComponent } from './pages/deployments-page/deployments-p
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { AddCloudProviderModalComponent } from './pages/profile-page/add-cloud-provider-modal.component';
+import { AddDeploymentParametersModalComponent } from './pages/profile-page/add-deployment-parameters-modal.component';
 import { AddTeamModalComponent } from './pages/profile-page/add-team-modal.component';
+import { AddConfigurationModalComponent } from './pages/profile-page/add-configuration-modal.component';
 import { VolumesPageComponent } from './pages/volumes-page/volumes-page.component';
 
 
@@ -58,6 +60,8 @@ export function provideConfig() {
     ProfileComponent,
     AddCloudProviderModalComponent,
     AddTeamModalComponent,
+    AddConfigurationModalComponent,
+    AddDeploymentParametersModalComponent,    
     VolumesPageComponent,
     VolumesComponent,
     ErrorPageComponent,
@@ -86,7 +90,9 @@ export function provideConfig() {
   ],
   entryComponents: [
     AddCloudProviderModalComponent,
-    AddTeamModalComponent
+    AddTeamModalComponent,
+    AddConfigurationModalComponent,
+    AddDeploymentParametersModalComponent
   ],
   providers: [
     { provide: ConfigService, useFactory: provideConfig },

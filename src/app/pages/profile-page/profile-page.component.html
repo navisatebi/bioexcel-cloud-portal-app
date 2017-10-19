@@ -4,6 +4,110 @@
     <h4>{{ profileComponent.account.email }}</h4>
   </div>
   <tabset>
+    <tab heading="Configurations">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-cloud"></i>
+      </template>
+      <button type="button" 
+        class="add-app-button btn btn-primary btn-sm" 
+        (click)="openAddConfigurationModal()">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+      <alert type="info" 
+        *ngIf="profileComponent.configurationPresenters && profileComponent.configurationPresenters.length==0 
+              && profileComponent.sharedconfigurationPresenters && profileComponent.sharedconfigurationPresenters.length==0">
+          No cloud providers available yet
+      </alert>
+      <accordion [closeOthers]="true">
+        <!--Owned configs-->
+        <span *ngIf="profileComponent.configurationPresenters">
+        <accordion-group *ngFor="let configuration of profileComponent.configurationPresenters" 
+          [isOpen]="openOne==configuration.name"
+          (click)="openOne=configuration.name"
+          heading="{{ configuration.name }}">
+            <div class="row">
+              <div class="col-md-8">
+                <h4>Cloud provider</h4>
+                <p>{{ configuration.cloudProviderParametersName }}</p>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-warning btn-sm pull-right"
+                  (click)="profileComponent.removeConfiguration(configuration)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <h4>Deployment parametersr</h4>
+                <p>{{ configuration.deploymentParametersName }}</p>
+              </div>
+              
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Shared with <button
+                    class="btn btn-default btn-xs"
+                    (click)="shareConfigurationDialogShowing=!shareConfigurationDialogShowing">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button></h5>
+                <span *ngIf="shareConfigurationDialogShowing">
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <input placeholder="Share with (required)" [(ngModel)]="shareWith" name="shareWith" autofocus>
+                    </div>
+                    <button 
+                    type="submit" class="btn btn-default btn-sm"
+                    [disabled]="!shareWith || shareWith.length==0"
+                    (click)="profileComponent.shareConfiguration(configuration, shareWith); shareConfigurationDialogShowing = false">
+                    Share</button>
+                  </form>
+                </span>
+
+                <span *ngIf="configuration.sharedWithTeamNames && configuration.sharedWithTeamNames.length>0">
+                  <p *ngFor="let teamName of configuration.sharedWithTeamNames">
+                    <button *ngIf="!configuration.isShared"
+                    class="btn btn-default btn-xs"
+                    (click)="profileComponent.unshareConfiguration(configuration, teamName)">
+                      <span class="glyphicon glyphicon-remove"></span> 
+                    </button> {{ teamName }}
+                  </p>
+                </span>
+              </div>
+
+            </div>
+
+        </accordion-group>
+        </span>
+
+        <!--Shared configs-->
+        <span *ngIf="profileComponent.sharedConfigurationPresenters">
+        <accordion-group *ngFor="let configuration of profileComponent.sharedConfigurationPresenters" 
+          [isOpen]="openOne==configuration.name+'-shared'"
+          (click)="openOne=configuration.name+'-shared'"
+          heading="{{ configuration.name }} SHARED">
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Cloud provider</h4>
+              <p>{{ configuration.cloudProviderParametersName }}</p>
+            </div>
+            <div class="col-md-6">
+              <h5>Owned by</h5>
+              <p>{{ configuration.accountUsername }}</p>
+              <span *ngIf="configuration.sharedWithTeamNames && configuration.sharedWithTeamNames.length>0">
+                <h5>Included in teams</h5>
+                <p *ngFor="let teamName of configuration.sharedWithTeamNames">
+                  {{ teamName }}
+                </p>
+              </span>
+            </div>
+          </div>
+        </accordion-group>
+        </span>
+      </accordion>
+    </tab>
+
     <tab heading="Cloud Providers">
       <template tabHeading>
         <i class="glyphicon glyphicon-cloud"></i>
