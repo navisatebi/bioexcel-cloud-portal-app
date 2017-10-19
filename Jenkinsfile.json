@@ -14,7 +14,7 @@ node {
     withNodeEnv {
 	  stage('Build') {
 	    sh 'npm install'
-	    sh 'npm run build:prod'
+	    sh 'ng build --env=prod --progress=false'
 	  }
     }
 
