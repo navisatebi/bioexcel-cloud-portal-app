@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { BiotoolsApplication, BiotoolsApplicationPage } from './biotools-application';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BiotoolsApplicationService {
