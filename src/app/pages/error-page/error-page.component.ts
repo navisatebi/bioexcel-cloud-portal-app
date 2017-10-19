@@ -3,10 +3,9 @@ import { ErrorComponent } from 'ng2-cloud-portal-presentation-lib';
 
 @Component({
   selector: 'error-page',
-  directives: [ ErrorComponent ],
-  styles: [ require('./error-page.style.css') ],
-  template: require('./error-page.template.html')
+  styleUrls: [ './error-page.component.css' ],
+  templateUrl: './error-page.component.html'
 })
-export class ErrorPage {
+export class ErrorPageComponent {
 
 }

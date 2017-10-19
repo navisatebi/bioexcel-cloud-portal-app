@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'about-page',
-  styles: [ require('./about-page.style.css') ],
-  template: require('./about-page.template.html')
+  styleUrls: [ './about-page.component.css' ],
+  templateUrl:'./about-page.component.html'
 })
-export class AboutPage {
+export class AboutPageComponent {
   ebiLogoWhite = 'assets/img/EMBL_EBI_Logo_white.png';
   ebiLogoBlack = 'assets/img/EMBL_EBI_Logo_black.png';
   ebiLogoLarge = 'assets/img/embl-logo.png';

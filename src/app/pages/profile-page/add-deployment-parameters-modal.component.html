@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="profileComponent" [formGroup]="profileComponent.deploymentParametersForm" autocomplete="off">
+    <!--Name-->
+    <div class="form-group">
+      <label for="name" class="sr-only">Name</label>
+      <input class="form-control" id="name" 
+        type="text" placeholder="Parameters name" [formControl]="profileComponent.deploymentParametersForm.controls['name']" autofocus>
+    </div>
+    <!--Fields-->
+    <h4>Parameters <button type="button" class="btn btn-default btn-sm" (click)="profileComponent.addNewDeploymentParametersFormField()">
+        <span class="glyphicon glyphicon-plus"></span> 
+    </button></h4>
+    <div *ngFor="let fieldFormGroup of profileComponent.deploymentParametersForm.controls['fields'].controls">
+      <form class="form-inline" [formGroup]="fieldFormGroup">
+        <div class="form-group">
+          <input class="form-control"
+            type="text" 
+            placeholder="Enter parameter key" 
+            [formControl]="fieldFormGroup.controls['key']" 
+            autofocus>
+        </div>
+        <div class="form-group">
+          <input class="form-control" 
+            type="text" 
+            placeholder="Enter parameter value" 
+            [formControl]="fieldFormGroup.controls['value']" 
+            autofocus>
+        </div>
+      </form>
+      <br/>
+    </div>
+      </form>
+</div>
+
+<div *ngIf="profileComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  [disabled]="profileComponent.deploymentParametersForm.controls['name'].hasError('required')"
+  (click)="profileComponent.addDeploymentParameters(profileComponent.deploymentParametersForm.value); bsModalRef.hide(); profileComponent.deploymentParametersForm.reset()">Add</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); profileComponent.deploymentParametersForm.reset()">Close</button>
+</div>

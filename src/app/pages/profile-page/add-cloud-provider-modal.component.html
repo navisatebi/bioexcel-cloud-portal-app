@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="profileComponent" [formGroup]="profileComponent.cloudProviderParametersForm" autocomplete="off">
+    <!--Name-->
+    <div class="form-group">
+      <label for="name" class="sr-only">Name</label>
+      <input class="form-control" id="name" 
+        type="text" placeholder="Credentials name" [formControl]="profileComponent.cloudProviderParametersForm.controls['name']" autofocus>
+    </div>
+    <!--Provider-->
+    <div class="form-group">
+        <label for="cloudProvider">Cloud Provider</label>
+        <select class="form-control" id="cloudProvider"
+        [formControl]="profileComponent.cloudProviderParametersForm.controls['cloudProvider']">
+          <option>AWS</option>
+          <option>AZURE</option>
+          <option>GCP</option>
+          <option>OSTACK</option>
+        </select>
+      </div>
+    <!--Fields-->
+    <h4>Parameters <button type="button" class="btn btn-default btn-sm" (click)="profileComponent.addNewCloudProviderParametersFormField()">
+        <span class="glyphicon glyphicon-plus"></span> 
+    </button></h4>
+    <div *ngFor="let fieldFormGroup of profileComponent.cloudProviderParametersForm.controls['fields'].controls">
+      <form class="form-inline" [formGroup]="fieldFormGroup">
+        <div class="form-group">
+          <input class="form-control"
+            type="text" 
+            placeholder="Enter parameter key" 
+            [formControl]="fieldFormGroup.controls['key']" 
+            autofocus>
+        </div>
+        <div class="form-group">
+          <input class="form-control" 
+            type="text" 
+            placeholder="Enter parameter value" 
+            [formControl]="fieldFormGroup.controls['value']" 
+            autofocus>
+        </div>
+      </form>
+      <br/>
+    </div>
+      </form>
+</div>
+
+<div *ngIf="profileComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  [disabled]="profileComponent.cloudProviderParametersForm.controls['name'].hasError('required') || profileComponent.cloudProviderParametersForm.controls['cloudProvider'].hasError('required')"
+  (click)="profileComponent.addCloudProviderParameters(profileComponent.cloudProviderParametersForm.value); bsModalRef.hide(); profileComponent.cloudProviderParametersForm.reset()">Add</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); profileComponent.cloudProviderParametersForm.reset()">Close</button>
+</div>

@@ -1,0 +1,14 @@
+<cp-error-component #errorComponent>
+<div>
+  <h2>
+    Sorry, there is a problem...
+  </h2>
+  <h4 *ngIf="errorComponent.getErrorMessage()">
+    Cause: {{ errorComponent.getErrorMessage() }}
+  </h4>
+  <h4 *ngIf="!errorComponent.getErrorMessage()">
+    Cause: The exact error could not be determined
+  </h4>
+  
+</div>
+</cp-error-component>

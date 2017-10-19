@@ -1,0 +1,97 @@
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img class="nav-logo" alt="BioExcel" [src]="bioexcelLogo">
+        </a>
+      </div>
+  
+      <div id="navbar" class="">
+        <!--Left bar-->
+        <ul class="nav navbar-nav">
+          <!--Applications menu-->
+          <li>
+            <a [routerLinkActive]="['active']" [routerLink]=" ['./biotools'] ">
+            Tools
+            </a>
+          </li>
+          <!--Deployments menu-->
+          <li *ngIf="tokenService.getToken()">
+            <a [routerLinkActive]="['active']" [routerLink]=" ['./deployments'] ">
+            Deployments
+            </a>
+          </li>
+          <!--Volumes menu-->
+          <li *ngIf="tokenService.getToken()">
+            <a [routerLinkActive]="['active']" [routerLink]=" ['./volumes'] ">
+            Data Volumes
+            </a>
+          </li>
+        </ul>
+        <!--Right bar-->
+        <ul class="nav navbar-nav navbar-right">
+          <!--Login menu-->
+          <li *ngIf="!tokenService.getToken()">
+            <a router-active [routerLink]=" ['./login'] ">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              Login
+            </a>
+          </li>
+          <!--Profile menu-->
+          <li *ngIf="tokenService.getToken()" dropdown>
+            <a href id="applications-dropdown" dropdownToggle (click)="false">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              {{ credentialService.getGivenName() }} <span class="caret"></span>
+            </a>
+            <ul *dropdownMenu class="dropdown-menu" aria-labelledby="simple-dropdown">
+              <li>
+                <a router-active [routerLink]=" ['./profile'] ">
+                  Profile
+                </a>
+              </li>
+              <li *ngIf="tokenService.getToken()">
+                <a router-active (click)="logOut()">
+                Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+  
+          <!--Help menu-->
+          <li dropdown>
+            <a href id="applications-dropdown" dropdownToggle (click)="false">
+              <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            </a>
+            <ul class="dropdown-menu" *dropdownMenu aria-labelledby="simple-dropdown">
+              <li>
+                <a router-active [routerLink]=" ['./about'] ">
+                  About the BioExcel Cloud Portal
+                </a>
+              </li>
+  
+              <li>
+                <a router-active [routerLink]=" ['./embassy'] ">
+                  The EBI Embassy Cloud
+                </a>
+              </li>
+  
+              <li>
+                <a router-active [routerLink]=" ['./appdb'] ">
+                  EGI AppDB
+                </a>
+              </li>
+            </ul>
+          </li>
+  
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container-fluid">
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+  </div>
+  

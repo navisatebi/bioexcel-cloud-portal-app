@@ -2,25 +2,24 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
-import { ErrorService, CloudProviderParametersService,
-    DeploymentService, Application, ApplicationService,
-    CredentialService, TokenService } from 'ng2-cloud-portal-service-lib';
-import { ACCORDION_DIRECTIVES, DROPDOWN_DIRECTIVES,
-  PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import { ErrorService, DeploymentService, Application, ApplicationService,
+    CredentialService, TokenService, Configuration, ConfigurationService
+  } from 'ng2-cloud-portal-service-lib';
 
 @Component({
   selector: 'biotools-repo-page',
-  styles: [require('./biotools-repo-page.style.css')],
-  template: require('./biotools-repo-page.template.html'),
-  providers: [ BiotoolsApplicationService ],
-  directives: [ ACCORDION_DIRECTIVES, DROPDOWN_DIRECTIVES, PAGINATION_DIRECTIVES ]
+  styleUrls: [ './biotools-repo-page.component.css' ],
+  templateUrl:  './biotools-repo-page.component.html',
 })
-export class BiotoolsRepoPage {
+export class BiotoolsRepoPageComponent {
 
   public totalItems: number;
   public currentPage: number = 1;
 
   applications: BiotoolsApplication[];
+  configurations: ConfigurationService[];
+  sharedConfigurations: ConfigurationService[];
+  currentlySelectedConfiguration: Configuration;
 
   constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
@@ -29,8 +28,9 @@ export class BiotoolsRepoPage {
               public tokenService: TokenService,
               public deploymentService: DeploymentService,
               public applicationService: ApplicationService,
-              public cloudProviderParametersService: CloudProviderParametersService) {
+              public configurationService: ConfigurationService) {
     this._updateRepository();
+    this.updateConfigurations(true);
   }
 
   public setPage(pageNo: number): void {
@@ -44,6 +44,56 @@ export class BiotoolsRepoPage {
     console.log('Number items per page: ' + event.itemsPerPage);
     this._updateRepository();
   }
+
+  public setCurrentlySelectedConfiguration(configuration: Configuration) {
+    this.currentlySelectedConfiguration = configuration;
+  }
+
+  public updateConfigurations(open:boolean):void {
+    if (open) {
+        this.configurationService.getAll(
+            this.credentialService.getUsername(),
+            this.tokenService.getToken())
+        .subscribe(
+            configurations => {
+                console.log('[BiotoolsRepoPage] configurations data is %O', configurations);
+                this.configurations = configurations
+            },
+            error => {
+                console.log('[BiotoolsRepoPage] error %O', error);
+                if (error[0]) {
+                    error = error[0];
+                }
+                this._errorService.setCurrentError(error);
+                this._router.navigateByUrl('/error');
+            },
+            () => {
+                console.log('[BiotoolsRepoPage] configurations data retrieval complete');
+            }
+        );
+
+        this.configurationService.getAllSharedConfigurations(
+            this.credentialService.getUsername(),
+            this.tokenService.getToken())
+        .subscribe(
+            sharedConfigurations => {
+                console.log('[BiotoolsRepoPage] shared configurations data is %O', sharedConfigurations);
+                this.sharedConfigurations = sharedConfigurations
+            },
+            error => {
+                console.log('[BiotoolsRepoPage] error %O', error);
+                if (error[0]) {
+                    error = error[0];
+                }
+                this._errorService.setCurrentError(error);
+                this._router.navigateByUrl('/error');
+            },
+            () => {
+                console.log('[BiotoolsRepoPage] shared configurations data retrieval complete');
+            }
+        );
+    }
+}
 
   private _updateRepository() {
     this._biotoolsApplicationService.getAll(this.currentPage)
@@ -68,17 +118,17 @@ export class BiotoolsRepoPage {
 
     console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
         + application.name + ' from ' + application.download[0].url + ' into %O', 
-        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters);
+        this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
         this.credentialService.getUsername(),
         this.tokenService.getToken(),
         <Application>{ 
           name: 'BioExcel launcher',
-          accountEmail: 'jdianes@ebi.ac.uk',
+          accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
         },
-        this.cloudProviderParametersService.currentlySelectedCloudProviderParameters,
+        null,
         {},
         {
           application_name: application.name,
@@ -86,7 +136,7 @@ export class BiotoolsRepoPage {
           image_source_url: application.download[0].url
         },
         {},
-        []
+        <Configuration>this.currentlySelectedConfiguration
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);

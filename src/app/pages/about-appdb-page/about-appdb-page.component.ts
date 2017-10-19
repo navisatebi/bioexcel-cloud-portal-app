@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'about-appdb-page',
-  styles: [ require('./about-appdb-page.style.css') ],
-  template: require('./about-appdb-page.template.html')
+  styleUrls: [ './about-appdb-page.component.css' ],
+  templateUrl: './about-appdb-page.component.html'
 })
-export class AboutAppDBPage {
+export class AboutAppDBPageComponent {
   appdbLogo = 'assets/img/appdb_logo.png';
 }

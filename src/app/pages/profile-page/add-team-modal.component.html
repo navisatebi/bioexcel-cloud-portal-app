@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form *ngIf="profileComponent" [formGroup]="profileComponent.teamForm" autocomplete="off">
+    <!--Name-->
+    <div class="form-group">
+      <label for="name" class="sr-only">Name</label>
+      <input class="form-control" id="name" 
+        type="text" placeholder="Team name" [formControl]="profileComponent.teamForm.controls['name']" autofocus>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="profileComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  [disabled]="profileComponent.teamForm.controls['name'].length>0 || profileComponent.teamForm.controls['name'].hasError('required')"
+  (click)="profileComponent.addTeam(profileComponent.teamForm.value); bsModalRef.hide(); profileComponent.teamForm.reset()">Add</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); profileComponent.teamForm.reset()">Close</button>
+</div>

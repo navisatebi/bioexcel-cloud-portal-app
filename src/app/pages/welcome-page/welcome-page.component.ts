@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import { AboutPage } from '../about-page';
-import { LoginPage } from '../login-page';
-import { BiotoolsRepoPage } from '../biotools-repo-page';
 import { CredentialService } from 'ng2-cloud-portal-service-lib';
 
 @Component({
   selector: 'welcome-page',
-  template: require('./welcome-page.template.html'),
-  directives: [ AboutPage, LoginPage, BiotoolsRepoPage ]
+  templateUrl: './welcome-page.component.html'
 })
-export class WelcomePage {
+export class WelcomePageComponent {
   constructor( public credentialService: CredentialService ) {
 
   }
