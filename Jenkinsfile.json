@@ -6,37 +6,39 @@ node {
     notifyStarted()
 
     stage('Checkout') {
-	  checkout scm
+	    checkout scm
     }
     // Artifact name
     String archiveName = 'bioexcel-app.tgz'
 
     withNodeEnv {
-	  stage('Build') {
-	    sh 'npm install'
-	    sh 'ng build --env=prod --progress=false'
-	  }
+      stage('Build') {
+        sh 'npm install'
+        sh 'ng build --env=prod --progress=false'
+      }
     }
 
-    stage('Archive') {
-	  sh "touch dist/${archiveName}"
-	  sh "tar -czf dist/${archiveName} --exclude=${archiveName} -C dist/ ."
-	  archiveArtifacts artifacts: "**/dist/${archiveName}", fingerprint: true
-    }
+    if (env.BRANCH_NAME == 'master') {
+      stage('Archive') {
+        sh "touch dist/${archiveName}"
+        sh "tar -czf dist/${archiveName} --exclude=${archiveName} -C dist/ ."
+        archiveArtifacts artifacts: "**/dist/${archiveName}", fingerprint: true
+      }
 
-    stage('Deploy') {
-	  server = 'centos@192.168.3.23'
-	  webRoot = '/usr/share/nginx/bioexcel-app/'
-	  sshagent(credentials: ['ssh-deploy']) {
-	    sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
-	    sh "scp dist/${archiveName} ${server}:~"
-	    sh "ssh -tt ${server} 'sudo tar -xzf ${archiveName} -C ${webRoot}'"
-	    sh "ssh -tt ${server} 'sudo chown root.root -R  ${webRoot}*'"
-	  }
+      stage('Deploy') {
+        server = 'centos@192.168.3.23'
+        webRoot = '/usr/share/nginx/bioexcel-app/'
+        sshagent(credentials: ['ssh-deploy']) {
+          sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
+          sh "scp dist/${archiveName} ${server}:~"
+          sh "ssh -tt ${server} 'sudo tar -xzf ${archiveName} -C ${webRoot}'"
+          sh "ssh -tt ${server} 'sudo chown root.root -R  ${webRoot}*'"
+        }
+      }
     }
 
     stage('Cleanup') {
-	  sh 'rm -rf dist'
+	    sh 'rm -rf dist'
     }
 
     notifySuccessful()
