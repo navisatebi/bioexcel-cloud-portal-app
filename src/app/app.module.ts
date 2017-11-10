@@ -25,6 +25,7 @@ import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-emba
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-repo-page.component';
 import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
+import { DeployBiotoolModalComponent } from './pages/biotools-repo-page/deploy-biotool-modal.component';
 import { DeploymentsPageComponent } from './pages/deployments-page/deployments-page.component';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
@@ -72,6 +73,7 @@ export function provideConfig() {
     LoginPageComponent,
     LoginComponent,
     BiotoolsRepoPageComponent,
+    DeployBiotoolModalComponent,
     DeploymentsPageComponent,
     DeploymentsComponent
   ],
@@ -92,7 +94,8 @@ export function provideConfig() {
     AddCloudProviderModalComponent,
     AddTeamModalComponent,
     AddConfigurationModalComponent,
-    AddDeploymentParametersModalComponent
+    AddDeploymentParametersModalComponent,
+    DeployBiotoolModalComponent
   ],
   providers: [
     { provide: ConfigService, useFactory: provideConfig },
@@ -109,7 +112,8 @@ export function provideConfig() {
     TeamService,
     CloudProviderParametersService,
     JwtHelper,
-    BiotoolsApplicationService
+    BiotoolsApplicationService,
+    BiotoolsRepoPageComponent
 ],
   bootstrap: [AppComponent]
 })

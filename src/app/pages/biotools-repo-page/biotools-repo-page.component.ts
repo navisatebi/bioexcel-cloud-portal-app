@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
+import { NgForm, FormBuilder, Validators, FormControl, FormArray, FormGroup } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
 import { ErrorService, DeploymentService, Application, ApplicationService,
     CredentialService, TokenService, Configuration, ConfigurationService
   } from 'ng2-cloud-portal-service-lib';
+import { DeployBiotoolModalComponent } from './deploy-biotool-modal.component';
 
 @Component({
   selector: 'biotools-repo-page',
@@ -16,21 +20,29 @@ export class BiotoolsRepoPageComponent {
   public totalItems: number;
   public currentPage: number = 1;
 
+  bsModalRef: BsModalRef;
   applications: BiotoolsApplication[];
+  selectedApplication: BiotoolsApplication;
   configurations: ConfigurationService[];
   sharedConfigurations: ConfigurationService[];
   currentlySelectedConfiguration: Configuration;
+  newBioToolsDeploymentForm: FormGroup;
 
-  constructor(private _biotoolsApplicationService: BiotoolsApplicationService,
+  constructor(      private fb: FormBuilder,
+              private _biotoolsApplicationService: BiotoolsApplicationService,
               private _errorService: ErrorService,
               private _router: Router,
               public credentialService: CredentialService,
               public tokenService: TokenService,
               public deploymentService: DeploymentService,
               public applicationService: ApplicationService,
-              public configurationService: ConfigurationService) {
+              public configurationService: ConfigurationService,
+              private modalService: BsModalService) {
     this._updateRepository();
     if (this.tokenService.getToken()) this.updateConfigurations(true);
+    this.newBioToolsDeploymentForm = this.fb.group({
+      'sshKey': ['']
+    });
   }
 
   public setPage(pageNo: number): void {
@@ -114,7 +126,7 @@ export class BiotoolsRepoPageComponent {
     );
   }
 
-  public deployBiotoolsApplication(application: BiotoolsApplication) {
+  public deployBiotoolsApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
         + application.name + ' from ' + application.download[0].url + ' into %O', 
@@ -136,7 +148,7 @@ export class BiotoolsRepoPageComponent {
         },
         {},
         <Configuration>this.currentlySelectedConfiguration,
-        null
+        sshKey
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
@@ -151,5 +163,11 @@ export class BiotoolsRepoPageComponent {
         this._router.navigateByUrl('/error');
       }
     );
+  }
+
+  public openDeployBiotoolModal() {
+    this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
+    this.bsModalRef.content.title = 'Deploy tool';
+    this.bsModalRef.content.biotoolsRepoPageComponent = this;
   }
 }
