@@ -15,6 +15,7 @@
   </form>
 </div>
 
+
 <div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
   <button type="submit" class="btn btn-primary"
   (click)="biotoolsRepoPageComponent.deployBiotoolsApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
