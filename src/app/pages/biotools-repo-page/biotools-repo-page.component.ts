@@ -132,11 +132,11 @@ export class BiotoolsRepoPageComponent {
         {},
         {
           application_name: application.name,
-          disk_image: application.name,
           image_source_url: application.download[0].url
         },
         {},
-        <Configuration>this.currentlySelectedConfiguration
+        <Configuration>this.currentlySelectedConfiguration,
+        null
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
