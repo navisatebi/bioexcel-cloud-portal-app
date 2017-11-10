@@ -69,7 +69,7 @@
           <button *ngIf="aDownload.type==='VM image' && aDownload.comment==='BioExcel_Embassy_VM'"
             type="button" 
             class="btn btn-primary btn-sm"
-            (click)="deployBiotoolsApplication(application)"
+            (click)="selectedApplication=application; openDeployBiotoolModal()"
             [disabled]="!currentlySelectedConfiguration">
             Deploy to 
             <span *ngIf="currentlySelectedConfiguration">
@@ -123,3 +123,11 @@
       </pagination>
     </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>

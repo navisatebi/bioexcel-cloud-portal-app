@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="biotoolsRepoPageComponent" [formGroup]="biotoolsRepoPageComponent.newBioToolsDeploymentForm" autocomplete="off">
+    <!--SSH key-->
+    <div class="form-group">
+      <label for="sshKey" class="sr-only">SSH Key</label>
+      <input class="form-control" id="sshKey" 
+        type="text" placeholder="SSH key" [formControl]="biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey']" autofocus>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  (click)="biotoolsRepoPageComponent.deployBiotoolsApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Close</button>
+</div>
