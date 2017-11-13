@@ -50,6 +50,15 @@
           </div>
         </div>
         <!--List of consumed resources-->
+        <div *ngIf="!deploymentInstance.deployedTime" class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">Cloud resources</h4>
+            </div>
+            <div class="list-group">
+              <p *ngIf="!deploymentInstance.failedTime" class="list-group-item">Waiting for resource usage data...</p>
+              <p *ngIf="deploymentInstance.failedTime" class="list-group-item">This deployment failed</p>
+            </div>
+        </div>
         <div *ngIf="deploymentInstance.deployedTime" class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">Cloud resources</h4>
@@ -78,12 +87,11 @@
             </div>
           </div>
         <!--List assigned inputs-->
-        <div class="panel panel-default">
+        <div *ngIf="deploymentInstance.assignedInputs && deploymentInstance.assignedInputs.length>0" class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">Inputs</h4>
           </div>
           <div class="list-group">
-            <p class="list-group-item" *ngIf="deploymentInstance.assignedInputs.length==0">No assigned inputs for this deployment</p>
             <div class="list-group-item" *ngFor="let assignedInput of deploymentInstance.assignedInputs">
               <h5>{{ assignedInput.inputName }}</h5>
               <code>{{ assignedInput.assignedValue }}</code>
@@ -91,12 +99,11 @@
           </div>
         </div>
         <!--List attached volumes-->
-        <div class="panel panel-default">
+        <div *ngIf="deploymentInstance.attachedVolumes && deploymentInstance.attachedVolumes.length>0" class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">Volumes</h4>
             </div>
             <div class="list-group">
-              <p class="list-group-item" *ngIf="deploymentInstance.attachedVolumes.length==0">No attached data volumes for this deployment</p>
               <div class="list-group-item" *ngFor="let attachedVolume of deploymentInstance.attachedVolumes">
                 <h5>{{ attachedVolume.name }}</h5>
                 <code>{{ attachedVolume.volumeInstanceReference }}</code>
