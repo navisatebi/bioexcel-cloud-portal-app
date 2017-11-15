@@ -248,6 +248,9 @@
           <div>
             <h5>Owner</h5>
             <p>{{ teamPresenter.ownerAccountEmail }}</p>
+            <h5>Configurations</h5>
+            <p *ngIf="!teamPresenter.configurationNames || teamPresenter.configurationNames==0">No configurations in <em>{{ teamPresenter.name }}</em></p>
+            <p *ngFor="let configurationName of teamPresenter.configurationNames">{{ configurationName }}</p>
             <h5>Members</h5>
             <p *ngFor="let memberAccountEmail of teamPresenter.memberAccountEmails">{{ memberAccountEmail }}</p>
             <form #addTeamMemberForm class="form-inline">

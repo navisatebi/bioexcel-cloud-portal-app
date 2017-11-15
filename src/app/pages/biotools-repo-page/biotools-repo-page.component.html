@@ -87,13 +87,13 @@
           </button>
             <!-- <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> -->
           <ul class="dropdown-menu" *dropdownMenu aria-labelledby="simple-dropdown">
-            <li *ngFor="let configuration of configurations">
+            <li *ngFor="let configuration of configurations | bioexcelConfiguration">
               <a (click)="setCurrentlySelectedConfiguration(configuration)">
                 {{ configuration.name }}
               </a>
             </li>
             <li class="divider dropdown-divider"></li>
-            <li *ngFor="let configuration of sharedConfigurations">
+            <li *ngFor="let configuration of sharedConfigurations | bioexcelConfiguration">
               <a (click)="setCurrentlySelectedConfiguration(configuration)">
                 {{ configuration.name }}
               </a>
