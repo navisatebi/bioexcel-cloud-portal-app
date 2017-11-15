@@ -25,6 +25,7 @@ import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-emba
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-repo-page.component';
 import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
+import { BioExcelConfigurationPipe } from './pages/biotools-repo-page/bioexcel-configuration.pipe';
 import { DeployBiotoolModalComponent } from './pages/biotools-repo-page/deploy-biotool-modal.component';
 import { DeploymentsPageComponent } from './pages/deployments-page/deployments-page.component';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
@@ -75,7 +76,8 @@ export function provideConfig() {
     BiotoolsRepoPageComponent,
     DeployBiotoolModalComponent,
     DeploymentsPageComponent,
-    DeploymentsComponent
+    DeploymentsComponent,
+    BioExcelConfigurationPipe
   ],
   imports: [
     ModalModule.forRoot(),
