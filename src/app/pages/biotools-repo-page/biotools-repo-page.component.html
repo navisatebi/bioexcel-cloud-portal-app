@@ -114,7 +114,7 @@
           <button
             type="button" 
             class="btn btn-primary btn-sm"
-            (click)="selectedApplication=application; openDeployNfsClientModal()"
+            (click)="selectedApplicationForNfs=application; openDeployNfsClientModal()"
             [disabled]="!currentlySelectedConfigurationForNfs">
             Deploy NFS client to 
             <span *ngIf="currentlySelectedConfigurationForNfs">
