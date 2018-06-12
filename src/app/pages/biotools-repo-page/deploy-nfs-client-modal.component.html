@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>You can provide your public SSH to this deployment. Leave it blank if not needed.</p>
+  <form *ngIf="biotoolsRepoPageComponent" [formGroup]="biotoolsRepoPageComponent.newNfsClientDeploymentForm" autocomplete="off">
+    <!--SSH key-->
+    <div class="form-group">
+      <label for="sshKey" class="sr-only">SSH Key</label>
+      <input class="form-control" id="sshKey" 
+        type="text" placeholder="SSH key" [formControl]="biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['sshKey']" autofocus>
+      <input class="form-control" id="nfsServerHost" 
+        type="text" placeholder="NFS server host" [formControl]="biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['nfsServerHost']" autofocus>
+      <input class="form-control" id="nfsRemoteFolder" 
+        type="text" placeholder="NFS remote folder" [formControl]="biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['nfsRemoteFolder']" autofocus>
+    </div>
+  </form>
+</div>
+
+
+<div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  (click)="biotoolsRepoPageComponent.deployNfsClientApplication(biotoolsRepoPageComponent.selectedApplicationForNfs, biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newNfsClientDeploymentForm.reset()">Confirm</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newNfsClientDeploymentForm.reset()">Close</button>
+</div>
