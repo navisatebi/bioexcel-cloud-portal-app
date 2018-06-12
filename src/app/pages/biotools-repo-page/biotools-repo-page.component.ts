@@ -199,7 +199,7 @@ export class BiotoolsRepoPageComponent {
           image_source_url: application.download[0].url
         },
         {},
-        <Configuration>this.currentlySelectedConfiguration,
+        <Configuration>this.currentlySelectedConfigurationForNfs,
         sshKey
     ).subscribe(
       deployment  => {
