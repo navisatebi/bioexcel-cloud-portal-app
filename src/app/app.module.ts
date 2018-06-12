@@ -27,6 +27,7 @@ import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-r
 import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
 import { BioExcelConfigurationPipe } from './pages/biotools-repo-page/bioexcel-configuration.pipe';
 import { DeployBiotoolModalComponent } from './pages/biotools-repo-page/deploy-biotool-modal.component';
+import { DeployNfsClientModalComponent } from './pages/biotools-repo-page/deploy-nfs-client-modal.component';
 import { DeploymentsPageComponent } from './pages/deployments-page/deployments-page.component';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
@@ -75,6 +76,7 @@ export function provideConfig() {
     LoginComponent,
     BiotoolsRepoPageComponent,
     DeployBiotoolModalComponent,
+    DeployNfsClientModalComponent,
     DeploymentsPageComponent,
     DeploymentsComponent,
     BioExcelConfigurationPipe
@@ -97,7 +99,8 @@ export function provideConfig() {
     AddTeamModalComponent,
     AddConfigurationModalComponent,
     AddDeploymentParametersModalComponent,
-    DeployBiotoolModalComponent
+    DeployBiotoolModalComponent,
+    DeployNfsClientModalComponent
   ],
   providers: [
     { provide: ConfigService, useFactory: provideConfig },
