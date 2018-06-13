@@ -178,7 +178,7 @@ export class BiotoolsRepoPageComponent {
     );
   }
 
-  public deployNfsClientApplication(application: BiotoolsApplication, sshKey: string) {
+  public deployNfsClientApplication(application: BiotoolsApplication, sshKey: string, nfsServerHost: string) {
 
     console.log('[BiotoolsRepoPage] Adding NFS client deployment for application '
         + application.name + ' from ' + application.download[0].url + ' into %O', 
@@ -195,8 +195,7 @@ export class BiotoolsRepoPageComponent {
         null,
         {},
         {
-          application_name: application.name,
-          image_source_url: application.download[0].url
+          nfs_server_host: nfsServerHost,
         },
         {},
         <Configuration>this.currentlySelectedConfigurationForNfs,

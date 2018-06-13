@@ -23,7 +23,12 @@
 
 <div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
   <button type="submit" class="btn btn-primary"
-  (click)="biotoolsRepoPageComponent.deployNfsClientApplication(biotoolsRepoPageComponent.selectedApplicationForNfs, biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newNfsClientDeploymentForm.reset()">Confirm</button>
+  (click)="biotoolsRepoPageComponent.deployNfsClientApplication(
+    biotoolsRepoPageComponent.selectedApplicationForNfs, 
+    biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['sshKey'].value, 
+    biotoolsRepoPageComponent.newNfsClientDeploymentForm.controls['nfsServerHost'].value); 
+    bsModalRef.hide(); 
+    biotoolsRepoPageComponent.newNfsClientDeploymentForm.reset()">Confirm</button>
 
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newNfsClientDeploymentForm.reset()">Close</button>
 </div>
