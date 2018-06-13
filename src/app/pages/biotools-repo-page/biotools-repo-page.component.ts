@@ -195,6 +195,7 @@ export class BiotoolsRepoPageComponent {
         null,
         {},
         {
+          application_name: application.name,
           nfs_server_host: nfsServerHost,
         },
         {},
