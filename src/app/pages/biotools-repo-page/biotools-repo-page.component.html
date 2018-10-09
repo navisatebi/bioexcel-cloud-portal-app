@@ -26,7 +26,7 @@
             <span
               *ngIf="application.download.length>0 
               && application.download[0].type==='VM image' 
-              && (application.download[0].comment==='BioExcel_Embassy_VM' || application.download[0].comment==='BioExcel_Embassy_NFS_Image')"
+              && (application.download[0].comment==='BioExcel_Embassy_VM' || application.download[0].comment==='BioExcel_Embassy_NFS_Image' || application.download[0].comment==='BioExcel_Embassy_ECP_Image')"
             class="glyphicon glyphicon-cloud"></span>
             <span
               *ngIf="application.toolType.length>0 && 

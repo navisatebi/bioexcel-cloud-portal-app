@@ -199,7 +199,7 @@ export class BiotoolsRepoPageComponent {
         this.credentialService.getUsername(),
         this.tokenService.getToken(),
         <Application>{ 
-          name: 'BioExcel image',
+          name: 'Generic instance',
           accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-instance'
         },
