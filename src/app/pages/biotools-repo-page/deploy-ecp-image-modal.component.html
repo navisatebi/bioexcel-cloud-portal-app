@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>You can provide your public SSH to this deployment. Leave it blank if not needed.</p>
+  <form *ngIf="biotoolsRepoPageComponent" [formGroup]="biotoolsRepoPageComponent.newEcpImageDeploymentForm" autocomplete="off">
+    <!--SSH key-->
+    <div class="form-group">
+      <label for="sshKey" class="sr-only">SSH Key</label>
+      <input class="form-control" id="sshKey" 
+        type="text" placeholder="SSH key" [formControl]="biotoolsRepoPageComponent.newEcpImageDeploymentForm.controls['sshKey']" autofocus>
+    </div>
+  </form>
+</div>
+
+
+<div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+  (click)="biotoolsRepoPageComponent.deployEcpImageApplication(
+    biotoolsRepoPageComponent.selectedApplicationForEcp, 
+    biotoolsRepoPageComponent.newEcpImageDeploymentForm.controls['sshKey'].value); 
+    bsModalRef.hide(); 
+    biotoolsRepoPageComponent.newEcpImageDeploymentForm.reset()">Confirm</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newEcpImageDeploymentForm.reset()">Close</button>
+</div>

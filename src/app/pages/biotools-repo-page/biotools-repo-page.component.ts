@@ -10,6 +10,7 @@ import { ErrorService, DeploymentService, Application, ApplicationService,
   } from 'ng2-cloud-portal-service-lib';
 import { DeployBiotoolModalComponent } from './deploy-biotool-modal.component';
 import { DeployNfsClientModalComponent } from './deploy-nfs-client-modal.component';
+import { DeployEcpImageModalComponent } from './deploy-ecp-image-modal.component';
 
 @Component({
   selector: 'biotools-repo-page',
@@ -25,12 +26,15 @@ export class BiotoolsRepoPageComponent {
   applications: BiotoolsApplication[];
   selectedApplication: BiotoolsApplication;
   selectedApplicationForNfs: BiotoolsApplication;
+  selectedApplicationForEcp: BiotoolsApplication;
   configurations: ConfigurationService[];
   sharedConfigurations: ConfigurationService[];
   currentlySelectedConfiguration: Configuration;
   currentlySelectedConfigurationForNfs: Configuration;
+  currentlySelectedConfigurationForEcp: Configuration;
   newBioToolsDeploymentForm: FormGroup;
   newNfsClientDeploymentForm: FormGroup;
+  newEcpImageDeploymentForm: FormGroup;
 
   constructor(      private fb: FormBuilder,
               private _biotoolsApplicationService: BiotoolsApplicationService,
@@ -45,6 +49,9 @@ export class BiotoolsRepoPageComponent {
     this._updateRepository();
     if (this.tokenService.getToken()) this.updateConfigurations(true);
     this.newBioToolsDeploymentForm = this.fb.group({
+      'sshKey': ['']
+    });
+    this.newEcpImageDeploymentForm = this.fb.group({
       'sshKey': ['']
     });
     this.newNfsClientDeploymentForm = this.fb.group({
@@ -72,6 +79,10 @@ export class BiotoolsRepoPageComponent {
 
   public setCurrentlySelectedConfigurationForNfs(configuration: Configuration) {
     this.currentlySelectedConfigurationForNfs = configuration;
+  }
+
+  public setCurrentlySelectedConfigurationForEcp(configuration: Configuration) {
+    this.currentlySelectedConfigurationForEcp = configuration;
   }
 
   public updateConfigurations(open:boolean):void {
@@ -178,6 +189,44 @@ export class BiotoolsRepoPageComponent {
     );
   }
 
+  public deployEcpImageApplication(application: BiotoolsApplication, sshKey: string) {
+
+    console.log('[BiotoolsRepoPage] Adding ECP image deployment for application '
+        + application.name + ' from ' + application.download[0].url + ' into %O', 
+        this.currentlySelectedConfiguration);
+
+    this.deploymentService.add(
+        this.credentialService.getUsername(),
+        this.tokenService.getToken(),
+        <Application>{ 
+          name: 'BioExcel image',
+          accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
+          repoUri:'https://github.com/EMBL-EBI-TSI/cpa-instance'
+        },
+        null,
+        {},
+        {
+          application_name: application.name
+        },
+        {},
+        <Configuration>this.currentlySelectedConfigurationForEcp,
+        sshKey
+    ).subscribe(
+      deployment  => {
+        console.log('[ApplicationComponent] deployed %O', deployment);
+        this._router.navigateByUrl('/deployments');
+      },
+      error => {
+        console.log('[ApplicationComponent] error %O', error);
+        if (error[0]) {
+          error = error[0];
+        }
+        this._errorService.setCurrentError(error);
+        this._router.navigateByUrl('/error');
+      }
+    );
+  }
+
   public deployNfsClientApplication(application: BiotoolsApplication, sshKey: string, nfsServerHost: string) {
 
     console.log('[BiotoolsRepoPage] Adding NFS client deployment for application '
@@ -225,6 +274,12 @@ export class BiotoolsRepoPageComponent {
 
   public openDeployNfsClientModal() {
     this.bsModalRef = this.modalService.show(DeployNfsClientModalComponent);
+    this.bsModalRef.content.title = 'Deploy NFS client';
+    this.bsModalRef.content.biotoolsRepoPageComponent = this;
+  }
+
+  public openDeployEcpImageModal() {
+    this.bsModalRef = this.modalService.show(DeployEcpImageModalComponent);
     this.bsModalRef.content.title = 'Deploy NFS client';
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
   }
