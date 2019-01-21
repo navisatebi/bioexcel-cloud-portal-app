@@ -5,7 +5,7 @@ export interface BiotoolsApplicationTopic {
 
 export interface BiotoolsApplicationDownload {
   url: string;
-  comment: string;
+  note: string;
   type: string;
 }
 
@@ -26,3 +26,4 @@ export interface BiotoolsApplicationPage {
   next: string;
   list: BiotoolsApplication[];
 }
+
