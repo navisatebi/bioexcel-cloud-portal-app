@@ -108,8 +108,8 @@
     <!--Deploy button ECP image-->
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
-        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note.includes('BioExcel_Embassy_ECP_Image')" >You need to log in to deploy this application</alert>
-        <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note.includes('BioExcel_Embassy_ECP_Image')"
+        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_ECP_Image')" >You need to log in to deploy this application</alert>
+        <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_ECP_Image')"
          class="btn-group" dropdown>
           <button
             type="button" 
@@ -151,8 +151,8 @@
     <!--Deploy button NFS-->
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
-        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note.includes('BioExcel_Embassy_NFS_Image')" >You need to log in to deploy this application</alert>
-        <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note.includes('BioExcel_Embassy_NFS_Image')"
+        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_NFS_Image')" >You need to log in to deploy this application</alert>
+        <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_NFS_Image')"
          class="btn-group" dropdown>
           <button
             type="button" 
