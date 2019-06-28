@@ -64,7 +64,7 @@ export class BiotoolsRepoPageComponent {
   public setPage(pageNo: number): void {
     this.currentPage = pageNo;
   }
- 
+
   public pageChanged(event: any): void {
     this.currentPage = event.page;
     console.log('Page changed to: ' + event.page);
@@ -153,15 +153,15 @@ export class BiotoolsRepoPageComponent {
   public deployBiotoolsApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O', 
+        + application.name + ' from ' + application.download[0].url + ' into %O',
         this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
         this.credentialService.getUsername(),
         this.tokenService.getToken(),
-        <Application>{ 
+        <Application>{
           name: 'BioExcel launcher',
-          accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
+          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
         },
         null,
@@ -192,15 +192,15 @@ export class BiotoolsRepoPageComponent {
   public deployEcpImageApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding ECP image deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O', 
+        + application.name + ' from ' + application.download[0].url + ' into %O',
         this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
         this.credentialService.getUsername(),
         this.tokenService.getToken(),
-        <Application>{ 
+        <Application>{
           name: 'Generic server instance',
-          accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
+          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-instance'
         },
         null,
@@ -230,15 +230,15 @@ export class BiotoolsRepoPageComponent {
   public deployNfsClientApplication(application: BiotoolsApplication, sshKey: string, nfsServerHost: string) {
 
     console.log('[BiotoolsRepoPage] Adding NFS client deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O', 
+        + application.name + ' from ' + application.download[0].url + ' into %O',
         this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
         this.credentialService.getUsername(),
         this.tokenService.getToken(),
-        <Application>{ 
+        <Application>{
           name: 'NFS-Client',
-          accountUsername: 'usr-e8ea687c-d04f-45ba-99e1-3515649141a7',
+          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
           repoUri:'https://github.com/EMBL-EBI-TSI/cpa-nfs-client'
         },
         null,
