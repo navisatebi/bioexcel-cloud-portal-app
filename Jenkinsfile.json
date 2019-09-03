@@ -9,7 +9,7 @@ node {
 	    checkout scm
     }
     // Artifact name
-    String archiveName = 'bioexcel-app.tgz'
+    String archiveName = '${params.APP_NAME}.tgz'
 
     withNodeEnv {
       stage('Build') {
@@ -26,7 +26,7 @@ node {
 
     stage('Deploy') {
       server = 'centos@192.168.3.23'
-      webRoot = '/usr/share/nginx/bioexcel-app/'
+      webRoot = '/usr/share/nginx/${params.APP_NAME}/'
       sshagent(credentials: ['ssh-deploy']) {
         sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
         sh "scp dist/${archiveName} ${server}:~"
