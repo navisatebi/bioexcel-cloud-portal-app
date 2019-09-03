@@ -8,8 +8,11 @@ node {
     stage('Checkout') {
 	    checkout scm
     }
+    
+    def APP_NAME = params.APP_NAME
+    echo "App name : ${APP_NAME}"
     // Artifact name
-    String archiveName = '${params.APP_NAME}.tgz'
+    String archiveName = '${APP_NAME}.tgz'
 
     withNodeEnv {
       stage('Build') {
@@ -26,7 +29,7 @@ node {
 
     stage('Deploy') {
       server = 'centos@192.168.3.23'
-      webRoot = '/usr/share/nginx/${params.APP_NAME}/'
+      webRoot = '/usr/share/nginx/${APP_NAME}/'
       sshagent(credentials: ['ssh-deploy']) {
         sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
         sh "scp dist/${archiveName} ${server}:~"
