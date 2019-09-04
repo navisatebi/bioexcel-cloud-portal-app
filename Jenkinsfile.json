@@ -4,14 +4,24 @@ node {
 
   try {
     notifyStarted()
-
+    echo 'Job name : ' + env.JOB_NAME
+    
     stage('Checkout') {
 	    checkout scm
     }
     
+    String appDirectory = 'bioexcel-app-dev'
+    String environment = 'DEV'
+    
+    if(env.JOB_NAME.endsWith("bioexcel-app")){
+      environment = 'PROD'
+      appDirectory = 'bioexcel-app'
+    }
+    
+    echo 'Build Environment : ' + environment
     // Artifact name
-    String archiveName = 'bioexcel-app.tgz'
-
+    String archiveName = "${appDirectory}.tgz"
+    
     withNodeEnv {
       stage('Build') {
         sh 'npm install'
@@ -27,7 +37,7 @@ node {
 
     stage('Deploy') {
       server = 'centos@192.168.3.23'
-      webRoot = '/usr/share/nginx/bioexcel-app/'
+      webRoot = "/usr/share/nginx/${appDirectory}/"
       sshagent(credentials: ['ssh-deploy']) {
         sh "ssh -tt ${server} 'sudo rm -rf ${webRoot}*'"
         sh "scp dist/${archiveName} ${server}:~"
