@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiAddress: 'http://localhost:8080/',
-  authAddress: 'https://dev.api.aai.ebi.ac.uk/'
+  apiAddress: 'https://dev.api.portal.tsi.ebi.ac.uk/',
+  authAddress: 'https://api.aai.ebi.ac.uk/'
 };
