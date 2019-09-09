@@ -9,7 +9,8 @@ import { BiotoolsRepoPageComponent } from './biotools-repo-page.component';
 export class DeployBiotoolModalComponent {
   public title: string;
   public biotoolsRepoPageComponent: BiotoolsRepoPageComponent;
-  
+  public applicationType: string;
+
   constructor(public bsModalRef: BsModalRef) {}
-  
+
 }

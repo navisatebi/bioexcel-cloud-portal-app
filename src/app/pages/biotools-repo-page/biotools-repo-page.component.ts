@@ -189,6 +189,41 @@ export class BiotoolsRepoPageComponent {
     );
   }
 
+  public deployECPApplication(application: BiotoolsApplication, sshKey: string) {
+
+    console.log('[BiotoolsRepoPage] Deploying ECP application through portal. Repo URL : '+application.download[0].url);
+    var downloadinfo = application.download[0].note.split(";");
+    var applicationName = downloadinfo[1].replace('name:','');
+    var teamName = downloadinfo[2].replace('teamName:','');
+    var configName = downloadinfo[3].replace('config:','');
+    console.log('Application [%O], teamName [%O], configName [%O] ',applicationName, teamName, configName);
+     this.deploymentService.teamShared(
+      this.credentialService.getUsername(),
+      this.tokenService.getToken(),
+      teamName,
+      <Application>{
+        name: applicationName,
+        repoUri: application.download[0].url},
+      <Configuration>{name: configName, accountUsername: null},
+      sshKey
+    ).subscribe(
+      deployment  => {
+        console.log('[ApplicationComponent] deployed %O', deployment);
+        this._router.navigateByUrl('/deployments');
+      },
+      error => {
+        console.log('[ApplicationComponent] error %O', error);
+        if (error[0]) {
+          error = error[0];
+        }
+        this._errorService.setCurrentError(error);
+        this._router.navigateByUrl('/error');
+      }
+    );
+  }
+
+
+
   public deployEcpImageApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding ECP image deployment for application '
@@ -270,6 +305,14 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
     this.bsModalRef.content.title = 'Deploy tool';
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
+    this.bsModalRef.content.applicationType = 'biotools';
+  }
+
+  public openDeployECPAppModal() {
+    this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
+    this.bsModalRef.content.title = 'Deploy ECP application';
+    this.bsModalRef.content.biotoolsRepoPageComponent = this;
+    this.bsModalRef.content.applicationType = 'ecpapp';
   }
 
   public openDeployNfsClientModal() {

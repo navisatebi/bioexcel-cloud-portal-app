@@ -4,13 +4,13 @@
       <h3>Elixir Tools and Data Services</h3>
     </div>
     <div class="col-md-3">
-      <pagination [boundaryLinks]="true" 
-                  [totalItems]="totalItems" 
-                  [(ngModel)]="currentPage" 
+      <pagination [boundaryLinks]="true"
+                  [totalItems]="totalItems"
+                  [(ngModel)]="currentPage"
                   class="pagination-sm"
-                  previousText="&lsaquo;" 
-                  nextText="&rsaquo;" 
-                  firstText="&laquo;" 
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
                   lastText="&raquo;"
                   (pageChanged)="pageChanged($event)">
       </pagination>
@@ -24,21 +24,22 @@
           {{ application.name }}
           <span class="pull-right">
             <span
-              *ngIf="application.download.length>0 
-              && application.download[0].type==='VM image' 
-              && (application.download[0].note==='BioExcel_Embassy_VM' || application.download[0].note==='BioExcel_Embassy_NFS_Image' || application.download[0].note==='BioExcel_Embassy_ECP_Image')"
+              *ngIf="application.download.length>0
+              && application.download[0].type==='VM image'
+              && (application.download[0].note==='BioExcel_Embassy_VM' || application.download[0].note==='BioExcel_Embassy_NFS_Image' ||
+              application.download[0].note==='BioExcel_Embassy_ECP_Image' || (application.download[0].note!=null && application.download[0].note.includes('BioExcel_ECP_Application')))"
             class="glyphicon glyphicon-cloud"></span>
             <span
-              *ngIf="application.toolType.length>0 && 
+              *ngIf="application.toolType.length>0 &&
               (application.toolType.indexOf('Web application')>=0
               || application.toolType.indexOf('Web service')>=0
               || application.toolType.indexOf('Web API')>=0)"
             class="glyphicon glyphicon-globe"></span>
             <span
-              *ngIf="application.toolType.length>0 && 
-              (application.toolType.indexOf('Library')>=0 
-              || application.toolType.indexOf('Command-line tool')>=0 
-              || application.toolType.indexOf('Workbench')>=0 
+              *ngIf="application.toolType.length>0 &&
+              (application.toolType.indexOf('Library')>=0
+              || application.toolType.indexOf('Command-line tool')>=0
+              || application.toolType.indexOf('Workbench')>=0
               || application.toolType.indexOf('Suite')>=0
               || application.toolType.indexOf('Desktop application')>=0)"
             class="glyphicon glyphicon-modal-window"></span>
@@ -61,7 +62,7 @@
       <dt>Topics</dt>
       <dd *ngFor="let topic of application.topic">{{ topic.term }} </dd>
     </dl>
-    
+
     <!--Deploy button-->
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
@@ -69,11 +70,11 @@
         --> <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note==='BioExcel_Embassy_VM'"
          class="btn-group" dropdown>
           <button
-            type="button" 
+            type="button"
             class="btn btn-primary btn-sm"
             (click)="selectedApplication=application; openDeployBiotoolModal()"
             [disabled]="!currentlySelectedConfiguration">
-            Deploy VM to 
+            Deploy VM to
             <span *ngIf="currentlySelectedConfiguration">
                 {{ currentlySelectedConfiguration.name }}
               </span>
@@ -112,11 +113,11 @@
         <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_ECP_Image')"
          class="btn-group" dropdown>
           <button
-            type="button" 
+            type="button"
             class="btn btn-primary btn-sm"
             (click)="selectedApplicationForEcp=application; openDeployEcpImageModal()"
             [disabled]="!currentlySelectedConfigurationForEcp">
-            Deploy BioExcel tool to 
+            Deploy BioExcel tool to
             <span *ngIf="currentlySelectedConfigurationForEcp">
                 {{ currentlySelectedConfigurationForEcp.name }}
               </span>
@@ -155,11 +156,11 @@
         <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note && aDownload.note.includes('BioExcel_Embassy_NFS_Image')"
          class="btn-group" dropdown>
           <button
-            type="button" 
+            type="button"
             class="btn btn-primary btn-sm"
             (click)="selectedApplicationForNfs=application; openDeployNfsClientModal()"
             [disabled]="!currentlySelectedConfigurationForNfs">
-            Deploy NFS client to 
+            Deploy NFS client to
             <span *ngIf="currentlySelectedConfigurationForNfs">
                 {{ currentlySelectedConfigurationForNfs.name }}
               </span>
@@ -190,22 +191,37 @@
         </div>
       </span>
     </span>
-    
+
+    <!--Deploy button ECP Application-->
+    <span *ngIf="application.download && application.download.length>0">
+      <span *ngFor="let aDownload of application.download">
+        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note != null && aDownload.note.includes('BioExcel_ECP_Application')" >You need to log in to deploy this application</alert>
+         <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note != null && aDownload.note.includes('BioExcel_ECP_Application')"
+                 class="btn-group" dropdown>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            (click)="selectedApplication=application; openDeployECPAppModal()">
+            Deploy application to ECP
+          </button>
+        </div>
+      </span>
+    </span>
 
   </accordion-group>
 </accordion>
 <div class="row">
     <div class="col-md-9">
-      
+
     </div>
     <div class="col-md-3">
-      <pagination [boundaryLinks]="true" 
-                  [totalItems]="totalItems" 
-                  [(ngModel)]="currentPage" 
+      <pagination [boundaryLinks]="true"
+                  [totalItems]="totalItems"
+                  [(ngModel)]="currentPage"
                   class="pagination-sm"
-                  previousText="&lsaquo;" 
-                  nextText="&rsaquo;" 
-                  firstText="&laquo;" 
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
                   lastText="&raquo;"
                   (pageChanged)="pageChanged($event)">
       </pagination>

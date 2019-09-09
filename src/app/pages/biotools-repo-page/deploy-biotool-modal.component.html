@@ -10,16 +10,23 @@
     <!--SSH key-->
     <div class="form-group">
       <label for="sshKey" class="sr-only">SSH Key</label>
-      <input class="form-control" id="sshKey" 
+      <input class="form-control" id="sshKey"
         type="text" placeholder="SSH key" [formControl]="biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey']" autofocus>
     </div>
   </form>
 </div>
 
 
-<div *ngIf="biotoolsRepoPageComponent" class="modal-footer">
+<div *ngIf="applicationType == 'biotools'" class="modal-footer">
   <button type="submit" class="btn btn-primary"
   (click)="biotoolsRepoPageComponent.deployBiotoolsApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
+
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Close</button>
+</div>
+
+<div *ngIf="applicationType == 'ecpapp'" class="modal-footer">
+  <button type="submit" class="btn btn-primary"
+          (click)="biotoolsRepoPageComponent.deployECPApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
 
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Close</button>
 </div>

@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { BiotoolsApplication, BiotoolsApplicationPage } from './biotools-application';
 import 'rxjs/Rx';
+import {environment} from '../../../../environments/environment';
 
 @Injectable()
 export class BiotoolsApplicationService {
@@ -18,7 +19,7 @@ export class BiotoolsApplicationService {
     // headers.append('Content-Type', 'application/json');
 
     return this._http.get(
-      "https://bio.tools/api/tool/" + "?page="+currentPage+"&format=json&collectionID=BioExcel",
+      environment.bioToolsAPI + "?page="+currentPage+"&format=json&collectionID=BioExcel",
       {
         headers: headers
       }
