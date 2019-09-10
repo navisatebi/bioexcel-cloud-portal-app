@@ -7,5 +7,5 @@ export const environment = {
   production: false,
   apiAddress: 'https://dev.api.portal.tsi.ebi.ac.uk/',
   authAddress: 'https://api.aai.ebi.ac.uk/',
-  bioToolsAPI: 'http://193.62.55.217:5000/biotools'
+  bioToolsAPI: 'https://dev.tsi.ebi.ac.uk/workbench/biotools.json'
 };
