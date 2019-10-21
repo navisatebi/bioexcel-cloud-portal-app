@@ -326,4 +326,9 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef.content.title = 'Deploy NFS client';
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
   }
+
+  public getConfigName(application: BiotoolsApplication){
+    var downloadinfo = application.download[0].note.split(";");
+    return downloadinfo[3].replace('config:','');
+  }
 }
