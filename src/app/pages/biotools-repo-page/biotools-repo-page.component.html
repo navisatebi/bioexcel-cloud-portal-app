@@ -201,8 +201,8 @@
           <button
             type="button"
             class="btn btn-primary btn-sm"
-            (click)="selectedApplication=application; openDeployECPAppModal()">
-            Deploy VM to {{getConfigName(application)}}
+            (click)="selectedApplication=application; openDeployECPAppModal(application)">
+            Deploy "{{ application.name }}" to {{getConfigName(application)}}
           </button>
         </div>
       </span>

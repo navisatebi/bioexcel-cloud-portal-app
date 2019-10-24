@@ -308,9 +308,9 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef.content.applicationType = 'biotools';
   }
 
-  public openDeployECPAppModal() {
+  public openDeployECPAppModal(application: BiotoolsApplication) {
     this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
-    this.bsModalRef.content.title = 'Deploy ECP application';
+    this.bsModalRef.content.title = 'Deploy "'+application.name+'" to '+this.getConfigName(application);
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
     this.bsModalRef.content.applicationType = 'ecpapp';
   }
