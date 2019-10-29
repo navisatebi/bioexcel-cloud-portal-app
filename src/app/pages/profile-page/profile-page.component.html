@@ -8,20 +8,20 @@
       <template tabHeading>
         <i class="glyphicon glyphicon-cloud"></i>
       </template>
-      <button type="button" 
-        class="add-app-button btn btn-primary btn-sm" 
+      <button type="button"
+        class="add-app-button btn btn-primary btn-sm"
         (click)="openAddConfigurationModal()">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
-      <alert type="info" 
-        *ngIf="profileComponent.configurationPresenters && profileComponent.configurationPresenters.length==0 
+      <alert type="info"
+        *ngIf="profileComponent.configurationPresenters && profileComponent.configurationPresenters.length==0
               && profileComponent.sharedconfigurationPresenters && profileComponent.sharedconfigurationPresenters.length==0">
           No cloud providers available yet
       </alert>
       <accordion [closeOthers]="true">
         <!--Owned configs-->
         <span *ngIf="profileComponent.configurationPresenters">
-        <accordion-group *ngFor="let configuration of profileComponent.configurationPresenters" 
+        <accordion-group *ngFor="let configuration of profileComponent.configurationPresenters"
           [isOpen]="openOne==configuration.name"
           (click)="openOne=configuration.name"
           heading="{{ configuration.name }}">
@@ -42,7 +42,7 @@
                 <h4>Deployment parametersr</h4>
                 <p>{{ configuration.deploymentParametersName }}</p>
               </div>
-              
+
             </div>
 
             <div class="row">
@@ -57,7 +57,7 @@
                     <div class="form-group">
                       <input placeholder="Share with (required)" [(ngModel)]="shareWith" name="shareWith" autofocus>
                     </div>
-                    <button 
+                    <button
                     type="submit" class="btn btn-default btn-sm"
                     [disabled]="!shareWith || shareWith.length==0"
                     (click)="profileComponent.shareConfiguration(configuration, shareWith); shareConfigurationDialogShowing = false">
@@ -70,7 +70,7 @@
                     <button *ngIf="!configuration.isShared"
                     class="btn btn-default btn-xs"
                     (click)="profileComponent.unshareConfiguration(configuration, teamName)">
-                      <span class="glyphicon glyphicon-remove"></span> 
+                      <span class="glyphicon glyphicon-remove"></span>
                     </button> {{ teamName }}
                   </p>
                 </span>
@@ -81,7 +81,7 @@
 
         <!--Shared configs-->
         <span *ngIf="profileComponent.sharedConfigurationPresenters">
-        <accordion-group *ngFor="let configuration of profileComponent.sharedConfigurationPresenters" 
+        <accordion-group *ngFor="let configuration of profileComponent.sharedConfigurationPresenters"
           [isOpen]="openOne==configuration.name+'-shared'"
           (click)="openOne=configuration.name+'-shared'"
           heading="{{ configuration.name }} SHARED">
@@ -105,7 +105,7 @@
             <div class="col-md-8">
               <h4>Deployment parameters</h4>
               <p>{{ configuration.deploymentParametersName }}</p>
-            </div> 
+            </div>
           </div>
         </accordion-group>
         </span>
@@ -116,19 +116,19 @@
       <template tabHeading>
         <i class="glyphicon glyphicon-cloud"></i>
       </template>
-      <button type="button" class="add-app-button btn btn-primary btn-sm" 
+      <button type="button" class="add-app-button btn btn-primary btn-sm"
       (click)="openAddCloudProviderModal()"><span class="glyphicon glyphicon-plus"></span></button>
 
       <!--Credentials-->
-      <alert type="info" 
-        *ngIf="profileComponent.cloudProviderParametersPresenters && profileComponent.cloudProviderParametersPresenters.length==0 
+      <alert type="info"
+        *ngIf="profileComponent.cloudProviderParametersPresenters && profileComponent.cloudProviderParametersPresenters.length==0
               && profileComponent.sharedCloudProviderParametersPresenters && profileComponent.sharedCloudProviderParametersPresenters.length==0">
           No cloud providers available yet
       </alert>
       <accordion [closeOthers]="true">
         <!--Owned credentials-->
         <span *ngIf="profileComponent.cloudProviderParametersPresenters">
-        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters" 
+        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.cloudProviderParametersPresenters"
           [isOpen]="openOne==cloudProviderParameters.name"
           (click)="openOne=cloudProviderParameters.name"
           heading="{{ cloudProviderParameters.name }}">
@@ -164,7 +164,7 @@
                     <div class="form-group">
                       <input placeholder="Share with (required)" [(ngModel)]="shareWith" name="shareWith" autofocus>
                     </div>
-                    <button 
+                    <button
                     type="submit" class="btn btn-default btn-sm"
                     [disabled]="!shareWith || shareWith.length==0"
                     (click)="profileComponent.shareCloudProviderParameters(cloudProviderParameters, shareWith); shareCloudProviderParametersDialogShowing = false">
@@ -185,7 +185,7 @@
                     <button *ngIf="!cloudProviderParameters.isShared"
                     class="btn btn-default btn-xs"
                     (click)="profileComponent.unshareCloudProviderParameters(cloudProviderParameters, teamName)">
-                      <span class="glyphicon glyphicon-remove"></span> 
+                      <span class="glyphicon glyphicon-remove"></span>
                     </button> {{ teamName }}
                   </p>
                 </span>
@@ -198,7 +198,7 @@
 
         <!--Shared credentials-->
         <span *ngIf="profileComponent.sharedCloudProviderParametersPresenters">
-        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters" 
+        <accordion-group *ngFor="let cloudProviderParameters of profileComponent.sharedCloudProviderParametersPresenters"
           [isOpen]="openOne==cloudProviderParameters.name+'-shared'"
           (click)="openOne=cloudProviderParameters.name+'-shared'"
           heading="{{ cloudProviderParameters.name }} SHARED">
@@ -232,7 +232,7 @@
         <i class="glyphicon glyphicon-user"></i>
       </template>
 
-      <button class="add-app-button btn btn-primary btn-sm" 
+      <button class="add-app-button btn btn-primary btn-sm"
         (click)="openAddTeamModal()">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
@@ -256,7 +256,7 @@
             <form #addTeamMemberForm class="form-inline">
               <div class="form-group">
                 <label for="email" class="sr-only">Name</label>
-                <input class="form-control" name="memberAccountEmail" [(ngModel)]="memberAccountEmail" 
+                <input class="form-control" name="memberAccountEmail" [(ngModel)]="memberAccountEmail"
                   type="email" placeholder="Member email" autofocus>
               </div>
               <button type="submit" class="btn btn-default btn-sm"
@@ -269,9 +269,28 @@
             (click)="profileComponent.removeTeam(teamPresenter)">Delete team</button>
           </div>
         </accordion-group>
-        
+         <div>
+           <br>
+           <h4>Join Team</h4>
+           <form #joinTeamForm class="form-inline">
+             <div class="form-group">
+               <input class="form-control" name="teamName" [(ngModel)]="profileComponent.joinTeamName"
+                      type="text" placeholder="Team name"  required>
+             </div>
+           </form>
+           <br>
+           <alert type="info" *ngIf="profileComponent.message">
+             {{ profileComponent.message }}
+           </alert>
+           <br>
+           <button type="button" class="btn btn-warning"
+                   (click)="profileComponent.requestAddMember(profileComponent.joinTeamName)">Request</button>
+           <br>
+
+         </div>
       </accordion>
 
     </tab>
+
   </tabset>
 </cp-profile-component>
