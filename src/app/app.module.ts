@@ -23,6 +23,7 @@ import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AboutAppDBPageComponent } from './pages/about-appdb-page/about-appdb-page.component';
 import { AboutEmbassyPageComponent } from './pages/about-embassy-page/about-embassy-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { LocalLoginPageComponent } from './pages/local-login-page/local-login-page.component';
 import { BiotoolsRepoPageComponent } from './pages/biotools-repo-page/biotools-repo-page.component';
 import { BiotoolsApplicationService } from './pages/biotools-repo-page/services/biotools-application.service';
 import { BioExcelConfigurationPipe } from './pages/biotools-repo-page/bioexcel-configuration.pipe';
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
   { path: 'appdb', component: AboutAppDBPageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'local-login', component: LocalLoginPageComponent },
   { path: 'error', component: ErrorPageComponent },
   { path: '**', component: WelcomePageComponent },
 ];
@@ -65,7 +67,7 @@ export function provideConfig() {
     AddCloudProviderModalComponent,
     AddTeamModalComponent,
     AddConfigurationModalComponent,
-    AddDeploymentParametersModalComponent,    
+    AddDeploymentParametersModalComponent,
     VolumesPageComponent,
     VolumesComponent,
     ErrorPageComponent,
@@ -74,6 +76,7 @@ export function provideConfig() {
     AboutAppDBPageComponent,
     AboutEmbassyPageComponent,
     LoginPageComponent,
+    LocalLoginPageComponent,
     LoginComponent,
     BiotoolsRepoPageComponent,
     DeployBiotoolModalComponent,

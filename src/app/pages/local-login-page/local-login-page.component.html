@@ -1,0 +1,36 @@
+<div *ngIf="tokenService.getToken()">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h2>You are logged in as {{ credentialService.getGivenName() }}</h2>
+    </div>
+  </div>
+</div>
+<div *ngIf="!tokenService.getToken()">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-3">
+        <h2>Login</h2>
+        <h4>Using existing AAP account</h4>
+        <br/>
+        <form id="login-form">
+        <div class="form-group">
+          <input class="form-control" [(ngModel)]="username" type="text" placeholder="Username"
+                 name="username" id="username" autofocus>
+          <br>
+          <input class="form-control" [(ngModel)]="password" type="password" placeholder="Password"
+                 name="password" id="password" autofocus>
+          <br>
+          <button type="button" class="btn btn-default" (click)="authenticate(username, password)">Login</button>
+        </div>
+        </form>
+        <br/>
+        <h4 *ngIf="getErrorMessage()">
+          Login error : {{ getErrorMessage() }}
+        </h4>
+        <br/>
+        <h4>
+          If you don't have AAP account, create an AAP account <a href="https://aai.ebi.ac.uk/registerUser" target="_blank">here</a>.
+        </h4>
+
+      </div>
+    </div>
+  </div>
