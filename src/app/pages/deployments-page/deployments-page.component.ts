@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DeploymentsComponent } from 'ng2-cloud-portal-presentation-lib';
+import {DeploymentInstance} from 'ng2-cloud-portal-presentation-lib/src/directives/deployments/deployment-instance';
 
 @Component({
   selector: 'deployments-page',
@@ -15,10 +16,19 @@ export class DeploymentsPageComponent {
     return res;
   }
 
+  getBioToolName(deploymentInstance: DeploymentInstance){
+    var assignedInputs = deploymentInstance.assignedInputs;
+    for (var assignedInput of assignedInputs) {
+      if (assignedInput.inputName == "application_name") {
+        return assignedInput.assignedValue;
+      }
+    }
+  }
+
   getTimeToDisplay(millisec: number) {
     let seconds: number = (millisec / 1000);
     let secondsChar;
-    
+
     let minutes: number = Math.floor(seconds / 60);
     let minutesChar: string;
 
@@ -55,5 +65,5 @@ export class DeploymentsPageComponent {
       return secondsChar +"sec";
     }
   }
-  
+
 }

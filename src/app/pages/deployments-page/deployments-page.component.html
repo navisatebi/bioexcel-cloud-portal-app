@@ -10,7 +10,7 @@
           <span *ngIf="deploymentInstance.status == 'DESTROYING'" class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
           <span *ngIf="deploymentInstance.status == 'RUNNING'" class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
           <span *ngIf="deploymentInstance.status == 'DESTROYED'" class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-          <span *ngIf="deploymentInstance.status == 'STARTING_FAILED' || deploymentInstance.status == 'DESTROYING_FAILED'" 
+          <span *ngIf="deploymentInstance.status == 'STARTING_FAILED' || deploymentInstance.status == 'DESTROYING_FAILED'"
             class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             {{ deploymentInstance.applicationName }}
             <span *ngIf="deploymentInstance.applicationName=='BioExcel launcher' && deploymentInstance.assignedInputs[0]">
@@ -21,6 +21,9 @@
             </span>
             <span *ngIf="deploymentInstance.applicationName=='Generic server instance' && deploymentInstance.assignedInputs[0]">
               for {{ deploymentInstance.assignedInputs[0].assignedValue }}
+            </span>
+            <span *ngIf="deploymentInstance.applicationName=='CWL VM environment' || deploymentInstance.applicationName=='Jupyter Server Instance'">
+             for {{ getBioToolName(deploymentInstance) }}
             </span>
             <small>{{ deploymentInstance.reference }}</small>
         </div>
@@ -117,7 +120,7 @@
             </div>
           </div>
         <br/>
-        <div class="row">  
+        <div class="row">
           <div class="col-md-12">
             <alert type ="info" *ngIf="deploymentInstance.status == 'DESTROYING'">Destroying...</alert>
             <alert type ="info" *ngIf="deploymentInstance.status == 'STARTING'">Deploying...</alert>
@@ -127,7 +130,7 @@
               (click)="deploymentsComponent.destroyDeployment(deploymentInstance)">
               Destroy
             </button>
-            <button type="button" class="btn btn-warning btn-sm pull-right" 
+            <button type="button" class="btn btn-warning btn-sm pull-right"
                   [disabled]="deploymentInstance.status != 'DESTROYED' && deploymentInstance.status != 'DESTROYING_FAILED'"
                   (click)="deploymentsComponent.deleteDeployment(deploymentInstance)">
                     <span class="glyphicon glyphicon-trash"></span>

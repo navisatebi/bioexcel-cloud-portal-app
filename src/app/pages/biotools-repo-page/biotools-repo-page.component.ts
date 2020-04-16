@@ -204,6 +204,9 @@ export class BiotoolsRepoPageComponent {
       <Application>{
         name: applicationName,
         repoUri: application.download[0].url},
+       {
+         application_name: application.name
+       },
       <Configuration>{name: configName, accountUsername: null},
       sshKey
     ).subscribe(
