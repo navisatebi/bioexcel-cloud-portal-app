@@ -8,9 +8,11 @@ import { BiotoolsApplication } from './services/biotools-application';
 import { ErrorService, DeploymentService, Application, ApplicationService,
     CredentialService, TokenService, Configuration, ConfigurationService
   } from 'ng2-cloud-portal-service-lib';
-import { DeployBiotoolModalComponent } from './deploy-biotool-modal.component';
 import { DeployNfsClientModalComponent } from './deploy-nfs-client-modal.component';
 import { DeployEcpImageModalComponent } from './deploy-ecp-image-modal.component';
+import {environment} from '../../../environments/environment';
+import {DeployBinderModalComponent} from './deploy-binder-modal.component';
+import {DeployBiotoolModalComponent} from './deploy-biotool-modal.component';
 
 @Component({
   selector: 'biotools-repo-page',
@@ -316,6 +318,36 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef.content.title = 'Deploy "'+application.name+'" to '+this.getConfigName(application);
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
     this.bsModalRef.content.applicationType = 'ecpapp';
+  }
+
+  public loginAndOpenBinder(application: BiotoolsApplication) {
+    var binderRepoUrl = this.getBinderRepoUrl(application);
+    var hubLoginURI = environment.binderHubAPI+'login';
+    this.deploymentService.loginBinder(this.tokenService.getToken(),
+      hubLoginURI).subscribe(
+      res => {
+        console.log('[ApplicationComponent]  success %O', res);
+      },
+      error => {
+        console.log('[ApplicationComponent] error %O', error);
+      }
+    );
+    window.open(binderRepoUrl, '_blank');
+  }
+
+  public openBinderAppModal(application: BiotoolsApplication) {
+    this.bsModalRef = this.modalService.show(DeployBinderModalComponent);
+    this.bsModalRef.content.title = 'Open "' + application.name + '" on Binder';
+    this.bsModalRef.content.tutorial = application.name;
+    this.bsModalRef.content.biotoolsRepoPageComponent = this;
+  }
+
+  private getBinderRepoUrl(application: BiotoolsApplication){
+    var downloadArray = application.download;
+    for (var download of downloadArray) {
+      if(download.note.includes("BioExcel_Binder_Application"))
+        return download.url;
+    }
   }
 
   public openDeployNfsClientModal() {

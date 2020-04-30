@@ -36,6 +36,9 @@
               || application.toolType.indexOf('Web API')>=0)"
             class="glyphicon glyphicon-globe"></span>
             <span
+              *ngIf="application.toolType.length>0 && application.toolType.indexOf('Notebook')>=0"
+              class="glyphicon glyphicon-book"></span>
+            <span
               *ngIf="application.toolType.length>0 &&
               (application.toolType.indexOf('Library')>=0
               || application.toolType.indexOf('Command-line tool')>=0
@@ -67,7 +70,7 @@
     <span *ngIf="application.download && application.download.length>0">
       <span *ngFor="let aDownload of application.download">
         <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note==='BioExcel_Embassy_VM'" >You need to log in to deploy this application</alert>
-        --> <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note==='BioExcel_Embassy_VM'"
+        <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note==='BioExcel_Embassy_VM'"
          class="btn-group" dropdown>
           <button
             type="button"
@@ -203,6 +206,22 @@
             class="btn btn-primary btn-sm"
             (click)="selectedApplication=application; openDeployECPAppModal(application)">
             Deploy "{{ application.name }}" to {{getConfigName(application)}}
+          </button>
+        </div>
+      </span>
+    </span>
+
+    <!-- Open Binder Application-->
+    <span *ngIf="application.download && application.download.length>0">
+      <span *ngFor="let aDownload of application.download">
+        <alert *ngIf="!tokenService.getToken() && aDownload.type==='VM image' && aDownload.note != null && aDownload.note.includes('BioExcel_Binder_Application')" >You need to log in to deploy this application</alert>
+         <div *ngIf="tokenService.getToken() && aDownload.type==='VM image' && aDownload.note != null && aDownload.note.includes('BioExcel_Binder_Application')"
+              class="btn-group" dropdown>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            (click)="selectedApplication=application; openBinderAppModal(application)">
+             Open "{{ application.name }}" on Binder environment
           </button>
         </div>
       </span>
