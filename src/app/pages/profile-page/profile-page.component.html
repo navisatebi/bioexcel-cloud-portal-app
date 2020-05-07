@@ -244,6 +244,7 @@
         <accordion-group *ngFor="let teamPresenter of profileComponent.teamPresenters" heading="{{ teamPresenter.name }}">
           <span accordion-heading>
             <span *ngIf="teamPresenter.isOwner"> OWNER</span>
+            <span *ngIf="!teamPresenter.isOwner && teamPresenter.isManager"> MANAGER</span>
           </span>
           <div>
             <h5>Owner</h5>
