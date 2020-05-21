@@ -204,8 +204,8 @@
           <button
             type="button"
             class="btn btn-primary btn-sm"
-            (click)="selectedApplication=application; openDeployECPAppModal(application)">
-            Deploy "{{ application.name }}" to {{getConfigName(application)}}
+            (click)="selectedApplication=application; openDeployECPAppModal(application, aDownload.note)">
+            Deploy "{{ application.name }}" to {{getConfigName(aDownload.note)}}
           </button>
         </div>
       </span>

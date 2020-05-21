@@ -26,7 +26,7 @@
 
 <div *ngIf="applicationType == 'ecpapp'" class="modal-footer">
   <button type="submit" class="btn btn-primary"
-          (click)="biotoolsRepoPageComponent.deployECPApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
+          (click)="biotoolsRepoPageComponent.deployECPApplication(biotoolsRepoPageComponent.selectedApplication, biotoolsRepoPageComponent.newBioToolsDeploymentForm.controls['sshKey'].value, downloadNote); bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Confirm</button>
 
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide(); biotoolsRepoPageComponent.newBioToolsDeploymentForm.reset()">Close</button>
 </div>

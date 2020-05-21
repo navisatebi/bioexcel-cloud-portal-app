@@ -10,7 +10,7 @@ export class DeployBiotoolModalComponent {
   public title: string;
   public biotoolsRepoPageComponent: BiotoolsRepoPageComponent;
   public applicationType: string;
-
+  public downloadNote: string;
   constructor(public bsModalRef: BsModalRef) {}
 
 }

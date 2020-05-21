@@ -191,10 +191,10 @@ export class BiotoolsRepoPageComponent {
     );
   }
 
-  public deployECPApplication(application: BiotoolsApplication, sshKey: string) {
+  public deployECPApplication(application: BiotoolsApplication, sshKey: string, downloadNote: string) {
 
     console.log('[BiotoolsRepoPage] Deploying ECP application through portal. Repo URL : '+application.download[0].url);
-    var downloadinfo = application.download[0].note.split(";");
+    var downloadinfo = downloadNote.split(";");
     var applicationName = downloadinfo[1].replace('name:','');
     var teamName = downloadinfo[2].replace('teamName:','');
     var configName = downloadinfo[3].replace('config:','');
@@ -313,11 +313,12 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef.content.applicationType = 'biotools';
   }
 
-  public openDeployECPAppModal(application: BiotoolsApplication) {
+  public openDeployECPAppModal(application: BiotoolsApplication, note: String) {
     this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
-    this.bsModalRef.content.title = 'Deploy "'+application.name+'" to '+this.getConfigName(application);
+    this.bsModalRef.content.title = 'Deploy "'+application.name+'" to '+this.getConfigName(note);
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
     this.bsModalRef.content.applicationType = 'ecpapp';
+    this.bsModalRef.content.downloadNote = note;
   }
 
   public loginAndOpenBinder(application: BiotoolsApplication) {
@@ -345,7 +346,7 @@ export class BiotoolsRepoPageComponent {
   private getBinderRepoUrl(application: BiotoolsApplication){
     var downloadArray = application.download;
     for (var download of downloadArray) {
-      if(download.note.includes("BioExcel_Binder_Application"))
+      if(download.note != null && download.note.includes("BioExcel_Binder_Application"))
         return download.url;
     }
   }
@@ -362,8 +363,8 @@ export class BiotoolsRepoPageComponent {
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
   }
 
-  public getConfigName(application: BiotoolsApplication){
-    var downloadinfo = application.download[0].note.split(";");
+  public getConfigName(note: String) {
+    const downloadinfo = note.split(';');
     return downloadinfo[3].replace('config:','');
   }
 }
