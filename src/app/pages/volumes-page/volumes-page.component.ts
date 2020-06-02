@@ -8,8 +8,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './volumes-page.component.html'
 })
 export class VolumesPageComponent {
-  url1: string = "http://193.62.55.150:8888/sources/1/dashboards/1?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
-  url2: string = "http://193.62.55.150:8888/sources/1/dashboards/2?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
+  url1: string = "https://193.62.55.150:8888/sources/1/dashboards/1?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
+  url2: string = "https://193.62.55.150:8888/sources/1/dashboards/2?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
   urlSafe1: SafeResourceUrl;
   urlSafe2: SafeResourceUrl;
 
