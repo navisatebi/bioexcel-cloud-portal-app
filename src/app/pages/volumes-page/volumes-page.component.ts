@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { VolumesComponent } from 'ng2-cloud-portal-presentation-lib';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'volumes-page',
@@ -7,5 +8,16 @@ import { VolumesComponent } from 'ng2-cloud-portal-presentation-lib';
   templateUrl: './volumes-page.component.html'
 })
 export class VolumesPageComponent {
+  url1: string = "http://193.62.55.150:8888/sources/1/dashboards/1?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
+  url2: string = "http://193.62.55.150:8888/sources/1/dashboards/2?refresh=Paused&lower=now%28%29%20-%2030d&present=true";
+  urlSafe1: SafeResourceUrl;
+  urlSafe2: SafeResourceUrl;
+
+  constructor(public sanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    this.urlSafe1= this.sanitizer.bypassSecurityTrustResourceUrl(this.url1);
+    this.urlSafe2= this.sanitizer.bypassSecurityTrustResourceUrl(this.url2);
+  }
 
 }

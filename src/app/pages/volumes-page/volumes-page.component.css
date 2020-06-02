@@ -5,3 +5,18 @@
   background: rgb(151,151,151);
   background: rgb(51,51,51);
 }
+
+.wrapper{position:relative;}
+.right,.left{
+  width:50%;
+  position:absolute;
+ }
+.right{right:0;}
+.left{left:0;}
+
+.iframe {
+  height: 600px;
+  width: 100%;
+  frameborder: 0;
+  border:none;
+}

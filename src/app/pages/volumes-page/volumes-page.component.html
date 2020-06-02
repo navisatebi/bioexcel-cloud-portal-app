@@ -21,56 +21,72 @@
       </accordion>
     </tab>
     <tab heading="Setups">
+    <template tabHeading>
+      <i class="glyphicon glyphicon-wrench"></i>
+    </template>
+    <!--Add setup button-->
+    <button class="add-app-button btn btn-primary btn-sm" (click)="volumesComponent.addVolumeSetupFormShowing=!volumesComponent.addVolumeSetupFormShowing">
+      <span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    <div *ngIf="volumesComponent.addVolumeSetupFormShowing">
+      <form [formGroup]="volumesComponent.volumeSetupForm" autocomplete="off">
+        <h3>Add volume setup</h3>
+        <div class="form-group">
+          <label for="inputUri" class="sr-only">URI</label>
+          <input class="form-control" id="inputUri"
+                 type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
+        </div>
+        <button type="button" class="btn btn-default"
+                [disabled]="!volumesComponent.volumeSetupForm.controls['repoUri'].valid || volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')"
+                (click)="volumesComponent.addVolumeSetup(volumesComponent.volumeSetupForm.value); volumesComponent.addVolumeSetupFormShowing = false">Add</button>
+      </form>
+      <br/>
+    </div>
+
+    <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeployers">
+      <!--List setups-->
+      <alert type="info" *ngIf="volumesComponent.volumeDeployers.length==0">
+        No volume setups registered yet
+      </alert>
+
+      <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
+        <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
+        <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
+        <!--<h4>Deploy using</h4>
+        <div>
+          <select class="form-control" [(ngModel)]="volumeDeployer.selectedCloudProvider">
+            <option *ngFor="let provider of volumeDeployer.cloudProviders" value="{{provider}}">
+              {{ provider }}</option>
+          </select>
+        </div>-->
+        <br/>
+        <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
+          <button type="button" class="btn btn-primary btn-sm"
+                  (click)="volumesComponent.deployVolume(volumeDeployer)">
+            Deploy
+          </button>
+          <button type="button" class="btn btn-primary btn-sm"
+                  (click)="volumesComponent.removeVolumeSetup(volumeDeployer)">Remove</button>
+        </div>
+      </accordion-group>
+    </accordion>
+  </tab>
+    <tab heading="Statistics">
       <template tabHeading>
         <i class="glyphicon glyphicon-wrench"></i>
       </template>
-      <!--Add setup button-->
-      <button class="add-app-button btn btn-primary btn-sm" (click)="volumesComponent.addVolumeSetupFormShowing=!volumesComponent.addVolumeSetupFormShowing">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
-      
-      <div *ngIf="volumesComponent.addVolumeSetupFormShowing">
-        <form [formGroup]="volumesComponent.volumeSetupForm" autocomplete="off">
-          <h3>Add volume setup</h3>
-          <div class="form-group">
-            <label for="inputUri" class="sr-only">URI</label>
-            <input class="form-control" id="inputUri" 
-              type="url" placeholder="Repository URI" [formControl]="volumesComponent.volumeSetupForm.controls['repoUri']" autofocus>
-          </div>
-          <button type="button" class="btn btn-default"
-          [disabled]="!volumesComponent.volumeSetupForm.controls['repoUri'].valid || volumesComponent.volumeSetupForm.controls['repoUri'].hasError('required')"
-          (click)="volumesComponent.addVolumeSetup(volumesComponent.volumeSetupForm.value); volumesComponent.addVolumeSetupFormShowing = false">Add</button>
-        </form>
-        <br/>
+      <div class="wrapper">
+        <div class="left">
+          <h4>AAP User Logins Daily</h4>
+          <iframe class="iframe" scrolling="no" frameborder="0" [src]="urlSafe1"></iframe>
+        </div>
+        <div class="right">
+          <h4>AAP User Login Monthly</h4>
+          <iframe class="iframe" scrolling="no" frameborder="0" [src]="urlSafe2"></iframe>
+        </div>
       </div>
-            
-      <accordion [closeOthers]="oneAtATime" *ngIf="volumesComponent.volumeDeployers">
-            <!--List setups-->
-        <alert type="info" *ngIf="volumesComponent.volumeDeployers.length==0">
-          No volume setups registered yet
-        </alert>
 
-        <accordion-group *ngFor="let volumeDeployer of volumesComponent.volumeDeployers" heading="{{ volumeDeployer.name }}">
-          <p><a href="{{ volumeDeployer.repoUri }}">{{ volumeDeployer.repoUri }}</a><p>
-          <span *ngIf="volumeDeployer.deploying || volumeDeployer.removing">Working...</span>
-          <!--<h4>Deploy using</h4>
-          <div>
-            <select class="form-control" [(ngModel)]="volumeDeployer.selectedCloudProvider">
-              <option *ngFor="let provider of volumeDeployer.cloudProviders" value="{{provider}}">
-                {{ provider }}</option>
-            </select>
-          </div>-->
-          <br/>
-          <div *ngIf="!volumeDeployer.deploying && !volumeDeployer.destroying">
-            <button type="button" class="btn btn-primary btn-sm"
-            (click)="volumesComponent.deployVolume(volumeDeployer)">
-                Deploy
-              </button>
-            <button type="button" class="btn btn-primary btn-sm"
-            (click)="volumesComponent.removeVolumeSetup(volumeDeployer)">Remove</button>
-          </div>
-        </accordion-group>
-      </accordion>
     </tab>
   </tabset>
 </cp-volumes-component>
