@@ -72,7 +72,7 @@
       </accordion-group>
     </accordion>
   </tab>
-    <tab heading="Statistics">
+    <tab heading="Statistics - InfluxDB">
       <template tabHeading>
         <i class="glyphicon glyphicon-wrench"></i>
       </template>
@@ -87,6 +87,15 @@
         </div>
       </div>
 
+    </tab>
+
+    <tab heading="Statistics - Grafana">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-wrench"></i>
+      </template>
+        <div>
+          <iframe class="iframe2" scrolling="no" frameborder="0" [src]="gurlSafe"></iframe>
+      </div>
     </tab>
   </tabset>
 </cp-volumes-component>
