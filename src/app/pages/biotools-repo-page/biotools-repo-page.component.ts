@@ -328,12 +328,14 @@ export class BiotoolsRepoPageComponent {
       hubLoginURI).subscribe(
       res => {
         console.log('[ApplicationComponent]  success %O', res);
+        window.open(binderRepoUrl, '_blank');
       },
       error => {
         console.log('[ApplicationComponent] error %O', error);
+        window.open(binderRepoUrl, '_blank');
       }
     );
-    window.open(binderRepoUrl, '_blank');
+
   }
 
   public openBinderAppModal(application: BiotoolsApplication) {
