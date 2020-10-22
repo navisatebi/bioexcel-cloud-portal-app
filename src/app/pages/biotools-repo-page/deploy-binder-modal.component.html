@@ -5,11 +5,21 @@
   </button>
 </div>
 <div class="modal-body">
-  <p>Click Proceed to open {{tutorial}} on Jupyter notebook server.
-</div>
+  <p style="color:red">Warning! You can have only one notebook server running in the Binder. Launching a new one will destroy the previous one with all its data.
+  </p>
+  <p>
+    Click <b>Launch new</b> to launch a new notebook server with "BioExcel Building Blocks tutorials: Protein MD Setup"
+  </p>
+  <p>
+    Click <b>Open existing</b> to open an existing notebook server.
+  </p>
 <div class="modal-footer">
-  <button type="submit" class="btn btn-primary"
-          (click)="biotoolsRepoPageComponent.loginAndOpenBinder(biotoolsRepoPageComponent.selectedApplication); bsModalRef.hide();">Proceed</button>
+
+  <button type="submit" class="btn btn-primary" style="float: left;"
+          (click)="biotoolsRepoPageComponent.loginAndOpenBinder(biotoolsRepoPageComponent.selectedApplication); bsModalRef.hide();">Launch New</button>
+
+  <button type="button" class="btn btn-warning"
+          (click)="biotoolsRepoPageComponent.loginAndOpenExisting();">Open Existing</button>
 
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide();">Cancel</button>
 </div>
