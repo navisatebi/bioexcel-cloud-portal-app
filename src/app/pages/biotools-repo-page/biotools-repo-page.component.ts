@@ -340,18 +340,19 @@ export class BiotoolsRepoPageComponent {
 
   public loginAndOpenExisting() {
     var hubLoginURI = environment.binderHubAPI+'login';
+    var username = this.credentialService.getUsername();
+    var hubhomeURL = environment.binderHubAPI.replace("hub","user")+username;
     this.deploymentService.loginBinder(this.tokenService.getToken(),
       hubLoginURI).subscribe(
       res => {
         console.log('[ApplicationComponent]  success %O', res);
+        window.open(hubhomeURL, '_blank');
       },
       error => {
         console.log('[ApplicationComponent] error %O', error);
+        window.open(hubhomeURL, '_blank');
       }
     );
-    var username = this.credentialService.getUsername();
-    var hubhomeURL = environment.binderHubAPI.replace("hub","user")+username;
-    window.open(hubhomeURL, '_blank');
   }
 
   public openBinderAppModal(application: BiotoolsApplication) {
