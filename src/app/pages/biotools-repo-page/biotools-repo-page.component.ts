@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
 import { BiotoolsApplication } from './services/biotools-application';
 import { ErrorService, DeploymentService, Application, ApplicationService,
-    CredentialService, TokenService, Configuration, ConfigurationService
-  } from 'ng2-cloud-portal-service-lib';
+  CredentialService, TokenService, Configuration, ConfigurationService
+} from 'ng2-cloud-portal-service-lib';
 import { DeployNfsClientModalComponent } from './deploy-nfs-client-modal.component';
 import { DeployEcpImageModalComponent } from './deploy-ecp-image-modal.component';
 import {environment} from '../../../environments/environment';
@@ -22,7 +22,7 @@ import {DeployBiotoolModalComponent} from './deploy-biotool-modal.component';
 export class BiotoolsRepoPageComponent {
 
   public totalItems: number;
-  public currentPage = 1;
+  public currentPage: number = 1;
 
   bsModalRef: BsModalRef;
   applications: BiotoolsApplication[];
@@ -39,15 +39,15 @@ export class BiotoolsRepoPageComponent {
   newEcpImageDeploymentForm: FormGroup;
 
   constructor(      private fb: FormBuilder,
-              private _biotoolsApplicationService: BiotoolsApplicationService,
-              private _errorService: ErrorService,
-              private _router: Router,
-              public credentialService: CredentialService,
-              public tokenService: TokenService,
-              public deploymentService: DeploymentService,
-              public applicationService: ApplicationService,
-              public configurationService: ConfigurationService,
-              private modalService: BsModalService) {
+                    private _biotoolsApplicationService: BiotoolsApplicationService,
+                    private _errorService: ErrorService,
+                    private _router: Router,
+                    public credentialService: CredentialService,
+                    public tokenService: TokenService,
+                    public deploymentService: DeploymentService,
+                    public applicationService: ApplicationService,
+                    public configurationService: ConfigurationService,
+                    private modalService: BsModalService) {
     this._updateRepository();
     if (this.tokenService.getToken()) this.updateConfigurations(true);
     this.newBioToolsDeploymentForm = this.fb.group({
@@ -87,94 +87,94 @@ export class BiotoolsRepoPageComponent {
     this.currentlySelectedConfigurationForEcp = configuration;
   }
 
-  public updateConfigurations(open: boolean): void {
+  public updateConfigurations(open:boolean):void {
     if (open) {
-        this.configurationService.getAll(
-            this.credentialService.getUsername(),
-            this.tokenService.getToken())
+      this.configurationService.getAll(
+        this.credentialService.getUsername(),
+        this.tokenService.getToken())
         .subscribe(
-            configurations => {
-                console.log('[BiotoolsRepoPage] configurations data is %O', configurations);
-                this.configurations = configurations;
-            },
-            error => {
-                console.log('[BiotoolsRepoPage] error %O', error);
-                if (error[0]) {
-                    error = error[0];
-                }
-                this._errorService.setCurrentError(error);
-                this._router.navigateByUrl('/error');
-            },
-            () => {
-                console.log('[BiotoolsRepoPage] configurations data retrieval complete');
+          configurations => {
+            console.log('[BiotoolsRepoPage] configurations data is %O', configurations);
+            this.configurations = configurations
+          },
+          error => {
+            console.log('[BiotoolsRepoPage] error %O', error);
+            if (error[0]) {
+              error = error[0];
             }
+            this._errorService.setCurrentError(error);
+            this._router.navigateByUrl('/error');
+          },
+          () => {
+            console.log('[BiotoolsRepoPage] configurations data retrieval complete');
+          }
         );
 
-        this.configurationService.getAllSharedConfigurations(
-            this.credentialService.getUsername(),
-            this.tokenService.getToken())
+      this.configurationService.getAllSharedConfigurations(
+        this.credentialService.getUsername(),
+        this.tokenService.getToken())
         .subscribe(
-            sharedConfigurations => {
-                console.log('[BiotoolsRepoPage] shared configurations data is %O', sharedConfigurations);
-                this.sharedConfigurations = sharedConfigurations;
-            },
-            error => {
-                console.log('[BiotoolsRepoPage] error %O', error);
-                if (error[0]) {
-                    error = error[0];
-                }
-                this._errorService.setCurrentError(error);
-                this._router.navigateByUrl('/error');
-            },
-            () => {
-                console.log('[BiotoolsRepoPage] shared configurations data retrieval complete');
+          sharedConfigurations => {
+            console.log('[BiotoolsRepoPage] shared configurations data is %O', sharedConfigurations);
+            this.sharedConfigurations = sharedConfigurations
+          },
+          error => {
+            console.log('[BiotoolsRepoPage] error %O', error);
+            if (error[0]) {
+              error = error[0];
             }
+            this._errorService.setCurrentError(error);
+            this._router.navigateByUrl('/error');
+          },
+          () => {
+            console.log('[BiotoolsRepoPage] shared configurations data retrieval complete');
+          }
         );
     }
-}
+  }
 
   private _updateRepository() {
     this._biotoolsApplicationService.getAll(this.currentPage)
       .subscribe(
-      applicationPage => {
-        console.log('[BiotoolsRepoPage] Applications data is %O', applicationPage);
-        this.applications = applicationPage.list;
-        this.totalItems = applicationPage.count;
-      },
-      error => {
-        console.log('[BiotoolsRepoPage] error %O', error);
-        this._errorService.setCurrentError(error);
-        this._router.navigateByUrl('/error');
-      },
-      () => {
+        applicationPage => {
+          console.log('[BiotoolsRepoPage] Applications data is %O', applicationPage);
+          this.applications = applicationPage.list;
+          this.totalItems = applicationPage.count;
+        },
+        error => {
+          console.log('[BiotoolsRepoPage] error %O', error);
+          this._errorService.setCurrentError(error);
+          this._router.navigateByUrl('/error');
+        },
+        () => {
           console.log('[BiotoolsRepoPage] Applications data retrieval complete');
-      }
-    );
+        }
+      );
   }
 
   public deployBiotoolsApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding BioExcel launcher deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O',
-        this.currentlySelectedConfiguration);
+      + application.name + ' from ' + application.download[0].url + ' into %O',
+      this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
-        this.credentialService.getUsername(),
-        this.tokenService.getToken(),
-        <Application>{
-          name: 'BioExcel launcher',
-          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
-          repoUri: 'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
-        },
-        null,
-        {},
-        {
-          application_name: application.name,
-          image_source_url: application.download[0].url
-        },
-        {},
-        <Configuration>this.currentlySelectedConfiguration,
-        sshKey
+      this.credentialService.getUsername(),
+      this.tokenService.getToken(),
+      <Application>{
+        name: 'BioExcel launcher',
+        accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
+        repoUri:'https://github.com/EMBL-EBI-TSI/cpa-bioexcel-launcher'
+      },
+      null,
+      {},
+      {
+        application_name: application.name,
+        image_source_url: application.download[0].url
+      },
+      {},
+      <Configuration>this.currentlySelectedConfiguration,
+      sshKey
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
@@ -193,22 +193,22 @@ export class BiotoolsRepoPageComponent {
 
   public deployECPApplication(application: BiotoolsApplication, sshKey: string, downloadNote: string) {
 
-    console.log('[BiotoolsRepoPage] Deploying ECP application through portal. Repo URL : ' + application.download[0].url);
-    const downloadinfo = downloadNote.split(';');
-    const applicationName = downloadinfo[1].replace('name:', '');
-    const teamName = downloadinfo[2].replace('teamName:', '');
-    const configName = downloadinfo[3].replace('config:', '');
-    console.log('Application [%O], teamName [%O], configName [%O] ', applicationName, teamName, configName);
-     this.deploymentService.teamShared(
+    console.log('[BiotoolsRepoPage] Deploying ECP application through portal. Repo URL : '+application.download[0].url);
+    var downloadinfo = downloadNote.split(";");
+    var applicationName = downloadinfo[1].replace('name:','');
+    var teamName = downloadinfo[2].replace('teamName:','');
+    var configName = downloadinfo[3].replace('config:','');
+    console.log('Application [%O], teamName [%O], configName [%O] ',applicationName, teamName, configName);
+    this.deploymentService.teamShared(
       this.credentialService.getUsername(),
       this.tokenService.getToken(),
       teamName,
       <Application>{
         name: applicationName,
         repoUri: application.download[0].url},
-       {
-         application_name: application.name
-       },
+      {
+        application_name: application.name
+      },
       <Configuration>{name: configName, accountUsername: null},
       sshKey
     ).subscribe(
@@ -232,25 +232,25 @@ export class BiotoolsRepoPageComponent {
   public deployEcpImageApplication(application: BiotoolsApplication, sshKey: string) {
 
     console.log('[BiotoolsRepoPage] Adding ECP image deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O',
-        this.currentlySelectedConfiguration);
+      + application.name + ' from ' + application.download[0].url + ' into %O',
+      this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
-        this.credentialService.getUsername(),
-        this.tokenService.getToken(),
-        <Application>{
-          name: 'Generic server instance',
-          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
-          repoUri: 'https://github.com/EMBL-EBI-TSI/cpa-instance'
-        },
-        null,
-        {},
-        {
-          application_name: application.name
-        },
-        {},
-        <Configuration>this.currentlySelectedConfigurationForEcp,
-        sshKey
+      this.credentialService.getUsername(),
+      this.tokenService.getToken(),
+      <Application>{
+        name: 'Generic server instance',
+        accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
+        repoUri:'https://github.com/EMBL-EBI-TSI/cpa-instance'
+      },
+      null,
+      {},
+      {
+        application_name: application.name
+      },
+      {},
+      <Configuration>this.currentlySelectedConfigurationForEcp,
+      sshKey
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
@@ -270,26 +270,26 @@ export class BiotoolsRepoPageComponent {
   public deployNfsClientApplication(application: BiotoolsApplication, sshKey: string, nfsServerHost: string) {
 
     console.log('[BiotoolsRepoPage] Adding NFS client deployment for application '
-        + application.name + ' from ' + application.download[0].url + ' into %O',
-        this.currentlySelectedConfiguration);
+      + application.name + ' from ' + application.download[0].url + ' into %O',
+      this.currentlySelectedConfiguration);
 
     this.deploymentService.add(
-        this.credentialService.getUsername(),
-        this.tokenService.getToken(),
-        <Application>{
-          name: 'NFS-Client',
-          accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
-          repoUri: 'https://github.com/EMBL-EBI-TSI/cpa-nfs-client'
-        },
-        null,
-        {},
-        {
-          application_name: application.name,
-          nfs_server_host: nfsServerHost,
-        },
-        {},
-        <Configuration>this.currentlySelectedConfigurationForNfs,
-        sshKey
+      this.credentialService.getUsername(),
+      this.tokenService.getToken(),
+      <Application>{
+        name: 'NFS-Client',
+        accountUsername: 'usr-36d0f1c6-527d-4408-ae6d-7c425a022087',
+        repoUri:'https://github.com/EMBL-EBI-TSI/cpa-nfs-client'
+      },
+      null,
+      {},
+      {
+        application_name: application.name,
+        nfs_server_host: nfsServerHost,
+      },
+      {},
+      <Configuration>this.currentlySelectedConfigurationForNfs,
+      sshKey
     ).subscribe(
       deployment  => {
         console.log('[ApplicationComponent] deployed %O', deployment);
@@ -315,15 +315,15 @@ export class BiotoolsRepoPageComponent {
 
   public openDeployECPAppModal(application: BiotoolsApplication, note: String) {
     this.bsModalRef = this.modalService.show(DeployBiotoolModalComponent);
-    this.bsModalRef.content.title = 'Deploy "' + application.name + '" to ' + this.getConfigName(note);
+    this.bsModalRef.content.title = 'Deploy "'+application.name+'" to '+this.getConfigName(note);
     this.bsModalRef.content.biotoolsRepoPageComponent = this;
     this.bsModalRef.content.applicationType = 'ecpapp';
     this.bsModalRef.content.downloadNote = note;
   }
 
   public loginAndOpenBinder(application: BiotoolsApplication) {
-    const binderRepoUrl = this.getBinderRepoUrl(application);
-    const hubLoginURI = environment.binderHubAPI + 'login';
+    var binderRepoUrl = this.getBinderRepoUrl(application);
+    var hubLoginURI = environment.binderHubAPI+'login';
     this.deploymentService.loginBinder(this.tokenService.getToken(),
       hubLoginURI).subscribe(
       res => {
@@ -339,9 +339,9 @@ export class BiotoolsRepoPageComponent {
   }
 
   public loginAndOpenExisting() {
-    const hubLoginURI = environment.binderHubAPI + 'login';
-    const username = this.credentialService.getUsername();
-    const hubhomeURL = environment.binderHubAPI.replace('hub', 'user') + username;
+    var hubLoginURI = environment.binderHubAPI+'login';
+    var username = this.credentialService.getUsername();
+    var hubhomeURL = environment.binderHubAPI.replace("hub","user")+username;
     this.deploymentService.loginBinder(this.tokenService.getToken(),
       hubLoginURI).subscribe(
       res => {
@@ -363,9 +363,9 @@ export class BiotoolsRepoPageComponent {
   }
 
   private getBinderRepoUrl(application: BiotoolsApplication){
-    const downloadArray = application.download;
-    for (const download of downloadArray) {
-      if (download.note != null && download.note.includes('BioExcel_Binder_Application'))
+    var downloadArray = application.download;
+    for (var download of downloadArray) {
+      if(download.note != null && download.note.includes("BioExcel_Binder_Application"))
         return download.url;
     }
   }
@@ -384,20 +384,25 @@ export class BiotoolsRepoPageComponent {
 
   public getConfigName(note: String) {
     const downloadinfo = note.split(';');
-    return downloadinfo[3].replace('config:', '');
+    return downloadinfo[3].replace('config:','');
   }
 
   showBook(application: BiotoolsApplication) {
-    if (application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0) {
-      return true;
+    for (const d of application.download) {
+      if ((application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0)
+        || (d.note != null && (d.note.includes('BioExcel_Binder_Application' || 'Jupyter')))
+      ) {
+        return true;
+      }
     }
   }
 
   showCloud(application: BiotoolsApplication) {
     for (const d of application.download) {
       if (d.type === 'VM image' &&
-        (d.note === 'BioExcel_Embassy_VM' || d.note === 'BioExcel_Embassy_NFS_Image' ||
-          d.note === 'BioExcel_Embassy_ECP_Image' || d.note != null && d.note.includes('BioExcel_ECP_Application')
+        (d.note != null && (d.note === 'BioExcel_Embassy_VM' || d.note === 'BioExcel_Embassy_NFS_Image' ||
+            d.note === 'BioExcel_Embassy_ECP_Image' || d.note === 'BioExcel_Binder_Application' ||
+            d.note.includes('BioExcel_ECP_Application'))
         )) {
         return true;
       }
@@ -405,7 +410,7 @@ export class BiotoolsRepoPageComponent {
   }
 
   showWindow(application: BiotoolsApplication) {
-    if ( (application.download.length > 0) &&
+    if ((application.download.length > 0) &&
       (application.toolType.indexOf('Library') >= 0
         || application.toolType.indexOf('Command-line tool') >= 0
         || application.toolType.indexOf('Workbench') >= 0
@@ -417,7 +422,7 @@ export class BiotoolsRepoPageComponent {
   }
 
   showGlobe(application: BiotoolsApplication) {
-    if ( (application.toolType.length > 0) &&
+    if ((application.toolType.length > 0) &&
       (application.toolType.indexOf('Web service') >= 0 || application.toolType.indexOf('Web API') >= 0 ||
         application.toolType.indexOf('Web application') >= 0)) {
       return true;
