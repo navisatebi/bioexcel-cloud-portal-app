@@ -388,10 +388,20 @@ export class BiotoolsRepoPageComponent {
   }
 
   showBook(application: BiotoolsApplication) {
+    if (application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0) {
+      return true;
+    } else {
+      for (const d of application.download) {
+        if (d.note != null && (d.note.includes('Jupyter'))) {
+          return true;
+        }
+      }
+    }
+  }
+
+  showBinder(application: BiotoolsApplication) {
     for (const d of application.download) {
-      if ((application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0)
-        || (d.note != null && (d.note.includes('BioExcel_Binder_Application' || 'Jupyter')))
-      ) {
+      if (d.note != null && (d.note.includes('BioExcel_Binder_Application'))) {
         return true;
       }
     }
