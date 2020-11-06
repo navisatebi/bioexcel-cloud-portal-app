@@ -23,11 +23,11 @@
         <div class="col-md-12">
           {{ application.name }}
           <span class="pull-right">
-            <span *ngIf="showCloud(application)" class="glyphicon glyphicon-cloud"></span>
-            <span *ngIf="showGlobe(application)" class="glyphicon glyphicon-globe"></span>
-            <span *ngIf="showBook(application)" class="glyphicon glyphicon-book"></span>
-            <span *ngIf="showWindow(application)" class="glyphicon glyphicon-modal-window"></span>
-            <span *ngIf="showBinder(application)" class="glyphicon glyphicon-play-circle"></span>
+            <span *ngIf="application.icons.cloud" class="glyphicon glyphicon-cloud"></span>
+            <span *ngIf="application.icons.globe" class="glyphicon glyphicon-globe"></span>
+            <span *ngIf="application.icons.book" class="glyphicon glyphicon-book"></span>
+            <span *ngIf="application.icons.window" class="glyphicon glyphicon-modal-window"></span>
+            <span *ngIf="application.icons.binder" class="glyphicon glyphicon-play-circle"></span>
           </span>
        </div>
       </div>

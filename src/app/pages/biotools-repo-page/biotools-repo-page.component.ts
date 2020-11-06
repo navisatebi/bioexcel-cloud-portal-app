@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { NgForm, FormBuilder, Validators, FormControl, FormArray, FormGroup } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { Router } from '@angular/router';
 import { BiotoolsApplicationService } from './services/biotools-application.service';
-import { BiotoolsApplication } from './services/biotools-application';
+import { BiotoolsApplication, BioToolsApplicationIcons } from './services/biotools-application';
 import { ErrorService, DeploymentService, Application, ApplicationService,
   CredentialService, TokenService, Configuration, ConfigurationService
 } from 'ng2-cloud-portal-service-lib';
@@ -140,6 +140,8 @@ export class BiotoolsRepoPageComponent {
           console.log('[BiotoolsRepoPage] Applications data is %O', applicationPage);
           this.applications = applicationPage.list;
           this.totalItems = applicationPage.count;
+          console.log("Application length" + this.applications.length);
+          this.updateIcons(this.applications);
         },
         error => {
           console.log('[BiotoolsRepoPage] error %O', error);
@@ -387,55 +389,56 @@ export class BiotoolsRepoPageComponent {
     return downloadinfo[3].replace('config:','');
   }
 
-  showBook(application: BiotoolsApplication) {
-    if (application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0) {
-      return true;
-    } else {
+  private updateIcons(biotoolsApplication: BiotoolsApplication[]): void {
+
+    for(var application of biotoolsApplication) {
+      application.icons = { cloud: false, book: false, binder:false, globe: false, window: false };
+
+      console.log("Checking if application is of type Notebook");
+      if (application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0) {
+        application.icons.book = true;
+      } else {
       for (const d of application.download) {
         if (d.note != null && (d.note.includes('Jupyter'))) {
-          return true;
+              application.icons.book = true;
         }
       }
-    }
-  }
-
-  showBinder(application: BiotoolsApplication) {
-    for (const d of application.download) {
-      if (d.note != null && (d.note.includes('BioExcel_Binder_Application'))) {
-        return true;
       }
-    }
-  }
 
-  showCloud(application: BiotoolsApplication) {
-    for (const d of application.download) {
+      console.log("Checking if application is of type Binder");
+      for (const d of application.download) {
+        if (d.note != null && (d.note.includes('BioExcel_Binder_Application'))) {
+              application.icons.binder = true;
+        }
+      }
+
+      console.log("Checking if application is deployable in Cloud");
+      for (const d of application.download) {
       if (d.type === 'VM image' &&
         (d.note != null && (d.note === 'BioExcel_Embassy_VM' || d.note === 'BioExcel_Embassy_NFS_Image' ||
             d.note === 'BioExcel_Embassy_ECP_Image' || d.note === 'BioExcel_Binder_Application' ||
             d.note.includes('BioExcel_ECP_Application'))
         )) {
-        return true;
+            application.icons.cloud = true;
       }
-    }
-  }
+      }
 
-  showWindow(application: BiotoolsApplication) {
-    if ((application.download.length > 0) &&
-      (application.toolType.indexOf('Library') >= 0
-        || application.toolType.indexOf('Command-line tool') >= 0
-        || application.toolType.indexOf('Workbench') >= 0
-        || application.toolType.indexOf('Suite') >= 0
-        || application.toolType.indexOf('Desktop application') >= 0)) {
-      return true;
-    }
-
-  }
-
-  showGlobe(application: BiotoolsApplication) {
-    if ((application.toolType.length > 0) &&
+      console.log("Checking if application is CLI/Library/Workbench/Suite/Desktop-Application");
+      if ((application.download.length > 0) &&
+          (application.toolType.indexOf('Library') >= 0
+            || application.toolType.indexOf('Command-line tool') >= 0
+            || application.toolType.indexOf('Workbench') >= 0
+            || application.toolType.indexOf('Suite') >= 0
+            || application.toolType.indexOf('Desktop application') >= 0)) {
+            application.icons.window = true;
+        }
+      }
+     
+      console.log("Checking if application is a WebService");
+      if ((application.toolType.length > 0) &&
       (application.toolType.indexOf('Web service') >= 0 || application.toolType.indexOf('Web API') >= 0 ||
         application.toolType.indexOf('Web application') >= 0)) {
-      return true;
-    }
+            application.icons.globe = true;
+      }
   }
 }

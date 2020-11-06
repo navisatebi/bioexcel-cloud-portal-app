@@ -18,6 +18,7 @@ export interface BiotoolsApplication {
   topic: BiotoolsApplicationTopic[];
   toolType: string[];
   download: BiotoolsApplicationDownload[];
+  icons: BioToolsApplicationIcons;
 }
 
 export interface BiotoolsApplicationPage {
@@ -27,3 +28,10 @@ export interface BiotoolsApplicationPage {
   list: BiotoolsApplication[];
 }
 
+export interface BioToolsApplicationIcons {
+   cloud: boolean;
+   binder: boolean;
+   globe: boolean;
+   window: boolean;
+   book: boolean;
+}
