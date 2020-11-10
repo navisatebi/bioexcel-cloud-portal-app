@@ -396,35 +396,29 @@ export class BiotoolsRepoPageComponent {
 
       console.log("Checking if application is of type Notebook");
       if (application.toolType.length > 0 && application.toolType.indexOf('Notebook') >= 0) {
-        application.icons.book = true;
-      } else {
+          application.icons.book = true;
+      }
+
       for (const d of application.download) {
         if (d.note != null && (d.note.includes('Jupyter'))) {
-              application.icons.book = true;
+          application.icons.book = true;
         }
-      }
-      }
-
-      console.log("Checking if application is of type Binder");
-      for (const d of application.download) {
         if (d.note != null && (d.note.includes('BioExcel_Binder_Application'))) {
-              application.icons.binder = true;
+           console.log("Checking if application is of type Binder");
+           application.icons.binder = true;
         }
-      }
-
-      console.log("Checking if application is deployable in Cloud");
-      for (const d of application.download) {
-      if (d.type === 'VM image' &&
-        (d.note != null && (d.note === 'BioExcel_Embassy_VM' || d.note === 'BioExcel_Embassy_NFS_Image' ||
-            d.note === 'BioExcel_Embassy_ECP_Image' || d.note === 'BioExcel_Binder_Application' ||
-            d.note.includes('BioExcel_ECP_Application'))
-        )) {
+        if (d.type === 'VM image' &&
+           (d.note != null && (d.note === 'BioExcel_Embassy_VM' || d.note === 'BioExcel_Embassy_NFS_Image' ||
+              d.note === 'BioExcel_Embassy_ECP_Image' ||
+              d.note.includes('BioExcel_ECP_Application'))
+           )) {
+            console.log("Checking if application is deployable in Cloud");
             application.icons.cloud = true;
-      }
+        }
       }
 
       console.log("Checking if application is CLI/Library/Workbench/Suite/Desktop-Application");
-      if ((application.download.length > 0) &&
+      if ((application.toolType.length > 0) &&
           (application.toolType.indexOf('Library') >= 0
             || application.toolType.indexOf('Command-line tool') >= 0
             || application.toolType.indexOf('Workbench') >= 0
